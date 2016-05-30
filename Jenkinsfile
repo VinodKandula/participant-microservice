@@ -1,7 +1,7 @@
 node {
     checkout scm
 
-    stage 'Build'
+    stage 'Compile'
     sh './gradlew assemble'
 
     stage 'Unit test'
