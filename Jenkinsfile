@@ -6,4 +6,7 @@ node {
 
     stage 'Unit test'
     sh './gradlew check'
+
+    stage 'Integration test'
+    sh './gradlew integrationTest'
 }

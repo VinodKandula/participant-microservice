@@ -11,8 +11,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 
 jar {
 	baseName = 'participant-microservice'
@@ -36,10 +35,10 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-feign')
 	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
 	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
-	compile('org.springframework.boot:spring-boot-starter-data-cassandra')
-	compile('org.projectlombok:lombok:1.16.6')
+	//compile('org.springframework.boot:spring-boot-starter-data-cassandra')
+	//compile('org.projectlombok:lombok:1.16.6')
 	compile('org.springframework.retry:spring-retry')
-	compile('org.springframework.boot:spring-boot-starter-security')
+	//compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.session:spring-session')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test') 
@@ -52,10 +51,10 @@ dependencyManagement {
 	}
 }
 
+test {
+    exclude 'com/amhzing/participant/integrationtest/**'
+}
 
-eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
+task integrationTest(type:Test) {
+    include 'com/amhzing/participant/integrationtest/**'
 }
