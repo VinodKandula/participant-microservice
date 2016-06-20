@@ -1,8 +1,8 @@
 node {
     checkout scm
 
-    stage 'Merge'
-    sh 'git merge'
+    stage 'Merge1'
+    sh 'git merge branch-pass'
 
     stage 'Compile'
     sh './gradlew assemble'
