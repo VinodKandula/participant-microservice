@@ -3,7 +3,6 @@ node {
 
     stage 'Merge1'
     sh 'git checkout origin/master'
-    sh 'git merge origin/branch-pass'
 
     stage 'Compile'
     sh './gradlew assemble'
