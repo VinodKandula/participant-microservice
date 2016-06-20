@@ -1,6 +1,9 @@
 node {
     checkout scm
 
+    stage 'Merge'
+    sh 'git merge'
+
     stage 'Compile'
     sh './gradlew assemble'
 
@@ -9,9 +12,6 @@ node {
 
     stage 'Integration test'
     sh './gradlew integrationTest'
-
-    stage 'Merge'
-    git 'merge'
 
     stage 'Functional test'
     sh './gradlew functionalTest'
