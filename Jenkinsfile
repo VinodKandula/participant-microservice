@@ -9,4 +9,7 @@ node {
 
     stage 'Integration test'
     sh './gradlew integrationTest'
+
+    stage 'Functional test'
+    sh './gradlew functionalTest'
 }

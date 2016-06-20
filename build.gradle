@@ -51,10 +51,18 @@ dependencyManagement {
 	}
 }
 
+def integrationTests = 'com/amhzing/participant/integrationtest/**'
+def functionalTests = 'com/amhzing/participant/functionaltest/**'
+
 test {
-    exclude 'com/amhzing/participant/integrationtest/**'
+    exclude integrationTests
+	exclude functionalTests
 }
 
 task integrationTest(type:Test) {
-    include 'com/amhzing/participant/integrationtest/**'
+    include integrationTests
+}
+
+task functionalTest(type:Test) {
+	include functionalTests
 }
