@@ -5,7 +5,7 @@ import org.junit.Test;
 public class FunctionalTest {
 
     @Test
-    public void contextLoads() {
+    public void aTest() {
     }
 
 }
