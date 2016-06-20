@@ -10,6 +10,9 @@ node {
     stage 'Integration test'
     sh './gradlew integrationTest'
 
+    stage 'Merge'
+    git 'merge'
+
     stage 'Functional test'
     sh './gradlew functionalTest'
 }
