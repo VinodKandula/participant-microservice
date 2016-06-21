@@ -2,7 +2,8 @@ node {
     checkout scm
 
     echo "${env.BRANCH_NAME}"
-    echo 'currentBuild'
+    echo "${env.BUILD_NUMBER}"
+    echo '${env.currentBuild}'
 
     stage 'Compile'
     sh './gradlew assemble'
