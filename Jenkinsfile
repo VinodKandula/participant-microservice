@@ -1,7 +1,7 @@
 node {
     checkout scm
 
-    echo "${BRANCH_NAME} ${env.BRANCH_NAME}"
+    echo "${env.BRANCH_NAME}"
     echo 'currentBuild'
 
     stage 'Compile'
