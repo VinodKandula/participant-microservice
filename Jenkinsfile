@@ -1,6 +1,11 @@
 node {
     checkout scm
 
+    stage 'Merge'
+    sh './gradlew clean'
+    sh 'git checkout master'
+    sh 'git merge origin/b1'
+
     stage 'Compile'
     sh './gradlew assemble'
 
