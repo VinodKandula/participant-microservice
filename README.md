@@ -1,3 +1,3 @@
 Participant microservice
 
-This allows for the creation of participants
+This allows for the creation of participants.
