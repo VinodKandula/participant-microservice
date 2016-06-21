@@ -1,6 +1,8 @@
 node {
     checkout scm
 
+    sh 'echo $GIT_COMMIT'
+
     stage 'Compile'
     sh './gradlew assemble'
 
@@ -8,7 +10,7 @@ node {
     sh './gradlew check'
 
     stage 'Merge'
-    build 'Participant-microservice-gitcommit'
+    build 'Participant-microservice-merge'
     
     stage 'Integration test'
     sh './gradlew integrationTest'
