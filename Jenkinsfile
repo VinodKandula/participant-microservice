@@ -1,7 +1,9 @@
 node {
     checkout scm
 
-    echo env.BRANCH_NAME
+    sh 'git rev-parse HEAD > commit'
+    def commit = readFile('commit').trim()
+    echo commit
 
     stage 'Compile'
     sh './gradlew assemble'
