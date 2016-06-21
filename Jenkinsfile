@@ -1,7 +1,6 @@
 node {
     checkout scm
 
-    sh 'echo ${GIT_COMMIT}'
     echo '${GIT_COMMIT}'
     echo '${env.GIT_COMMIT}'
     echo '{{env.BRANCH_NAME}}'
