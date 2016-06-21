@@ -3,7 +3,6 @@ node {
 
     echo "${env.BRANCH_NAME}"
     echo "${env.BUILD_NUMBER}"
-    echo '${env.currentBuild}'
 
     stage 'Compile'
     sh './gradlew assemble'
