@@ -1,9 +1,6 @@
 node {
     checkout scm
 
-    stage 'Merge'
-    build 'Participant-microservice-merge'
-
     stage 'Compile'
     sh './gradlew assemble'
 
@@ -15,4 +12,7 @@ node {
 
     stage 'Functional test'
     sh './gradlew functionalTest'
+
+    stage 'Merge'
+    build 'Participant-microservice-merge'
 }
