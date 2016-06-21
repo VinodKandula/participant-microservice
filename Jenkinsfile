@@ -1,6 +1,9 @@
 node {
     checkout scm
 
+    stage 'Merge'
+    build 'Participant-microservice-merge'
+
     stage 'Compile'
     sh './gradlew assemble'
 
