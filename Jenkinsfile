@@ -1,10 +1,6 @@
 node {
     checkout scm
 
-    sh 'git rev-parse HEAD > commit'
-    def commit = readFile('commit').trim()
-    echo commit
-
     stage 'Compile'
     sh './gradlew assemble'
 
@@ -12,7 +8,9 @@ node {
     sh './gradlew check'
 
     stage 'Merge'
-    build 'Participant-microservice-merge'
+    sh 'git rev-parse HEAD > commit'
+    def commit_id = readFile('commit').trim()
+    build job: 'Participant-microservice-merge', parameters: [[$class: 'GitParameterValue', name: 'GIT_COMMIT_ID', value: '${commit_id}']]
     
     stage 'Integration test'
     sh './gradlew integrationTest'
