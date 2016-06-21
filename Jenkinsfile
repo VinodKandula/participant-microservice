@@ -1,10 +1,7 @@
 node {
     checkout scm
 
-    echo "${GIT_COMMIT}"
-    echo "${env.GIT_COMMIT}"
-    echo "{{env.BRANCH_NAME}}"
-    echo "${env.BRANCH_NAME}}"
+    echo env.BRANCH_NAME
 
     stage 'Compile'
     sh './gradlew assemble'
