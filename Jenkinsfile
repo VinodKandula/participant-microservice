@@ -2,9 +2,7 @@ node {
     checkout scm
 
     stage 'Merge'
-    sh './gradlew clean'
-    sh 'git checkout master'
-    sh 'git merge origin/b1'
+    build 'Participant-microservice-merge'
 
     stage 'Compile'
     sh './gradlew assemble'
