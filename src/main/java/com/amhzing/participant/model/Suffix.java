@@ -5,13 +5,13 @@ import java.util.Objects;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
-public class FirstName {
+public class Suffix {
 
-    static final int MAX_LENGTH = 25;
+    static final int MAX_LENGTH = 10;
 
     private final String value;
 
-    public FirstName(final String value) {
+    public Suffix(final String value) {
         notBlank(value);
         isTrue(value.length() <= MAX_LENGTH);
 
@@ -26,8 +26,8 @@ public class FirstName {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FirstName firstName = (FirstName) o;
-        return Objects.equals(value, firstName.value);
+        Suffix suffix = (Suffix) o;
+        return Objects.equals(value, suffix.value);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class FirstName {
 
     @Override
     public String toString() {
-        return "FirstName{" +
+        return "Suffix{" +
                 "value='" + value + '\'' +
                 '}';
     }
