@@ -1,7 +1,9 @@
 buildscript {
 	ext {
 		springBootVersion = '1.3.5.RELEASE'
+		axonVersion = '2.4.4'
 		commonsLangVersion = '3.4'
+		jugVersion = '3.1.4'
 	}
 	repositories {
 		mavenCentral()
@@ -13,6 +15,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+apply plugin: 'idea'
 
 jar {
 	baseName = 'participant-microservice'
@@ -30,19 +33,29 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-actuator-docs')
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-cache')
+	compile('org.springframework.boot:spring-boot-starter-amqp')
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	//compile('org.springframework.boot:spring-boot-starter-data-cassandra')
+	compile('org.springframework.boot:spring-boot-starter-web')
+
 	compile('org.springframework.cloud:spring-cloud-starter-config')
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')
 	compile('org.springframework.cloud:spring-cloud-starter-feign')
 	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
 	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
-	//compile('org.springframework.boot:spring-boot-starter-data-cassandra')
+
 	//compile('org.projectlombok:lombok:1.16.6')
 	compile('org.springframework.retry:spring-retry')
 	//compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.session:spring-session')
-	compile('org.springframework.boot:spring-boot-starter-web')
+
+	compile ("org.axonframework:axon-core:${axonVersion}")
+	compile ("org.axonframework:axon-mongo:${axonVersion}")
+	compile ("org.axonframework:axon-amqp:${axonVersion}")
+	compile ("org.axonframework:axon-test:${axonVersion}")
 
 	compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
+	compile ("com.fasterxml.uuid:java-uuid-generator:${jugVersion}")
 
 	testCompile('org.springframework.boot:spring-boot-starter-test') 
 	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
