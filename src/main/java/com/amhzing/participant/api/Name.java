@@ -9,11 +9,18 @@ public class Name {
     private final String lastName;
     private final String suffix;
 
-    public Name(final String firstName, final String middleName, final String lastName, final String suffix) {
+    private Name(final String firstName, final String middleName, final String lastName, final String suffix) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.suffix = suffix;
+    }
+
+    public static Name create(final String firstName,
+                              final String middleName,
+                              final String lastName,
+                              final String suffix) {
+        return new Name(firstName, middleName, lastName, suffix);
     }
 
     public String getFirstName() {

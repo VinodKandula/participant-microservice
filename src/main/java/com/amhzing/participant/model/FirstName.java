@@ -1,21 +1,41 @@
 package com.amhzing.participant.model;
 
+import com.amhzing.participant.api.event.ParticipantCreatedEvent;
+import org.axonframework.eventhandling.annotation.EventHandler;
+import org.axonframework.eventsourcing.annotation.AbstractAnnotatedEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
-public class FirstName {
+public class FirstName extends AbstractAnnotatedEntity {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FirstName.class);
 
     static final int MAX_LENGTH = 25;
 
-    private final String value;
+    private String value;
 
-    public FirstName(final String value) {
-        notBlank(value);
-        isTrue(value.length() <= MAX_LENGTH);
+    private FirstName(final String value) {
+        isValid(value);
 
-        this.value = value;
+        this.value = value.trim();
+    }
+
+    public static FirstName create(final String value) {
+        return new FirstName(value);
+    }
+
+    @EventHandler
+    public void on(final ParticipantCreatedEvent event) {
+        final String firstName = event.getName().getFirstName();
+        if (isValid(firstName)) {
+            this.value = firstName;
+            System.out.println("Applied ParticipantCreatedEvent " + firstName + "for first name " + event.getId());
+        }
     }
 
     public String getValue() {
@@ -40,5 +60,12 @@ public class FirstName {
         return "FirstName{" +
                 "value='" + value + '\'' +
                 '}';
+    }
+
+    private boolean isValid(final String value) {
+        notBlank(value);
+        isTrue(value.length() <= MAX_LENGTH);
+
+        return true;
     }
 }

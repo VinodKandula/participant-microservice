@@ -11,21 +11,21 @@ public class SuffixTest {
 
     @Test
     public void pass_if_value_is_not_blank() {
-        final Suffix suffix = new Suffix("John");
+        final Suffix suffix = Suffix.create("John");
 
         assertEquals(suffix.getValue(), "John");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_blank() {
-        final Suffix suffix = new Suffix("");
+        final Suffix suffix = Suffix.create("");
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_greater_than_max_length() {
-        final Suffix suffix = new Suffix("J" + repeat("x", MAX_LENGTH));
+        final Suffix suffix = Suffix.create("J" + repeat("x", MAX_LENGTH));
 
         fail(); // Fail if we got this far
     }
