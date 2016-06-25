@@ -11,21 +11,21 @@ public class LastNameTest {
 
     @Test
     public void pass_if_value_is_not_blank() {
-        final LastName lastName = new LastName("John");
+        final LastName lastName = LastName.create("John");
 
         assertEquals(lastName.getValue(), "John");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_blank() {
-        final LastName lastName = new LastName("");
+        final LastName lastName = LastName.create("");
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_greater_than_max_length() {
-        final LastName lastName = new LastName("J" + repeat("x", MAX_LENGTH));
+        final LastName lastName = LastName.create("J" + repeat("x", MAX_LENGTH));
 
         fail(); // Fail if we got this far
     }

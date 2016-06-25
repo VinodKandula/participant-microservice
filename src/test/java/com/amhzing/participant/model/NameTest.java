@@ -9,7 +9,7 @@ public class NameTest {
 
     @Test
     public void pass_if_last_name_is_not_blank() {
-        final Name name = new Name(null, null, new LastName("Doe"), null);
+        final Name name = Name.create(null, null, LastName.create("Doe"), null);
 
         assertEquals(name.getFirstName(), null);
         assertEquals(name.getMiddleName(), null);
@@ -19,14 +19,14 @@ public class NameTest {
 
     @Test(expected = NullPointerException.class)
     public void fail_if_last_name_is_null() {
-        final Name name = new Name(null, null, null, null);
+        final Name name = Name.create(null, null, null, null);
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_last_name_is_blank() {
-        final Name name = new Name(null, null, new LastName(""), null);
+        final Name name = Name.create(null, null, LastName.create(""), null);
 
         fail(); // Fail if we got this far
     }

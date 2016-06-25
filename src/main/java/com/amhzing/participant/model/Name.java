@@ -1,21 +1,35 @@
 package com.amhzing.participant.model;
 
+import org.axonframework.eventsourcing.annotation.AbstractAnnotatedEntity;
+import org.axonframework.eventsourcing.annotation.EventSourcedMember;
+
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-public class Name {
+public class Name extends AbstractAnnotatedEntity {
 
+    @EventSourcedMember
     private final FirstName firstName;
+    @EventSourcedMember
     private final MiddleName middleName;
+    @EventSourcedMember
     private final LastName lastName;
+    @EventSourcedMember
     private final Suffix suffix;
 
-    public Name(final FirstName firstName, final MiddleName middleName, final LastName lastName, final Suffix suffix) {
+    private Name(final FirstName firstName, final MiddleName middleName, final LastName lastName, final Suffix suffix) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = notNull(lastName);
         this.suffix = suffix;
+    }
+
+    public static Name create(final FirstName firstName,
+                              final MiddleName middleName,
+                              final LastName lastName,
+                              final Suffix suffix) {
+        return new Name(firstName, middleName, lastName, suffix);
     }
 
     public FirstName getFirstName() {
