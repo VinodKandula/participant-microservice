@@ -67,11 +67,7 @@ public class AxonConfiguration {
         return repository;
     }
 
-    /**
-     * This method allows Axon to automatically find your @EventHandler's
-     *
-     * @return
-     */
+    // Allows Axon to automatically find @EventHandler's
     @Bean
     AnnotationEventListenerBeanPostProcessor eventListenerBeanPostProcessor() {
         AnnotationEventListenerBeanPostProcessor proc = new AnnotationEventListenerBeanPostProcessor();
@@ -79,11 +75,7 @@ public class AxonConfiguration {
         return proc;
     }
 
-    /**
-     * This method allows Axon to automatically find your @CommandHandler's
-     *
-     * @return
-     */
+     // Allows Axon to automatically find @CommandHandler's
     @Bean
     AnnotationCommandHandlerBeanPostProcessor commandHandlerBeanPostProcessor() {
         AnnotationCommandHandlerBeanPostProcessor proc = new AnnotationCommandHandlerBeanPostProcessor();
@@ -91,11 +83,7 @@ public class AxonConfiguration {
         return proc;
     }
 
-    /**
-     * This method registers your Aggregate Root as a @CommandHandler
-     *
-     * @return
-     */
+     // Registers the Aggregate Root as a @CommandHandler
     @Bean
     AggregateAnnotationCommandHandler<Participant> participantAggregateCommandHandler() {
         AggregateAnnotationCommandHandler<Participant> handler =
