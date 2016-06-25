@@ -62,7 +62,7 @@ public class AxonConfiguration {
 
     @Bean
     public EventSourcingRepository<Participant> participantEventSourcingRepository() {
-        EventSourcingRepository<Participant> repository = new EventSourcingRepository<Participant>(Participant.class, eventStore());
+        EventSourcingRepository<Participant> repository = new EventSourcingRepository<>(Participant.class, eventStore());
         repository.setEventBus(eventBus());
         return repository;
     }
@@ -97,11 +97,12 @@ public class AxonConfiguration {
      * @return
      */
     @Bean
-    AggregateAnnotationCommandHandler<Participant> productAggregateCommandHandler() {
-        AggregateAnnotationCommandHandler<Participant> handler = new AggregateAnnotationCommandHandler<Participant>(
-                Participant.class,
-                participantEventSourcingRepository(),
-                commandBus());
+    AggregateAnnotationCommandHandler<Participant> participantAggregateCommandHandler() {
+        AggregateAnnotationCommandHandler<Participant> handler =
+                new AggregateAnnotationCommandHandler<>(Participant.class, participantEventSourcingRepository());
+
+        handler.supportedCommands().stream().forEach(command -> commandBus().subscribe(command, handler));
+
         return handler;
     }
 
