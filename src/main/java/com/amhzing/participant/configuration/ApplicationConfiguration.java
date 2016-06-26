@@ -1,4 +1,4 @@
-package com.amhzing.participant;
+package com.amhzing.participant.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

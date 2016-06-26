@@ -1,4 +1,4 @@
-package com.amhzing.participant;
+package com.amhzing.participant.configuration;
 
 import com.amhzing.participant.model.Participant;
 import org.axonframework.commandhandling.SimpleCommandBus;

@@ -1,4 +1,4 @@
-package com.amhzing.participant;
+package com.amhzing.participant.configuration;
 
 import com.google.common.collect.ImmutableList;
 import com.mongodb.Mongo;
