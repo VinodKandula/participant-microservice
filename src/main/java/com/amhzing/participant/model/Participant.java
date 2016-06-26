@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
+import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isNotEmpty;
+
 public class Participant extends AbstractAnnotatedAggregateRoot {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Participant.class);
@@ -35,12 +37,21 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
     }
 
     @EventSourcingHandler
-    public void onEvent(final ParticipantCreatedEvent event, final MetaData metadata) {
+    public void on(final ParticipantCreatedEvent event, final MetaData metadata) {
         this.id = event.getId();
-        this.name = Name.create(FirstName.create(event.getName().getFirstName()),
-                                MiddleName.create(event.getName().getMiddleName()),
-                                LastName.create(event.getName().getLastName()),
-                                Suffix.create(event.getName().getSuffix()));
+        this.name = createNameFrom(event);
         System.out.println("Applied: ProductAddedEvent" + event.getId() + ", " + event.getName());
+    }
+
+    private Name createNameFrom(final ParticipantCreatedEvent event) {
+        final String firstName = event.getName().getFirstName();
+        final String middleName = event.getName().getMiddleName();
+        final String lastName = event.getName().getLastName();
+        final String suffix = event.getName().getSuffix();
+
+        return Name.create(isNotEmpty(firstName) ? FirstName.create(firstName) : null,
+                           isNotEmpty(middleName) ? MiddleName.create(middleName) : null,
+                           isNotEmpty(lastName) ? LastName.create(lastName) : null,
+                           isNotEmpty(suffix) ? Suffix.create(suffix) : null);
     }
 }
