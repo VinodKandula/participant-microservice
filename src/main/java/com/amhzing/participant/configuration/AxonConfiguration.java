@@ -25,6 +25,7 @@ public class AxonConfiguration {
     @Autowired
     MongoTemplate axonMongoTemplate;
 
+    // Consider using the Disruptor instead
     @Bean
     SimpleCommandBus commandBus() {
         return new SimpleCommandBus();

@@ -9,6 +9,12 @@ import java.util.concurrent.TimeoutException;
 public interface MetaDataEnrichedCommandGateway {
 
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
+    public void send(final Object command,
+                     @MetaData("correlationId") String correlationId,
+                     @MetaData("userId") String userId)
+            throws TimeoutException, InterruptedException;
+
+    @Timeout(value = 10, unit = TimeUnit.SECONDS)
     public <R> R sendAndWait(final Object command,
                              @MetaData("correlationId") String correlationId,
                              @MetaData("userId") String userId)
