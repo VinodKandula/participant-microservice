@@ -1,10 +1,11 @@
 package com.amhzing.participant.configuration;
 
+import com.amhzing.participant.gateway.MetaDataEnrichedCommandGateway;
 import com.amhzing.participant.model.Participant;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler;
 import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerBeanPostProcessor;
-import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
+import org.axonframework.commandhandling.gateway.GatewayProxyFactory;
 import org.axonframework.contextsupport.spring.AnnotationDriven;
 import org.axonframework.eventhandling.SimpleEventBus;
 import org.axonframework.eventhandling.annotation.AnnotationEventListenerBeanPostProcessor;
@@ -30,8 +31,10 @@ public class AxonConfiguration {
     }
 
     @Bean
-    DefaultCommandGateway commandGateway() {
-        return new DefaultCommandGateway(commandBus());
+    MetaDataEnrichedCommandGateway metaDataEnrichedCommandGateway() {
+        GatewayProxyFactory factory = new GatewayProxyFactory(commandBus());
+
+        return factory.createGateway(MetaDataEnrichedCommandGateway.class);
     }
 
     // This will need to be replaced with a cluster event bus later
