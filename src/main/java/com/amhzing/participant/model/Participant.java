@@ -3,6 +3,7 @@ package com.amhzing.participant.model;
 import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
 import org.axonframework.commandhandling.annotation.CommandHandler;
+import org.axonframework.domain.MetaData;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
 import org.axonframework.eventsourcing.annotation.EventSourcedMember;
@@ -27,14 +28,14 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
     }
 
     @CommandHandler
-    public Participant(final CreateParticipantCommand command) {
+    public Participant(final CreateParticipantCommand command, final MetaData metadata) {
         System.out.println("Command: 'CreateParticipantCommand' received.");
         System.out.println("Queuing up a new ParticipantCreatedEvent for participant " + command.getId());
-        apply(new ParticipantCreatedEvent(command.getId(), command.getName()));
+        apply(new ParticipantCreatedEvent(command.getId(), command.getName()), metadata);
     }
 
     @EventSourcingHandler
-    public void onEvent(ParticipantCreatedEvent event) {
+    public void onEvent(final ParticipantCreatedEvent event, final MetaData metadata) {
         this.id = event.getId();
         this.name = Name.create(FirstName.create(event.getName().getFirstName()),
                                 MiddleName.create(event.getName().getMiddleName()),
