@@ -37,7 +37,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-actuator-docs')
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-cache')
-	compile('org.springframework.boot:spring-boot-starter-amqp')
+	//compile('org.springframework.boot:spring-boot-starter-amqp')
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	//compile('org.springframework.boot:spring-boot-starter-data-cassandra')
 	compile('org.springframework.boot:spring-boot-starter-web')
@@ -92,3 +92,6 @@ task integrationTest(type:Test) {
 task functionalTest(type:Test) {
 	include functionalTests
 }
+
+// Make the System.properties available in the bootRun task.
+bootRun.systemProperties = System.properties

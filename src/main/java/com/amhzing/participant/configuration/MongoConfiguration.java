@@ -6,6 +6,7 @@ import com.mongodb.ServerAddress;
 import org.axonframework.eventstore.mongo.DefaultMongoTemplate;
 import org.axonframework.eventstore.mongo.MongoFactory;
 import org.axonframework.eventstore.mongo.MongoTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,10 +15,25 @@ import java.net.UnknownHostException;
 @Configuration
 public class MongoConfiguration {
 
+    @Value("${spring.data.mongodb.database}")
+    private String database;
+
+    @Value("${spring.data.mongodb.host}")
+    private String host;
+
+    @Value("${spring.data.mongodb.port}")
+    private int port;
+
+    @Value("${spring.data.mongodb.events}")
+    private String eventsCollection;
+
+    @Value("${spring.data.mongodb.snapshots}")
+    private String snapshotCollection;
+
     @Bean
     MongoTemplate axonMongoTemplate() {
         return new DefaultMongoTemplate(mongo(),
-                                        "activitiesDB", "participantEvents", "participantSnapshots",
+                                        database, eventsCollection, snapshotCollection,
                                         null, null);
     }
 
@@ -25,7 +41,7 @@ public class MongoConfiguration {
         final MongoFactory mongoFactory = new MongoFactory();
         final ServerAddress serverAddress;
         try {
-            serverAddress = new ServerAddress("192.168.1.32", 27017);
+            serverAddress = new ServerAddress(host, port);
         } catch (UnknownHostException unknownHostEx) {
             throw new RuntimeException("Mongo DB  Initialization Error ", unknownHostEx);
         }
