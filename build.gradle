@@ -92,3 +92,6 @@ task integrationTest(type:Test) {
 task functionalTest(type:Test) {
 	include functionalTests
 }
+
+// Make the System.properties available in the bootRun task.
+bootRun.systemProperties = System.properties
