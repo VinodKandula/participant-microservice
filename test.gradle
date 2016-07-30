@@ -1,0 +1,20 @@
+def integrationTests = 'com/amhzing/participant/integrationtest/**'
+def functionalTests = 'com/amhzing/participant/functionaltest/**'
+def smokeTests = 'com/amhzing/participant/smoketest/**'
+
+test {
+    exclude integrationTests
+    exclude smokeTests
+}
+
+task integrationTest(type:Test) {
+    include integrationTests
+}
+
+task functionalTest(type:Test) {
+    include functionalTests
+}
+
+task smokeTest(type:Test) {
+    include smokeTests
+}

@@ -1,28 +1,39 @@
 buildscript {
 	ext {
-		NEXUS_REPO_URL = 'http://192.168.1.31:8081/repository/amhzing'
+		NEXUS_REPO_URL = 'http://192.168.1.31:8082/nexus/content/repositories'
 
-		springBootVersion = '1.3.5.RELEASE'
+		springBootVersion = '1.3.6.RELEASE'
+		sshVersion = '2.2.0'
+		gradleReleaseVersion = '2.4.0'
+
 		axonVersion = '2.4.4'
 		commonsLangVersion = '3.4'
-		logbackVersion = '1.1.7'
+		jugVersion = '3.1.4'
+
+		logbackVersion = '1.1.6'
 		logstashLogbackVersion = '4.7'
 		janinoVersion = '2.7.8'
-		jugVersion = '3.1.4'
 		slf4jVersion = '1.7.21'
 	}
 	repositories {
 		mavenCentral()
+
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.hidetake:gradle-ssh-plugin:${sshVersion}")
+		classpath("net.researchgate:gradle-release:${gradleReleaseVersion}")
 	}
 }
 
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'spring-boot'
-apply plugin: 'idea'
+apply plugin: 'org.hidetake.ssh'
+apply plugin: 'net.researchgate.release'
 
 group = 'com.amhzing.participant'
 version = file("version.txt").text
@@ -41,22 +52,13 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-actuator-docs')
 	compile('org.springframework.boot:spring-boot-starter-aop')
-	compile('org.springframework.boot:spring-boot-starter-cache')
-	//compile('org.springframework.boot:spring-boot-starter-amqp')
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-	//compile('org.springframework.boot:spring-boot-starter-data-cassandra')
 	compile('org.springframework.boot:spring-boot-starter-web')
 
 	compile('org.springframework.cloud:spring-cloud-starter-config')
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')
-	compile('org.springframework.cloud:spring-cloud-starter-feign')
-	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
-	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
 
-	//compile('org.projectlombok:lombok:1.16.6')
 	compile('org.springframework.retry:spring-retry')
-	//compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.session:spring-session')
 
 	compile ("org.axonframework:axon-core:${axonVersion}")
 	compile ("org.axonframework:axon-mongo:${axonVersion}")
@@ -72,54 +74,50 @@ dependencies {
 	compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
 	compile ("com.fasterxml.uuid:java-uuid-generator:${jugVersion}")
 
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
-	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
-	imports { 
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Brixton.RELEASE" 
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Brixton.SR4"
 	}
 }
 
-def integrationTests = 'com/amhzing/participant/integrationtest/**'
-def functionalTests = 'com/amhzing/participant/functionaltest/**'
-
-test {
-    exclude integrationTests
-	exclude functionalTests
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.14'
 }
 
-task integrationTest(type:Test) {
-    include integrationTests
-}
+// Test
+apply from: 'test.gradle'
 
-task functionalTest(type:Test) {
-	include functionalTests
-}
+// Publish to Nexus
+apply from: 'publish.gradle'
 
-task release << {
-	println "Building release version=$version"
-}
+// Deploy
+apply from: 'deploy.gradle'
 
-gradle.taskGraph.whenReady {taskGraph ->
-	if (!taskGraph.hasTask(release)) {
-		version += '-SNAPSHOT'
-	}
-}
+// Create a fully executable jar
+springBoot {
+	executable = true
 
-uploadArchives {
-	repositories {
-		mavenDeployer {
-			repository(url: "${NEXUS_REPO_URL}-releases") {
-				authentication(userName: mavenUser, password: mavenPassword)
-			}
-			snapshotRepository(url: "${NEXUS_REPO_URL}-snapshots") {
-				authentication(userName: mavenUser, password: mavenPassword)
-			}
-		}
-	}
+	embeddedLaunchScriptProperties = [initInfoDescription: project.description,
+									  initInfoShortDescription: project.name,
+									  initInfoProvides: jar.baseName,
+									  mode: 'service']
 }
 
 // Make the System.properties available in the bootRun task.
 bootRun.systemProperties = System.properties
+
+// Automatically expand info properties
+processResources {
+	filesMatching('**/application.yml') { expand(project.properties) }
+}
+
+ext.jenkinsNode = System.env.NODE_NAME
+ext.jenkinsJobName = System.env.JOB_NAME
+ext.jenkinsBuildTimestamp = System.env.BUILD_TIMESTAMP
+ext.jenkinsBuildId = System.env.BUILD_ID
+ext.jenkinsBuildNumber = System.env.BUILD_NUMBER
+ext.jenkinsGitCommit = System.env.GIT_COMMIT_ID // Custom env variable set in the Jenkinsfile
+ext.jenkinsGitBranch = System.env.BRANCH_NAME
