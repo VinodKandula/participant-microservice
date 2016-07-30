@@ -1,4 +1,4 @@
-package com.amhzing.participant.model;
+package com.amhzing.participant.domain;
 
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
 import org.axonframework.eventhandling.annotation.EventHandler;
@@ -11,30 +11,30 @@ import java.util.Objects;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
-public class LastName extends AbstractAnnotatedEntity {
+public class FirstName extends AbstractAnnotatedEntity {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LastName.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FirstName.class);
 
     static final int MAX_LENGTH = 25;
 
     private String value;
 
-    private LastName(final String value) {
+    private FirstName(final String value) {
         isValid(value);
 
         this.value = value.trim();
     }
 
-    public static LastName create(final String value) {
-        return new LastName(value);
+    public static FirstName create(final String value) {
+        return new FirstName(value);
     }
 
     @EventHandler
     public void on(final ParticipantCreatedEvent event) {
-        final String lastName = event.getName().getLastName();
-        if (isValid(lastName)) {
-            this.value = lastName;
-            LOGGER.debug("Applied ParticipantCreatedEvent [{}] for last name '{}'", event.getId(), lastName);
+        final String firstName = event.getName().getFirstName();
+        if (isValid(firstName)) {
+            this.value = firstName;
+            System.out.println("Applied ParticipantCreatedEvent " + firstName + "for first name " + event.getId());
         }
     }
 
@@ -46,8 +46,8 @@ public class LastName extends AbstractAnnotatedEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LastName lastName = (LastName) o;
-        return Objects.equals(value, lastName.value);
+        FirstName firstName = (FirstName) o;
+        return Objects.equals(value, firstName.value);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class LastName extends AbstractAnnotatedEntity {
 
     @Override
     public String toString() {
-        return "LastName{" +
+        return "FirstName{" +
                 "value='" + value + '\'' +
                 '}';
     }

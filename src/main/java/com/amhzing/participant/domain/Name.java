@@ -1,4 +1,4 @@
-package com.amhzing.participant.model;
+package com.amhzing.participant.domain;
 
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedEntity;
 import org.axonframework.eventsourcing.annotation.EventSourcedMember;

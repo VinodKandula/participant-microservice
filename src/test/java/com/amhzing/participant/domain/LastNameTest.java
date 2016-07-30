@@ -1,8 +1,8 @@
-package com.amhzing.participant.model;
+package com.amhzing.participant.domain;
 
 import org.junit.Test;
 
-import static com.amhzing.participant.model.FirstName.MAX_LENGTH;
+import static com.amhzing.participant.domain.FirstName.MAX_LENGTH;
 import static org.apache.commons.lang.StringUtils.repeat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

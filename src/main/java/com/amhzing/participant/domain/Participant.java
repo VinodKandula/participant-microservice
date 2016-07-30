@@ -1,4 +1,4 @@
-package com.amhzing.participant.model;
+package com.amhzing.participant.domain;
 
 import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
