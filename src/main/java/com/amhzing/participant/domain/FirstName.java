@@ -30,11 +30,12 @@ public class FirstName extends AbstractAnnotatedEntity {
     }
 
     @EventHandler
-    public void on(final ParticipantCreatedEvent event) {
+    public void handleEvent(final ParticipantCreatedEvent event) {
         final String firstName = event.getName().getFirstName();
         if (isValid(firstName)) {
             this.value = firstName;
-            System.out.println("Applied ParticipantCreatedEvent " + firstName + "for first name " + event.getId());
+        } else {
+            LOGGER.info("Invalid first name >{}<", firstName);
         }
     }
 

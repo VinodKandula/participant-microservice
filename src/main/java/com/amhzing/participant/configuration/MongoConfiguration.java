@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.net.UnknownHostException;
-
 @Configuration
 public class MongoConfiguration {
 
@@ -42,8 +40,8 @@ public class MongoConfiguration {
         final ServerAddress serverAddress;
         try {
             serverAddress = new ServerAddress(host, port);
-        } catch (UnknownHostException unknownHostEx) {
-            throw new RuntimeException("Mongo DB  Initialization Error ", unknownHostEx);
+        } catch (Exception ex) {
+            throw new RuntimeException("Mongo DB  Initialization Error ", ex);
         }
         mongoFactory.setMongoAddresses(ImmutableList.of(serverAddress));
         final Mongo mongo = mongoFactory.createMongo();

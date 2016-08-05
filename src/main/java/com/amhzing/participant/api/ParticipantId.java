@@ -2,13 +2,12 @@ package com.amhzing.participant.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 @JsonInclude
 public class ParticipantId {
 
-    @NotNull
+    @NotBlank
     @JsonProperty("participantId")
     private final String value;
 

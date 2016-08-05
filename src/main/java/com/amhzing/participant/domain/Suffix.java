@@ -30,11 +30,12 @@ public class Suffix extends AbstractAnnotatedEntity {
     }
 
     @EventHandler
-    public void on(final ParticipantCreatedEvent event) {
+    public void handleEvent(final ParticipantCreatedEvent event) {
         final String suffix = event.getName().getSuffix();
         if (isValid(suffix)) {
             this.value = suffix;
-            LOGGER.debug("Applied ParticipantCreatedEvent [{}] for suffix '{}'", event.getId(), suffix);
+        } else {
+            LOGGER.info("Invalid suffix >{}<", suffix);
         }
     }
 

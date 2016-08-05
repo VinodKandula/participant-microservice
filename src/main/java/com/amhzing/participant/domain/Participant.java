@@ -31,16 +31,15 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
 
     @CommandHandler
     public Participant(final CreateParticipantCommand command, final MetaData metadata) {
-        System.out.println("Command: 'CreateParticipantCommand' received.");
-        System.out.println("Queuing up a new ParticipantCreatedEvent for participant " + command.getId());
+        LOGGER.info("Applying ParticipantCreatedEvent for participant {}", command.getId());
         apply(new ParticipantCreatedEvent(command.getId(), command.getName()), metadata);
     }
 
     @EventSourcingHandler
-    public void on(final ParticipantCreatedEvent event, final MetaData metadata) {
+    public void handleEvent(final ParticipantCreatedEvent event, final MetaData metadata) {
+        LOGGER.info("Handling ParticipantCreatedEvent for participant {}" + event.getId());
         this.id = event.getId();
         this.name = createNameFrom(event);
-        System.out.println("Applied: ProductAddedEvent" + event.getId() + ", " + event.getName());
     }
 
     private Name createNameFrom(final ParticipantCreatedEvent event) {

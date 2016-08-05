@@ -41,6 +41,13 @@ if (!isMasterBranch()) {
         sh './gradlew integrationTest'
     }
 
+    stage 'Functional test'
+    node {
+        unstash 'source'
+        sh 'chmod 755 gradlew'
+        sh './gradlew functionalTest'
+    }
+
     stage name: 'Merge', concurrency: 1
     node {
         checkout scm: [$class: 'GitSCM',

@@ -30,11 +30,12 @@ public class MiddleName extends AbstractAnnotatedEntity {
     }
 
     @EventHandler
-    public void on(final ParticipantCreatedEvent event) {
+    public void handleEvent(final ParticipantCreatedEvent event) {
         final String middleName = event.getName().getMiddleName();
         if (isValid(middleName)) {
             this.value = middleName;
-            LOGGER.debug("Applied ParticipantCreatedEvent [{}] for middle name '{}'", event.getId(), middleName);
+        } else {
+            LOGGER.info("Invalid middle name >{}<", middleName);
         }
     }
 
