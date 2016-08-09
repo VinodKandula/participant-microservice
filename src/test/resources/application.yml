@@ -1,12 +1,4 @@
 spring:
-  profiles: integrationTest
-  data:
-    mongodb:
-      host: 192.168.1.32
-
----
-
-spring:
   profiles: testServer1
 
 server:

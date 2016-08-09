@@ -38,7 +38,7 @@ if (!isMasterBranch()) {
     node {
         unstash 'source'
         sh 'chmod 755 gradlew'
-        sh './gradlew integrationTest'
+        sh 'SPRING_PROFILES_ACTIVE=test ./gradlew integrationTest'
     }
 
     stage 'Functional test'
