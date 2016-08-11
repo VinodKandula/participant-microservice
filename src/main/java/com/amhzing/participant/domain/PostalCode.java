@@ -15,7 +15,7 @@ public class PostalCode extends AbstractAnnotatedEntity {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostalCode.class);
 
-    static final int MAX_LENGTH = 25;
+    static final int MAX_LENGTH = 10;
 
     private String value;
 

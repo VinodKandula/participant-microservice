@@ -11,7 +11,6 @@ import java.util.Objects;
 import static com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT.value;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
-import static org.bouncycastle.asn1.x500.style.RFC4519Style.postalCode;
 
 public class Country extends AbstractAnnotatedEntity {
 
@@ -38,8 +37,8 @@ public class Country extends AbstractAnnotatedEntity {
 
     @EventHandler
     public void handleEvent(final ParticipantCreatedEvent event) {
-        final String code = event.getAddress().getCountry().getCode();
-        final String name = event.getAddress().getCountry().getName();
+        final String code = event.getAddress().getCountryCode();
+        final String name = event.getAddress().getCountryName();
         if (isValidCode(code) && isValidName(name)) {
             this.code = code;
             this.name = name;
