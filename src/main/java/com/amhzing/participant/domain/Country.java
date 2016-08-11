@@ -37,8 +37,8 @@ public class Country extends AbstractAnnotatedEntity {
 
     @EventHandler
     public void handleEvent(final ParticipantCreatedEvent event) {
-        final String code = event.getAddress().getCountryCode();
-        final String name = event.getAddress().getCountryName();
+        final String code = event.getAddress().getCountry().getCode();
+        final String name = event.getAddress().getCountry().getName();
         if (isValidCode(code) && isValidName(name)) {
             this.code = code;
             this.name = name;

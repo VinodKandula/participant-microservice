@@ -4,6 +4,8 @@ import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier;
 
 import java.util.UUID;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 public abstract class AbstractParticipantCommand {
 
     @TargetAggregateIdentifier
@@ -13,7 +15,7 @@ public abstract class AbstractParticipantCommand {
     }
 
     public AbstractParticipantCommand(final UUID id) {
-        this.id = id;
+        this.id = notNull(id);
     }
 
     public UUID getId() {
