@@ -8,6 +8,7 @@ buildscript {
 
 		axonVersion = '2.4.4'
 		commonsLangVersion = '3.4'
+		commonsValidatorVersion = '1.5.1'
 		jugVersion = '3.1.4'
 		mongodbJavaDriverVersion = '2.14.3'
 
@@ -70,6 +71,7 @@ dependencies {
 	compile ("org.slf4j:slf4j-api:${slf4jVersion}")
 
 	compile ("org.apache.commons:commons-lang3:${commonsLangVersion}")
+	compile ("commons-validator:commons-validator:${commonsValidatorVersion}")
 	compile ("com.fasterxml.uuid:java-uuid-generator:${jugVersion}")
 
 	compile ("org.mongodb:mongo-java-driver:${mongodbJavaDriverVersion}")
