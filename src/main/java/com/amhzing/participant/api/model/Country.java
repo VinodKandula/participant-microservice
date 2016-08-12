@@ -1,4 +1,4 @@
-package com.amhzing.participant.api;
+package com.amhzing.participant.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

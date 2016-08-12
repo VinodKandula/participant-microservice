@@ -1,9 +1,9 @@
 package com.amhzing.participant.api.event;
 
-import com.amhzing.participant.api.Address;
-import com.amhzing.participant.api.ContactNumber;
-import com.amhzing.participant.api.Email;
-import com.amhzing.participant.api.Name;
+import com.amhzing.participant.api.model.Address;
+import com.amhzing.participant.api.model.ContactNumber;
+import com.amhzing.participant.api.model.Email;
+import com.amhzing.participant.api.model.Name;
 
 import java.util.UUID;
 

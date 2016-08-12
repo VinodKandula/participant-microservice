@@ -1,10 +1,13 @@
 package com.amhzing.participant.web;
 
-import com.amhzing.participant.api.Name;
-import com.amhzing.participant.api.ParticipantId;
 import com.amhzing.participant.api.command.CreateParticipantCommand;
+import com.amhzing.participant.api.request.CreateParticipantRequest;
+import com.amhzing.participant.api.response.CreateParticipantResponse;
+import com.amhzing.participant.api.response.ParticipantId;
+import com.amhzing.participant.api.response.ResponseError;
 import com.amhzing.participant.gateway.MetaDataEnrichedCommandGateway;
 import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.UUID;
-import java.util.concurrent.TimeoutException;
+
+import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_CREATE_PARTICIPANT;
 
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -27,19 +31,37 @@ public class ParticipantController {
     @Autowired
     private MetaDataEnrichedCommandGateway commandGateway;
 
+    // This is thread-safe
+    private final TimeBasedGenerator timeBasedGenerator = Generators.timeBasedGenerator();
+
     @RequestMapping(path = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @Valid ParticipantId create(@RequestBody @Valid final Name name) throws TimeoutException, InterruptedException {
+    public @Valid CreateParticipantResponse create(@RequestBody @Valid final CreateParticipantRequest request) {
 
-        final UUID uuid = Generators.timeBasedGenerator().generate();
+        try {
+            final UUID uuid = timeBasedGenerator.generate();
 
-        final CreateParticipantCommand command = new CreateParticipantCommand(uuid, name);
-        final String correlationId = "56789";
-        final String userId = "mahnDT2";
+            final CreateParticipantCommand command = new CreateParticipantCommand(uuid,
+                                                                                  request.getName(),
+                                                                                  request.getAddress(),
+                                                                                  request.getContactNumber(),
+                                                                                  request.getEmail());
+            final String correlationId = timeBasedGenerator.generate().toString();
+            final String userId = request.getUser().getUserId();
 
-        LOGGER.info("Sending command {} with id {}, correlationId {}, user {}", command.getClass(), command.getId(), correlationId, userId);
-        commandGateway.send(command, correlationId, userId);
+            LOGGER.info("Sending command {} with id {}, correlationId {}, user {}",
+                        command.getClass(),
+                        command.getId(),
+                        correlationId,
+                        userId);
 
-        return ParticipantId.create(command.getId().toString());
+            commandGateway.send(command, correlationId, userId);
+
+            return CreateParticipantResponse.create(ParticipantId.create(command.getId().toString()), ResponseError.empty());
+        } catch (final Exception ex) {
+            LOGGER.error(CANNOT_CREATE_PARTICIPANT.toString(), ex);
+            return CreateParticipantResponse.create(ParticipantId.empty(),
+                                                    ResponseError.create(CANNOT_CREATE_PARTICIPANT));
+        }
     }
 
 }

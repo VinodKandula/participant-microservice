@@ -1,24 +1,28 @@
-package com.amhzing.participant.api;
+package com.amhzing.participant.api.response;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-public class ContactNumber {
-    private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
+@JsonInclude
+public class ParticipantId {
 
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 25)
+    @NotNull
+    @JsonProperty("participantId")
     private final String value;
 
-    private ContactNumber(final String value) {
+    private ParticipantId(final String value) {
         this.value = value;
     }
 
-    @JsonCreator
-    public static ContactNumber create(@JsonProperty("contactNumber") final String contactNumber) {
-        return new ContactNumber(contactNumber);
+    public static ParticipantId create(final String value) {
+        return new ParticipantId(value);
+    }
+
+    public static ParticipantId empty() {
+        return new ParticipantId("");
     }
 
     public String getValue() {
@@ -29,7 +33,7 @@ public class ContactNumber {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final ContactNumber that = (ContactNumber) o;
+        final ParticipantId that = (ParticipantId) o;
         return Objects.equals(value, that.value);
     }
 
@@ -40,7 +44,7 @@ public class ContactNumber {
 
     @Override
     public String toString() {
-        return "ContactNumber{" +
+        return "ParticipantId{" +
                 "value='" + value + '\'' +
                 '}';
     }

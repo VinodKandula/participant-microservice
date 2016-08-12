@@ -41,7 +41,7 @@ public class MongoConfiguration {
         try {
             serverAddress = new ServerAddress(host, port);
         } catch (Exception ex) {
-            throw new RuntimeException("Mongo DB  Initialization Error ", ex);
+            throw new RuntimeException("Mongo DB  Initialization ResponseError ", ex);
         }
         mongoFactory.setMongoAddresses(ImmutableList.of(serverAddress));
         final Mongo mongo = mongoFactory.createMongo();
