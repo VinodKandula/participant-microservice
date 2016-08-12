@@ -11,21 +11,21 @@ public class CreateParticipantResponse {
 
     @NotNull
     @JsonProperty("participantId")
-    private final ParticipantId participantId;
+    private final String participantId;
     @NotNull
     @JsonProperty("error")
     private final ResponseError error;
 
-    private CreateParticipantResponse(final ParticipantId participantId, final ResponseError error) {
+    private CreateParticipantResponse(final String participantId, final ResponseError error) {
         this.participantId = participantId;
         this.error = error;
     }
 
-    public static CreateParticipantResponse create(final ParticipantId participantId, final ResponseError error) {
+    public static CreateParticipantResponse create(final String participantId, final ResponseError error) {
         return new CreateParticipantResponse(participantId, error);
     }
 
-    public ParticipantId getParticipantId() {
+    public String getParticipantId() {
         return participantId;
     }
 
@@ -50,7 +50,7 @@ public class CreateParticipantResponse {
     @Override
     public String toString() {
         return "CreateParticipantResponse{" +
-                "participantId=" + participantId +
+                "participantId='" + participantId + '\'' +
                 ", error=" + error +
                 '}';
     }

@@ -17,7 +17,7 @@ public class Email {
     }
 
     @JsonCreator
-    public static Email create(@JsonProperty("email") final String email) {
+    public static Email create(@JsonProperty("primaryEmail") final String email) {
         return new Email(email);
     }
 

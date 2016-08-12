@@ -2,7 +2,7 @@ package com.amhzing.participant.domain;
 
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 class ParticipantFactory{
     private ParticipantFactory() {
@@ -14,10 +14,10 @@ class ParticipantFactory{
         final String lastName = event.getName().getLastName();
         final String suffix = event.getName().getSuffix();
 
-        return Name.create(isNotEmpty(firstName) ? FirstName.create(firstName) : null,
-                           isNotEmpty(middleName) ? MiddleName.create(middleName) : null,
-                           isNotEmpty(lastName) ? LastName.create(lastName) : null,
-                           isNotEmpty(suffix) ? Suffix.create(suffix) : null);
+        return Name.create(isNotBlank(firstName) ? FirstName.create(firstName) : null,
+                           isNotBlank(middleName) ? MiddleName.create(middleName) : null,
+                           isNotBlank(lastName) ? LastName.create(lastName) : null,
+                           isNotBlank(suffix) ? Suffix.create(suffix) : null);
     }
 
     public static Address createAddressFrom(final ParticipantCreatedEvent event) {
@@ -28,22 +28,26 @@ class ParticipantFactory{
         final String countryCode = event.getAddress().getCountry().getCode();
         final String countryName = event.getAddress().getCountry().getName();
 
-        return Address.create(isNotEmpty(addressLine1) ? AddressLine1.create(addressLine1) : null,
-                              isNotEmpty(addressLine2) ? AddressLine2.create(addressLine2) : null,
-                              isNotEmpty(city) ? City.create(city) : null,
-                              isNotEmpty(postalCode) ? PostalCode.create(postalCode) : null,
-                              isNotEmpty(countryCode) ? Country.create(countryCode, countryName) : null);
+        return Address.create(isNotBlank(addressLine1) ? AddressLine1.create(addressLine1) : null,
+                              isNotBlank(addressLine2) ? AddressLine2.create(addressLine2) : null,
+                              isNotBlank(city) ? City.create(city) : null,
+                              isNotBlank(postalCode) ? PostalCode.create(postalCode) : null,
+                              isNotBlank(countryCode) ? Country.create(countryCode, countryName) : null);
     }
 
     public static ContactNumber createContactNumberFrom(final ParticipantCreatedEvent event) {
-        final String value = event.getContactNumber().getValue();
-
-        return isNotEmpty(value) ? ContactNumber.create(value) : null;
+        if (event.getContactNumber() != null && isNotBlank(event.getContactNumber().getValue())) {
+            return ContactNumber.create(event.getContactNumber().getValue());
+        }
+        
+        return null;
     }
 
     public static Email createEmailFrom(final ParticipantCreatedEvent event) {
-        final String value = event.getEmail().getValue();
+        if (event.getEmail() != null && isNotBlank(event.getEmail().getValue())) {
+            return Email.create(event.getEmail().getValue());
+        }
 
-        return isNotEmpty(value) ? Email.create(value) : null;
+        return null;
     }
 }

@@ -17,7 +17,7 @@ public class ContactNumber {
     }
 
     @JsonCreator
-    public static ContactNumber create(@JsonProperty("contactNumber") final String contactNumber) {
+    public static ContactNumber create(@JsonProperty("primaryNumber") final String contactNumber) {
         return new ContactNumber(contactNumber);
     }
 

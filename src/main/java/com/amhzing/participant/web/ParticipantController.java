@@ -3,7 +3,6 @@ package com.amhzing.participant.web;
 import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.api.request.CreateParticipantRequest;
 import com.amhzing.participant.api.response.CreateParticipantResponse;
-import com.amhzing.participant.api.response.ParticipantId;
 import com.amhzing.participant.api.response.ResponseError;
 import com.amhzing.participant.gateway.MetaDataEnrichedCommandGateway;
 import com.fasterxml.uuid.Generators;
@@ -48,7 +47,7 @@ public class ParticipantController {
             final String correlationId = timeBasedGenerator.generate().toString();
             final String userId = request.getUser().getUserId();
 
-            LOGGER.info("Sending command {} with id {}, correlationId {}, user {}",
+            LOGGER.info("Sending command [{}] with id [{}], correlationId [{}], user [{}]",
                         command.getClass(),
                         command.getId(),
                         correlationId,
@@ -56,11 +55,10 @@ public class ParticipantController {
 
             commandGateway.send(command, correlationId, userId);
 
-            return CreateParticipantResponse.create(ParticipantId.create(command.getId().toString()), ResponseError.empty());
+            return CreateParticipantResponse.create(command.getId().toString(), ResponseError.empty());
         } catch (final Exception ex) {
             LOGGER.error(CANNOT_CREATE_PARTICIPANT.toString(), ex);
-            return CreateParticipantResponse.create(ParticipantId.empty(),
-                                                    ResponseError.create(CANNOT_CREATE_PARTICIPANT));
+            return CreateParticipantResponse.create("", ResponseError.create(CANNOT_CREATE_PARTICIPANT));
         }
     }
 

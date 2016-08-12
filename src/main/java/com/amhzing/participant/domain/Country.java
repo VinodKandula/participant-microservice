@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-import static com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT.value;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
@@ -27,7 +26,7 @@ public class Country extends AbstractAnnotatedEntity {
         isValidCode(code);
         isValidName(name);
 
-        this.code = value.trim();
+        this.code = code.trim();
         this.name = name.trim();
     }
 
@@ -47,8 +46,12 @@ public class Country extends AbstractAnnotatedEntity {
         }
     }
 
-    public String getValue() {
-        return value;
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

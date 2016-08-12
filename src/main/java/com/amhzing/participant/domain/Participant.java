@@ -48,7 +48,7 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
 
     @EventSourcingHandler
     public void handleEvent(final ParticipantCreatedEvent event, final MetaData metadata) {
-        LOGGER.info("Handling ParticipantCreatedEvent for participant {}" + event.getId());
+        LOGGER.info("Handling ParticipantCreatedEvent for participant {}", event.getId());
         this.id = event.getId();
         this.name = createNameFrom(event);
         this.address = createAddressFrom(event);
