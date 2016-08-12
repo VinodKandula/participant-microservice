@@ -32,7 +32,7 @@ public class Address extends AbstractAnnotatedEntity {
         this.country = notNull(country);
     }
 
-    private static Address create(final AddressLine1 addressLine1,
+    public static Address create(final AddressLine1 addressLine1,
                                   final AddressLine2 addressLine2,
                                   final City city,
                                   final PostalCode postalCode,

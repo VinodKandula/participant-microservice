@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-import static net.logstash.logback.encoder.org.apache.commons.lang.StringUtils.isNotEmpty;
+import static com.amhzing.participant.domain.ParticipantFactory.*;
 
 public class Participant extends AbstractAnnotatedAggregateRoot {
 
@@ -24,6 +24,12 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
 
     @EventSourcedMember
     private Name name;
+    @EventSourcedMember
+    private Address address;
+    @EventSourcedMember
+    private ContactNumber contactNumber;
+    @EventSourcedMember
+    private Email email;
 
     // no-arg constructor for Axon
     public Participant() {
@@ -32,7 +38,12 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
     @CommandHandler
     public Participant(final CreateParticipantCommand command, final MetaData metadata) {
         LOGGER.info("Applying ParticipantCreatedEvent for participant {}", command.getId());
-        apply(new ParticipantCreatedEvent(command.getId(), command.getName()), metadata);
+        apply(new ParticipantCreatedEvent(command.getId(),
+                                          command.getName(),
+                                          command.getAddress(),
+                                          command.getContactNumber(),
+                                          command.getEmail()),
+              metadata);
     }
 
     @EventSourcingHandler
@@ -40,17 +51,8 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
         LOGGER.info("Handling ParticipantCreatedEvent for participant {}" + event.getId());
         this.id = event.getId();
         this.name = createNameFrom(event);
-    }
-
-    private Name createNameFrom(final ParticipantCreatedEvent event) {
-        final String firstName = event.getName().getFirstName();
-        final String middleName = event.getName().getMiddleName();
-        final String lastName = event.getName().getLastName();
-        final String suffix = event.getName().getSuffix();
-
-        return Name.create(isNotEmpty(firstName) ? FirstName.create(firstName) : null,
-                           isNotEmpty(middleName) ? MiddleName.create(middleName) : null,
-                           isNotEmpty(lastName) ? LastName.create(lastName) : null,
-                           isNotEmpty(suffix) ? Suffix.create(suffix) : null);
+        this.address = createAddressFrom(event);
+        this.contactNumber = createContactNumberFrom(event);
+        this.email = createEmailFrom(event);
     }
 }
