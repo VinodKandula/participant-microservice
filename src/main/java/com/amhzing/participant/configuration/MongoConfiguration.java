@@ -6,32 +6,24 @@ import com.mongodb.ServerAddress;
 import org.axonframework.eventstore.mongo.DefaultMongoTemplate;
 import org.axonframework.eventstore.mongo.MongoFactory;
 import org.axonframework.eventstore.mongo.MongoTemplate;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@EnableConfigurationProperties(MongoProperties.class)
 public class MongoConfiguration {
 
-    @Value("${spring.data.mongodb.database}")
-    private String database;
-
-    @Value("${spring.data.mongodb.host}")
-    private String host;
-
-    @Value("${spring.data.mongodb.port}")
-    private int port;
-
-    @Value("${spring.data.mongodb.events}")
-    private String eventsCollection;
-
-    @Value("${spring.data.mongodb.snapshots}")
-    private String snapshotCollection;
+    @Autowired
+    private MongoProperties mongoProperties;
 
     @Bean
     MongoTemplate axonMongoTemplate() {
         return new DefaultMongoTemplate(mongo(),
-                                        database, eventsCollection, snapshotCollection,
+                                        mongoProperties.getDatabase(),
+                                        mongoProperties.getEvents(),
+                                        mongoProperties.getSnapshots(),
                                         null, null);
     }
 
@@ -39,7 +31,7 @@ public class MongoConfiguration {
         final MongoFactory mongoFactory = new MongoFactory();
         final ServerAddress serverAddress;
         try {
-            serverAddress = new ServerAddress(host, port);
+            serverAddress = new ServerAddress(mongoProperties.getHost(), mongoProperties.getPort());
         } catch (Exception ex) {
             throw new RuntimeException("Mongo DB  Initialization ResponseError ", ex);
         }

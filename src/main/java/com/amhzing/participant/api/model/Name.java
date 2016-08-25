@@ -16,7 +16,7 @@ public class Name {
     private final String firstName;
     @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 25)
     private final String middleName;
-    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min= 1, max = 25)
+    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min = 1, max = 25)
     private final String lastName;
     @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 10)
     private final String suffix;

@@ -1,0 +1,42 @@
+-------------------------
+-- Create the keyspace --
+-------------------------
+
+CREATE KEYSPACE participant
+WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+
+-----------------------
+-- Use the keyspace  --
+-----------------------
+
+use participant;
+
+-----------------------
+-- Create the table  --
+-----------------------
+
+CREATE TABLE participant_details (
+  country text,
+  city text,
+  address_line1 text,
+  last_name text,
+  participant_id timeuuid,
+  first_name text,
+  middle_name text,
+  suffix text,
+  address_line2 text,
+  postal_code text,
+  email text,
+  contact_number text,
+  added_date timestamp,
+  added_by text,
+  updated_date timestamp,
+  updated_by text,
+  PRIMARY KEY ((country), city, address_line1, last_name, participant_id)
+);
+
+----------------------
+-- Show all tables  --
+----------------------
+
+describe tables;
