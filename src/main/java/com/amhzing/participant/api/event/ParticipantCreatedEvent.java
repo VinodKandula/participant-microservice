@@ -5,6 +5,7 @@ import com.amhzing.participant.api.model.ContactNumber;
 import com.amhzing.participant.api.model.Email;
 import com.amhzing.participant.api.model.Name;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.apache.commons.lang3.Validate.notNull;
@@ -47,11 +48,11 @@ public class ParticipantCreatedEvent extends AbstractParticipantEvent {
         return address;
     }
 
-    public ContactNumber getContactNumber() {
-        return contactNumber;
+    public Optional<ContactNumber> getContactNumber() {
+        return Optional.ofNullable(contactNumber);
     }
 
-    public Email getEmail() {
-        return email;
+    public Optional<Email> getEmail() {
+        return Optional.ofNullable(email);
     }
 }

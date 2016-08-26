@@ -31,7 +31,7 @@ public class ContactNumber extends AbstractAnnotatedEntity {
 
     @EventHandler
     public void handleEvent(final ParticipantCreatedEvent event) {
-        final String contactNumber = event.getContactNumber().getValue();
+        final String contactNumber = (event.getContactNumber().orElseThrow(() -> new IllegalStateException("Contact number must have a value"))).getValue();
         if (isValid(contactNumber)) {
             this.value = contactNumber;
         } else {

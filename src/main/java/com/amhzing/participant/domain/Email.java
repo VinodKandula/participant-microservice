@@ -32,7 +32,7 @@ public class Email extends AbstractAnnotatedEntity {
 
     @EventHandler
     public void handleEvent(final ParticipantCreatedEvent event) {
-        final String email = event.getEmail().getValue();
+        final String email = (event.getEmail().orElseThrow(() -> new IllegalStateException("Email must have a value"))).getValue();
         if (isValid(email)) {
             this.value = email;
         } else {

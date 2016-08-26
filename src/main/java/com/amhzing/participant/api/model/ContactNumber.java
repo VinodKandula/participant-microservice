@@ -21,6 +21,10 @@ public class ContactNumber {
         return new ContactNumber(contactNumber);
     }
 
+    public static ContactNumber empty() {
+        return new ContactNumber("");
+    }
+
     public String getValue() {
         return value;
     }

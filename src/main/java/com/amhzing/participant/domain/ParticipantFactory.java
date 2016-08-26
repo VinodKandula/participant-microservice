@@ -36,18 +36,16 @@ class ParticipantFactory{
     }
 
     public static ContactNumber createContactNumberFrom(final ParticipantCreatedEvent event) {
-        if (event.getContactNumber() != null && isNotBlank(event.getContactNumber().getValue())) {
-            return ContactNumber.create(event.getContactNumber().getValue());
+        if (event.getContactNumber().isPresent()) {
+            ContactNumber.create(event.getContactNumber().get().getValue());
         }
-        
         return null;
     }
 
     public static Email createEmailFrom(final ParticipantCreatedEvent event) {
-        if (event.getEmail() != null && isNotBlank(event.getEmail().getValue())) {
-            return Email.create(event.getEmail().getValue());
+        if (event.getEmail().isPresent()) {
+            Email.create(event.getEmail().get().getValue());
         }
-
         return null;
     }
 }

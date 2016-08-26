@@ -12,7 +12,7 @@ public interface MetaDataEnrichedCommandGateway {
     public void send(final Object command,
                      @MetaData("correlationId") String correlationId,
                      @MetaData("userId") String userId)
-            throws TimeoutException, InterruptedException;
+            throws TimeoutException, InterruptedException, RuntimeException;
 
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
     public <R> R sendAndWait(final Object command,

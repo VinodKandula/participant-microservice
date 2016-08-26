@@ -2,7 +2,8 @@ package com.amhzing.participant.api.response;
 
 public enum ResponseErrorCode {
 
-    CANNOT_CREATE_PARTICIPANT("0001", "Unable to create participant");
+    CANNOT_CREATE_PARTICIPANT("C0001", "Unable to create participant"),
+    CANNOT_INSERT_PARTICIPANT("Q0001", "Unable to insert participant");
 
     private final String code;
     private final String message;

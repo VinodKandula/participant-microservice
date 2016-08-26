@@ -1,6 +1,7 @@
 package com.amhzing.participant.query.eventhandler;
 
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
+import com.amhzing.participant.query.exception.QueryInsertException;
 import com.amhzing.participant.query.mapping.ParticipantDetails;
 import com.amhzing.participant.query.mapping.ParticipantDetailsBuilder;
 import com.amhzing.participant.query.mapping.ParticipantPrimaryKeyBuilder;
@@ -33,8 +34,12 @@ public class ParticipantCreatedEventHandler {
         notNull(event);
         notNull(metadata);
 
-        LOGGER.info("Inserting {} details for participant {}", ParticipantCreatedEvent.class.getSimpleName(), event.getId());
-        cassandraTemplate.insert(participantDetails(event, metadata));
+        try {
+            LOGGER.info("Inserting {} details for participant {}", ParticipantCreatedEvent.class.getSimpleName(), event.getId());
+            cassandraTemplate.insert(participantDetails(event, metadata));
+        } catch (final Exception ex) {
+            throw new QueryInsertException(ex);
+        }
     }
 
     private ParticipantDetails participantDetails(final ParticipantCreatedEvent event, final MetaData metadata) {
@@ -52,8 +57,8 @@ public class ParticipantCreatedEventHandler {
         participantDetailsBuilder.setSuffix(event.getName().getSuffix());
         participantDetailsBuilder.setAddressLine2(event.getAddress().getAddressLine2());
         participantDetailsBuilder.setPostalCode(event.getAddress().getPostalCode());
-        participantDetailsBuilder.setEmail(event.getEmail().getValue());
-        participantDetailsBuilder.setContactNumber(event.getContactNumber().getValue());
+        event.getEmail().ifPresent(email -> participantDetailsBuilder.setEmail(email.getValue()));
+        event.getContactNumber().ifPresent(contactNumber -> participantDetailsBuilder.setContactNumber(contactNumber.getValue()));
         participantDetailsBuilder.setAddedDate(currentTime());
         participantDetailsBuilder.setAddedBy(userId(metadata));
         participantDetailsBuilder.setUpdatedDate(currentTime());
