@@ -21,10 +21,6 @@ public class Email {
         return new Email(email);
     }
 
-    public static Email empty() {
-        return new Email("");
-    }
-
     public String getValue() {
         return value;
     }
