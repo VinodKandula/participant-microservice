@@ -37,18 +37,18 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
 
     @CommandHandler
     public Participant(final CreateParticipantCommand command, final MetaData metadata) {
-        LOGGER.info("Applying ParticipantCreatedEvent for participant {}", command.getId());
-        apply(new ParticipantCreatedEvent(command.getId(),
-                                          command.getName(),
-                                          command.getAddress(),
-                                          command.getContactNumber(),
-                                          command.getEmail()),
+        LOGGER.info("Applying {} for participant {}", ParticipantCreatedEvent.class.getSimpleName(), command.getId());
+        apply(ParticipantCreatedEvent.create(command.getId(),
+                                             command.getName(),
+                                             command.getAddress(),
+                                             command.getContactNumber(),
+                                             command.getEmail()),
               metadata);
     }
 
     @EventSourcingHandler
     public void handleEvent(final ParticipantCreatedEvent event, final MetaData metadata) {
-        LOGGER.info("Handling ParticipantCreatedEvent for participant {}", event.getId());
+        LOGGER.info("Handling {} for participant {}", ParticipantCreatedEvent.class.getSimpleName(), event.getId());
         this.id = event.getId();
         this.name = createNameFrom(event);
         this.address = createAddressFrom(event);

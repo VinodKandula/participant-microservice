@@ -39,16 +39,16 @@ public class ParticipantController {
         try {
             final UUID uuid = timeBasedGenerator.generate();
 
-            final CreateParticipantCommand command = new CreateParticipantCommand(uuid,
-                                                                                  request.getName(),
-                                                                                  request.getAddress(),
-                                                                                  request.getContactNumber(),
-                                                                                  request.getEmail());
+            final CreateParticipantCommand command = CreateParticipantCommand.create(uuid,
+                                                                                     request.getName(),
+                                                                                     request.getAddress(),
+                                                                                     request.getContactNumber(),
+                                                                                     request.getEmail());
             final String correlationId = timeBasedGenerator.generate().toString();
             final String userId = request.getUser().getUserId();
 
             LOGGER.info("Sending command [{}] with id [{}], correlationId [{}], user [{}]",
-                        command.getClass(),
+                        command.getClass().getSimpleName(),
                         command.getId(),
                         correlationId,
                         userId);

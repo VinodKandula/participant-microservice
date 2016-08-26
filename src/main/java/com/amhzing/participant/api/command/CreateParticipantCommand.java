@@ -16,16 +16,24 @@ public class CreateParticipantCommand extends AbstractParticipantCommand {
     private ContactNumber contactNumber;
     private Email email;
 
-    public CreateParticipantCommand(final UUID id,
-                                    final Name name,
-                                    final Address address,
-                                    final ContactNumber contactNumber,
-                                    final Email email) {
+    private CreateParticipantCommand(final UUID id,
+                                     final Name name,
+                                     final Address address,
+                                     final ContactNumber contactNumber,
+                                     final Email email) {
         super(id);
         this.name = notNull(name);
         this.address = notNull(address);
         this.contactNumber = contactNumber;
         this.email = email;
+    }
+
+    public static CreateParticipantCommand create(final UUID id,
+                                                  final Name name,
+                                                  final Address address,
+                                                  final ContactNumber contactNumber,
+                                                  final Email email) {
+        return new CreateParticipantCommand(id, name, address, contactNumber, email);
     }
 
     public Name getName() {

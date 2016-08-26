@@ -19,16 +19,24 @@ public class ParticipantCreatedEvent extends AbstractParticipantEvent {
     public ParticipantCreatedEvent() {
     }
 
-    public ParticipantCreatedEvent(final UUID id,
-                                   final Name name,
-                                   final Address address,
-                                   final ContactNumber contactNumber,
-                                   final Email email) {
+    private ParticipantCreatedEvent(final UUID id,
+                                    final Name name,
+                                    final Address address,
+                                    final ContactNumber contactNumber,
+                                    final Email email) {
         super(id);
         this.name = notNull(name);
         this.address = notNull(address);
         this.contactNumber = contactNumber;
         this.email = email;
+    }
+
+    public static ParticipantCreatedEvent create(final UUID id,
+                                                 final Name name,
+                                                 final Address address,
+                                                 final ContactNumber contactNumber,
+                                                 final Email email) {
+        return new ParticipantCreatedEvent(id, name, address, contactNumber, email);
     }
 
     public Name getName() {

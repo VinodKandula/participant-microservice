@@ -16,6 +16,7 @@ public class MongoConfiguration {
     @Autowired
     private MongoProperties mongoProperties;
 
+    // This is auto-configured by Spring Boot
     @Autowired
     MongoDbFactory mongoDbFactory;
 

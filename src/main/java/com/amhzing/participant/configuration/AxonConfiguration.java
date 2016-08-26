@@ -38,7 +38,6 @@ public class AxonConfiguration {
         return factory.createGateway(MetaDataEnrichedCommandGateway.class);
     }
 
-    // This will need to be replaced with a cluster event bus later
     @Bean
     SimpleEventBus eventBus() {
         return new SimpleEventBus();

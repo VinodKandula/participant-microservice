@@ -28,6 +28,7 @@ public class ResponseError {
     public static ResponseError create(final ResponseErrorCode errorCode) {
         return new ResponseError(errorCode.getCode(), errorCode.getMessage());
     }
+
     public static ResponseError empty() {
         return new ResponseError("", "");
     }
