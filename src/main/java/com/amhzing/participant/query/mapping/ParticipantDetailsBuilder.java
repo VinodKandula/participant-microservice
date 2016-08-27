@@ -1,6 +1,6 @@
 package com.amhzing.participant.query.mapping;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class ParticipantDetailsBuilder {
     private ParticipantPrimaryKey primaryKey;
@@ -11,9 +11,9 @@ public class ParticipantDetailsBuilder {
     private String postalCode;
     private String email;
     private String contactNumber;
-    private Timestamp addedDate;
+    private Date addedDate;
     private String addedBy;
-    private Timestamp updatedDate;
+    private Date updatedDate;
     private String updatedBy;
 
     public ParticipantDetailsBuilder setPrimaryKey(final ParticipantPrimaryKey primaryKey) {
@@ -56,7 +56,7 @@ public class ParticipantDetailsBuilder {
         return this;
     }
 
-    public ParticipantDetailsBuilder setAddedDate(final Timestamp addedDate) {
+    public ParticipantDetailsBuilder setAddedDate(final Date addedDate) {
         this.addedDate = addedDate;
         return this;
     }
@@ -66,7 +66,7 @@ public class ParticipantDetailsBuilder {
         return this;
     }
 
-    public ParticipantDetailsBuilder setUpdatedDate(final Timestamp updatedDate) {
+    public ParticipantDetailsBuilder setUpdatedDate(final Date updatedDate) {
         this.updatedDate = updatedDate;
         return this;
     }

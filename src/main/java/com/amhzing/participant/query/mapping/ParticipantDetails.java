@@ -4,7 +4,7 @@ import org.springframework.data.cassandra.mapping.Column;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
 import org.springframework.data.cassandra.mapping.Table;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notNull;
@@ -37,21 +37,24 @@ public class ParticipantDetails {
     private String contactNumber;
 
     @Column(value = "added_date")
-    private Timestamp addedDate;
+    private Date addedDate;
 
     @Column(value = "added_by")
     private String addedBy;
 
     @Column(value = "updated_date")
-    private Timestamp updatedDate;
+    private Date updatedDate;
 
     @Column(value = "updated_by")
     private String updatedBy;
 
+    public ParticipantDetails() {
+    }
+
     private ParticipantDetails(final ParticipantPrimaryKey primaryKey, final String firstName, final String middleName,
                                final String suffix, final String addressLine2, final String postalCode,
-                               final String email, final String contactNumber, final Timestamp addedDate,
-                               final String addedBy, final Timestamp updatedDate, final String updatedBy) {
+                               final String email, final String contactNumber, final Date addedDate,
+                               final String addedBy, final Date updatedDate, final String updatedBy) {
         this.primaryKey = notNull(primaryKey);
         this.firstName = firstName;
         this.middleName = middleName;
@@ -68,10 +71,58 @@ public class ParticipantDetails {
 
     public static ParticipantDetails create(final ParticipantPrimaryKey primaryKey, final String firstName, final String middleName,
                                             final String suffix, final String addressLine2, final String postalCode,
-                                            final String email, final String contactNumber, final Timestamp addedDate,
-                                            final String addedBy, final Timestamp updatedDate, final String updatedBy) {
+                                            final String email, final String contactNumber, final Date addedDate,
+                                            final String addedBy, final Date updatedDate, final String updatedBy) {
         return new ParticipantDetails(primaryKey, firstName, middleName, suffix, addressLine2, postalCode, email,
                                       contactNumber, addedDate, addedBy, updatedDate, updatedBy);
+    }
+
+    public ParticipantPrimaryKey getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public String getAddedBy() {
+        return addedBy;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 
     @Override
@@ -100,7 +151,7 @@ public class ParticipantDetails {
 
     @Override
     public String toString() {
-        return "ParticipantDetails{" +
+        return "ParticipantInfo{" +
                 "primaryKey=" + primaryKey +
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +

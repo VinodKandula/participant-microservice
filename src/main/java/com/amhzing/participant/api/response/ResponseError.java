@@ -15,22 +15,26 @@ public class ResponseError {
     @NotNull
     @JsonProperty("message")
     private final String message;
+    @NotNull
+    @JsonProperty("correlationId")
+    private final String correlationId;
 
-    private ResponseError(final String code, final String message) {
+    private ResponseError(final String code, final String message, final String correlationId) {
         this.code = code;
         this.message = message;
+        this.correlationId = correlationId;
     }
 
-    public static ResponseError create(final String code, final String message) {
-        return new ResponseError(code, message);
+    public static ResponseError create(final String code, final String message, final String correlationId) {
+        return new ResponseError(code, message, correlationId);
     }
 
-    public static ResponseError create(final ResponseErrorCode errorCode) {
-        return new ResponseError(errorCode.getCode(), errorCode.getMessage());
+    public static ResponseError create(final ResponseErrorCode errorCode, final String correlationId) {
+        return new ResponseError(errorCode.getCode(), errorCode.getMessage(), correlationId);
     }
 
     public static ResponseError empty() {
-        return new ResponseError("", "");
+        return new ResponseError("", "", "");
     }
 
     public String getCode() {
@@ -41,18 +45,23 @@ public class ResponseError {
         return message;
     }
 
+    public String getCorrelationId() {
+        return correlationId;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final ResponseError error = (ResponseError) o;
-        return Objects.equals(code, error.code) &&
-                Objects.equals(message, error.message);
+        final ResponseError that = (ResponseError) o;
+        return Objects.equals(code, that.code) &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(correlationId, that.correlationId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, message);
+        return Objects.hash(code, message, correlationId);
     }
 
     @Override
@@ -60,6 +69,7 @@ public class ResponseError {
         return "ResponseError{" +
                 "code='" + code + '\'' +
                 ", message='" + message + '\'' +
+                ", correlationId='" + correlationId + '\'' +
                 '}';
     }
 }

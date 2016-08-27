@@ -26,9 +26,9 @@ import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_INSE
 
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-public class ParticipantController {
+public class ParticipantCommandController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantCommandController.class);
 
     @Autowired
     private MetaDataEnrichedCommandGateway commandGateway;
@@ -40,17 +40,18 @@ public class ParticipantController {
     public @Valid CreateParticipantResponse create(@RequestBody @Valid final CreateParticipantRequest request) {
 
         CreateParticipantCommand command = null;
+        String correlationId = "";
 
         try {
-            final UUID uuid = timeBasedGenerator.generate();
+            correlationId = timeBasedGenerator.generate().toString();
 
+            final UUID uuid = timeBasedGenerator.generate();
             command = CreateParticipantCommand.create(uuid,
                                                       request.getName(),
                                                       request.getAddress(),
                                                       request.getContactNumber(),
                                                       request.getEmail());
 
-            final String correlationId = timeBasedGenerator.generate().toString();
             final String userId = request.getUser().getUserId();
 
             LOGGER.info("Sending command [{}] with id [{}], correlationId [{}], user [{}]",
@@ -64,10 +65,12 @@ public class ParticipantController {
             return CreateParticipantResponse.create(participantId(command), ResponseError.empty());
         } catch (final QueryInsertException insertEx) {
             LOGGER.error(CANNOT_INSERT_PARTICIPANT.toString(), insertEx);
-            return CreateParticipantResponse.create(participantId(command), ResponseError.create(CANNOT_INSERT_PARTICIPANT));
+            return CreateParticipantResponse.create(participantId(command),
+                                                    ResponseError.create(CANNOT_INSERT_PARTICIPANT, correlationId));
         } catch (final Exception ex) {
             LOGGER.error(CANNOT_CREATE_PARTICIPANT.toString(), ex);
-            return CreateParticipantResponse.create(participantId(command), ResponseError.create(CANNOT_CREATE_PARTICIPANT));
+            return CreateParticipantResponse.create(participantId(command),
+                                                    ResponseError.create(CANNOT_CREATE_PARTICIPANT, correlationId));
         }
     }
 
