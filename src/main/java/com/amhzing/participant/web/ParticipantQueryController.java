@@ -1,16 +1,15 @@
 package com.amhzing.participant.web;
 
 import com.amhzing.participant.api.model.*;
-import com.amhzing.participant.api.request.QueryParticipantRequest;
 import com.amhzing.participant.api.response.QueryParticipantResponse;
 import com.amhzing.participant.api.response.ResponseError;
 import com.amhzing.participant.query.QueryParticipantDetails;
 import com.amhzing.participant.query.mapping.ParticipantDetails;
+import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,32 +17,38 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_QUERY_PARTICIPANT;
 
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-public class ParticipantQueryController {
+public class ParticipantQueryController extends AbstractController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantQueryController.class);
 
     @Autowired
     QueryParticipantDetails query;
 
-    @RequestMapping(path = "/query", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @Valid QueryParticipantResponse create(@RequestBody @Valid final QueryParticipantRequest request) {
+    @RequestMapping(path = {"/query/{country}",
+                            "/query/{country}/{city}",
+                            "/query/{country}/{city}/{addressLine1}",
+                            "/query/{country}/{city}/{addressLine1}/{lastName}",
+                            "/query/{country}/{city}/{addressLine1}/{lastName}/{participantId}"},
+                    method = RequestMethod.GET)
+    public @Valid QueryParticipantResponse create(final @PathVariable Map<String, String> pathVars) {
 
         List<ParticipantInfo> participants = Collections.emptyList();
         try {
-            final List<ParticipantDetails> participantDetails = query.participantDetails(request.getCountry(),
-                                                                                         request.getCity(),
-                                                                                         request.getAddressLine1(),
-                                                                                         request.getLastName(),
-                                                                                         request.getParticipantId());
+            final List<ParticipantDetails> participantDetails = query.participantDetails(pathVariable(pathVars, "country"),
+                                                                                         pathVariable(pathVars, "city"),
+                                                                                         pathVariable(pathVars, "addressLine1"),
+                                                                                         pathVariable(pathVars, "lastName"),
+                                                                                         pathVariable(pathVars, "participantId"));
 
             participants = participantDetails.stream()
-                                             .map(participant -> ParticipantInfo.create(name(participant),
+                                             .map(participant -> ParticipantInfo.create(participantId(participant),
+                                                                                        name(participant),
                                                                                         address(participant),
                                                                                         contactNumber(participant),
                                                                                         email(participant)))
@@ -57,11 +62,15 @@ public class ParticipantQueryController {
         }
     }
 
+    private String pathVariable(final Map<String, String> pathVars, final String pathVar) {
+        return MapUtils.getString(pathVars, pathVar, "");
+    }
+
     private Name name(final ParticipantDetails participant) {
         return Name.create(participant.getFirstName(),
-                                                  participant.getMiddleName(),
-                                                  participant.getPrimaryKey().getLastName(),
-                                                  participant.getSuffix());
+                           participant.getMiddleName(),
+                           participant.getPrimaryKey().getLastName(),
+                           participant.getSuffix());
     }
 
     private Address address(final ParticipantDetails participant) {
@@ -78,5 +87,9 @@ public class ParticipantQueryController {
 
     private Email email(final ParticipantDetails participant) {
         return Email.create(participant.getEmail());
+    }
+
+    private String participantId(final ParticipantDetails participant) {
+        return participant.getPrimaryKey().getParticipantId().toString();
     }
 }

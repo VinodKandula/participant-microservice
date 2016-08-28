@@ -10,6 +10,10 @@ import java.util.Objects;
 public class ParticipantInfo {
 
     @NotNull
+    @JsonProperty("participantId")
+    private final String participantId;
+
+    @NotNull
     @JsonProperty("name")
     private final Name name;
 
@@ -23,17 +27,22 @@ public class ParticipantInfo {
     @JsonProperty("email")
     private final Email email;
 
-    private ParticipantInfo(final Name name, final Address address,
+    private ParticipantInfo(final String participantId, final Name name, final Address address,
                             final ContactNumber contactNumber, final Email email) {
+        this.participantId = participantId;
         this.name = name;
         this.address = address;
         this.contactNumber = contactNumber;
         this.email = email;
     }
 
-    public static ParticipantInfo create(final Name name, final Address address,
+    public static ParticipantInfo create(final String participantId, final Name name, final Address address,
                                          final ContactNumber contactNumber, final Email email) {
-        return new ParticipantInfo(name, address, contactNumber, email);
+        return new ParticipantInfo(participantId, name, address, contactNumber, email);
+    }
+
+    public String getParticipantId() {
+        return participantId;
     }
 
     public Name getName() {
@@ -57,7 +66,8 @@ public class ParticipantInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final ParticipantInfo that = (ParticipantInfo) o;
-        return Objects.equals(name, that.name) &&
+        return Objects.equals(participantId, that.participantId) &&
+                Objects.equals(name, that.name) &&
                 Objects.equals(address, that.address) &&
                 Objects.equals(contactNumber, that.contactNumber) &&
                 Objects.equals(email, that.email);
@@ -65,13 +75,14 @@ public class ParticipantInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, contactNumber, email);
+        return Objects.hash(participantId, name, address, contactNumber, email);
     }
 
     @Override
     public String toString() {
-        return "QueryParticipantResponse{" +
-                "name=" + name +
+        return "ParticipantInfo{" +
+                "participantId='" + participantId + '\'' +
+                ", name=" + name +
                 ", address=" + address +
                 ", contactNumber=" + contactNumber +
                 ", email=" + email +

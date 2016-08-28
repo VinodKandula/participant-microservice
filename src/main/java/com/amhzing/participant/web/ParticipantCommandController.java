@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,8 +24,7 @@ import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_CREA
 import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_INSERT_PARTICIPANT;
 
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-public class ParticipantCommandController {
+public class ParticipantCommandController extends AbstractController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantCommandController.class);
 
@@ -36,7 +34,8 @@ public class ParticipantCommandController {
     // This is thread-safe
     private final TimeBasedGenerator timeBasedGenerator = Generators.timeBasedGenerator();
 
-    @RequestMapping(path = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/create",
+                    method = RequestMethod.POST)
     public @Valid CreateParticipantResponse create(@RequestBody @Valid final CreateParticipantRequest request) {
 
         CreateParticipantCommand command = null;
