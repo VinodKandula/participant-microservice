@@ -1,10 +1,12 @@
-package com.amhzing.participant.web;
+package com.amhzing.participant.web.controller;
 
 import com.amhzing.participant.api.model.*;
 import com.amhzing.participant.api.response.QueryParticipantResponse;
 import com.amhzing.participant.api.response.ResponseError;
 import com.amhzing.participant.query.QueryParticipantDetails;
 import com.amhzing.participant.query.mapping.ParticipantDetails;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +32,19 @@ public class ParticipantQueryController extends AbstractController {
     @Autowired
     QueryParticipantDetails query;
 
+    @ApiImplicitParams({@ApiImplicitParam(name = "pathVars", dataType = "string", paramType = "path", defaultValue = "IGNORE"),
+                        @ApiImplicitParam(name = "country", dataType = "string", paramType = "path"),
+                        @ApiImplicitParam(name = "city", dataType = "string", paramType = "path"),
+                        @ApiImplicitParam(name = "addressLine1", dataType = "string", paramType = "path"),
+                        @ApiImplicitParam(name = "lastName", dataType = "string", paramType = "path"),
+                        @ApiImplicitParam(name = "participantId", dataType = "string", paramType = "path")})
     @RequestMapping(path = {"/query/{country}",
                             "/query/{country}/{city}",
                             "/query/{country}/{city}/{addressLine1}",
                             "/query/{country}/{city}/{addressLine1}/{lastName}",
                             "/query/{country}/{city}/{addressLine1}/{lastName}/{participantId}"},
                     method = RequestMethod.GET)
-    public @Valid QueryParticipantResponse create(final @PathVariable Map<String, String> pathVars) {
+    public @Valid QueryParticipantResponse create(@PathVariable final Map<String, String> pathVars) {
 
         List<ParticipantInfo> participants = Collections.emptyList();
         try {

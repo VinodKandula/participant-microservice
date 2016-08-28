@@ -1,4 +1,4 @@
-package com.amhzing.participant.web;
+package com.amhzing.participant.web.controller;
 
 import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.api.request.CreateParticipantRequest;
@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_CREATE_PARTICIPANT;
 import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_INSERT_PARTICIPANT;
+import static com.amhzing.participant.web.MediaType.APPLICATION_JSON_V1;
 
 @RestController
 public class ParticipantCommandController extends AbstractController {
@@ -35,7 +36,8 @@ public class ParticipantCommandController extends AbstractController {
     private final TimeBasedGenerator timeBasedGenerator = Generators.timeBasedGenerator();
 
     @RequestMapping(path = "/create",
-                    method = RequestMethod.POST)
+                    method = RequestMethod.POST,
+                    consumes = APPLICATION_JSON_V1)
     public @Valid CreateParticipantResponse create(@RequestBody @Valid final CreateParticipantRequest request) {
 
         CreateParticipantCommand command = null;
