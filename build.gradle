@@ -41,6 +41,7 @@ apply plugin: 'maven'
 apply plugin: 'spring-boot'
 apply plugin: 'org.hidetake.ssh'
 apply plugin: 'net.researchgate.release'
+apply plugin: "jacoco"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

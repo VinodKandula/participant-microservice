@@ -11,6 +11,7 @@ import org.axonframework.eventsourcing.annotation.EventSourcingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.amhzing.participant.domain.ParticipantFactory.*;
@@ -54,5 +55,22 @@ public class Participant extends AbstractAnnotatedAggregateRoot {
         this.address = createAddressFrom(event);
         this.contactNumber = createContactNumberFrom(event);
         this.email = createEmailFrom(event);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Participant that = (Participant) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(contactNumber, that.contactNumber) &&
+                Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address, contactNumber, email);
     }
 }
