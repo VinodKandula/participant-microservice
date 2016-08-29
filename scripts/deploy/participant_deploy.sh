@@ -10,7 +10,7 @@ HOME_DIR=/home/pi
 echo "This script assumes that the appadm user exists"
 APP_USER=appadm
 
-APP_NAME=paticipant-microservice
+APP_NAME=participant-microservice
 APP_DIR=$APP_NAME
 
 LOG_DIR=log
