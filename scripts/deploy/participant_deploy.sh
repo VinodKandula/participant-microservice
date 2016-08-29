@@ -16,7 +16,7 @@ APP_DIR=$APP_NAME
 LOG_DIR=log
 
 NEXUS_URL=http://192.168.1.31:8082/nexus/service/local/artifact/maven/content
-GROUP_ID=com.amhzing.paticipant
+GROUP_ID=com.amhzing.participant
 ARTIFACT_ID=$APP_NAME
 ARTIFACT_URL="$NEXUS_URL?r=$REPO_ID&g=$GROUP_ID&a=$ARTIFACT_ID&v=$VERSION"
 ARTIFACT=$APP_NAME.jar
