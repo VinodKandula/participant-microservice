@@ -12,6 +12,7 @@ public class CreateParticipantResponse {
     @NotNull
     @JsonProperty("participantId")
     private final String participantId;
+
     @NotNull
     @JsonProperty("error")
     private final ResponseError error;

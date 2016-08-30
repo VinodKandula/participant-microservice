@@ -10,6 +10,7 @@ public class ContactNumber {
     private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
 
     @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 25)
+    @JsonProperty("primaryNumber")
     private final String value;
 
     private ContactNumber(final String value) {

@@ -14,6 +14,7 @@ public class QueryParticipantResponse {
     @NotNull
     @JsonProperty("participants")
     private final List<ParticipantInfo> participants;
+
     @NotNull
     @JsonProperty("error")
     private final ResponseError error;

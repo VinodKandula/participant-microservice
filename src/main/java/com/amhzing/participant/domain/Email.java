@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
+import static org.apache.commons.lang3.StringUtils.trim;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
@@ -23,7 +24,7 @@ public class Email extends AbstractAnnotatedEntity {
     private Email(final String value) {
         isValid(value);
 
-        this.value = value.trim();
+        this.value = trim(value);
     }
 
     public static Email create(final String value) {

@@ -1,0 +1,27 @@
+{
+  "address": {
+    "addressLine1": "Elm Street 1",
+    "addressLine2": "c/o Freddy Cougar",
+    "city": "Nashville",
+    "country": {
+      "code": "US",
+      "name": "United States"
+    },
+    "postalCode": "10291"
+  },
+  "contactNumber": {
+    "primaryNumber": "0749228216"
+  },
+  "email": {
+    "primaryEmail": "test-command@example.com"
+  },
+  "name": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "middleName": "Michael",
+    "suffix": "II"
+  },
+  "user": {
+    "userId": "myUserid"
+  }
+}

@@ -10,6 +10,7 @@ public class Email {
     private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
 
     @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 50)
+    @JsonProperty("primaryEmail")
     private final String value;
 
     private Email(final String value) {

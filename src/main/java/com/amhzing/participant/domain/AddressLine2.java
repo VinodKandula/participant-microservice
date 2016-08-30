@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
+import static org.apache.commons.lang3.StringUtils.trim;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
@@ -22,7 +23,7 @@ public class AddressLine2 extends AbstractAnnotatedEntity {
     private AddressLine2(final String value) {
         isValid(value);
 
-        this.value = value.trim();
+        this.value = trim(value);
     }
 
     public static AddressLine2 create(final String value) {

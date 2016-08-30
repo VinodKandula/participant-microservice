@@ -1,4 +1,4 @@
-package com.amhzing.participant.miscellaneous;
+package com.amhzing.participant.helper;
 
 import java.util.Arrays;
 import java.util.Locale;

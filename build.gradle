@@ -21,6 +21,8 @@ buildscript {
 		jolokiaVersion = '1.3.4'
 
 		springfoxSwagger2Version = '2.5.0'
+
+		gsonVersion = '2.7'
 	}
 	repositories {
 		mavenCentral()
@@ -85,6 +87,8 @@ dependencies {
 
 	compile ("io.springfox:springfox-swagger2:${springfoxSwagger2Version}")
 	compile ("io.springfox:springfox-swagger-ui:${springfoxSwagger2Version}")
+
+	compile ("com.google.code.gson:gson:${gsonVersion}")
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

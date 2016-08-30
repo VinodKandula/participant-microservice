@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.trim;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
@@ -26,8 +28,8 @@ public class Country extends AbstractAnnotatedEntity {
         isValidCode(code);
         isValidName(name);
 
-        this.code = code.trim();
-        this.name = name.trim();
+        this.code = trim(code);
+        this.name = trim(name);
     }
 
     public static Country create(final String code, final String name) {
@@ -84,8 +86,9 @@ public class Country extends AbstractAnnotatedEntity {
     }
 
     private boolean isValidName(final String value) {
-        notBlank(value);
-        isTrue(value.length() <= MAX_NAME_LENGTH);
+        if (isNotBlank(value)) {
+            isTrue(value.length() <= MAX_NAME_LENGTH);
+        }
 
         return true;
     }

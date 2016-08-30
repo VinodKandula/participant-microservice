@@ -12,9 +12,11 @@ public class ResponseError {
     @NotNull
     @JsonProperty("code")
     private final String code;
+
     @NotNull
     @JsonProperty("message")
     private final String message;
+
     @NotNull
     @JsonProperty("correlationId")
     private final String correlationId;
