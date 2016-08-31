@@ -10,11 +10,11 @@ import java.util.Objects;
 
 @JsonInclude
 public class User {
-    private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
+    private static final String INVALID_LENGTH = "Invalid length";
 
-    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min = 1, max = 25)
+    @NotNull
+    @Size(message = INVALID_LENGTH, min = 1, max = 25)
     private final String userId;
-
 
     private User(final String userId) {
         this.userId = userId;

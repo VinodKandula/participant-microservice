@@ -4,6 +4,7 @@ import com.amhzing.participant.gateway.MetaDataEnrichedCommandGateway;
 import com.amhzing.participant.helper.JsonLoader;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
+import net.minidev.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,7 @@ import java.util.Map;
 import static com.amhzing.participant.web.MediaType.APPLICATION_JSON_V1;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,13 +64,49 @@ public class ParticipantCommandControllerTest {
         assertError(document);
     }
 
+    @Test
+    public void should_create_error() throws Exception {
+        final Resource resource = resourceLoader.getResource("classpath:create-participant-request-error.json");
+        final String jsonContent = jsonLoader.getJson(resource);
+
+        final ResultActions result = this.mvc.perform((post("/create").contentType(APPLICATION_JSON_V1)
+                                                                      .accept(APPLICATION_JSON_V1)
+                                                                      .content(jsonContent)))
+                                             .andExpect(status().isOk());
+
+        final String content = result.andReturn().getResponse().getContentAsString();
+        final Object document = Configuration.defaultConfiguration().jsonProvider().parse(content);
+
+        assertEmptyParticipantId(document);
+
+        assertNotEmptyError(document);
+    }
+
+    private void assertNotEmptyError(final Object document) {
+        final JSONArray errors = JsonPath.read(document, "@.errors");
+        assertEquals(errors.size(), 1);
+
+        final Map<String, String> error = (Map<String, String>) errors.get(0);
+        assertThat(error, hasEntry("code", "G0001"));
+        assertThat(error, hasEntry("message", "name.lastName:Invalid length"));
+        assertThat(error, hasEntry("correlationId", ""));
+    }
+
+    private void assertEmptyParticipantId(final Object document) {
+        final String participantId = JsonPath.read(document, "@.participantId");
+        assertThat(participantId, isEmptyOrNullString());
+    }
+
     private void assertParticipantId(final Object document) {
         final String participantId = JsonPath.read(document, "@.participantId");
         assertThat(participantId, not(isEmptyOrNullString()));
     }
 
     private void assertError(final Object document) {
-        final Map<String, String> error = JsonPath.read(document, "@.error");
+        final JSONArray errors = JsonPath.read(document, "@.errors");
+        assertEquals(errors.size(), 1);
+
+        final Map<String, String> error = (Map<String, String>) errors.get(0);
         assertThat(error, hasEntry("code", ""));
         assertThat(error, hasEntry("message", ""));
         assertThat(error, hasEntry("correlationId", ""));

@@ -4,23 +4,30 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @JsonInclude
 public class Address {
-    private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
+    private static final String INVALID_LENGTH = "Invalid length";
 
-    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min= 1, max = 25)
-    private final String addressLine1;
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 25)
-    private final String addressLine2;
-    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min= 1, max = 25)
-    private final String city;
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 10)
-    private final String postalCode;
     @NotNull
+    @Size(message = INVALID_LENGTH, min= 1, max = 25)
+    private final String addressLine1;
+
+    @Size(message = INVALID_LENGTH, max = 25)
+    private final String addressLine2;
+
+    @NotNull
+    @Size(message = INVALID_LENGTH, min= 1, max = 25)
+    private final String city;
+
+    @Size(message = INVALID_LENGTH, max = 10)
+    private final String postalCode;
+
+    @NotNull @Valid
     private final Country country;
 
     private Address(final String addressLine1,

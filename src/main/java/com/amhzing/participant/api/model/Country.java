@@ -8,11 +8,14 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Country {
-    private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
 
-    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min= 2, max = 3)
+    private static final String INVALID_LENGTH = "Invalid length";
+
+    @NotNull
+    @Size(message = INVALID_LENGTH, min= 2, max = 3)
     private final String code;
-    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min= 1, max = 100)
+
+    @Size(message = INVALID_LENGTH, min= 1, max = 100)
     private final String name;
 
     private Country(final String code, final String name) {

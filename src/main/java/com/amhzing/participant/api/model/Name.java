@@ -10,17 +10,20 @@ import java.util.Objects;
 
 @JsonInclude
 public class Name {
-    private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
+    private static final String INVALID_LENGTH = "Invalid length";
 
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 25)
+    @Size(message = INVALID_LENGTH, max = 25)
     private final String firstName;
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 25)
-    private final String middleName;
-    @NotNull @Size(message = LENGTH_HAS_BEEN_EXCEEDED, min = 1, max = 25)
-    private final String lastName;
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 10)
-    private final String suffix;
 
+    @Size(message = INVALID_LENGTH, max = 25)
+    private final String middleName;
+
+    @NotNull
+    @Size(message = INVALID_LENGTH, min = 1, max = 25)
+    private final String lastName;
+
+    @Size(message = INVALID_LENGTH, max = 10)
+    private final String suffix;
 
     private Name(final String firstName, final String middleName, final String lastName, final String suffix) {
         this.firstName = firstName;

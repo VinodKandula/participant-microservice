@@ -7,9 +7,10 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class ContactNumber {
-    private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
 
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 25)
+    private static final String INVALID_LENGTH = "Invalid length";
+
+    @Size(message = INVALID_LENGTH, max = 25)
     @JsonProperty("primaryNumber")
     private final String value;
 

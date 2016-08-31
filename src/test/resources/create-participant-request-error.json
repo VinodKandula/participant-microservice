@@ -1,0 +1,15 @@
+{
+  "address": {
+    "addressLine1": "Elm Street 1",
+    "city": "Nashville",
+    "country": {
+      "code": "US"
+    }
+  },
+  "name": {
+    "lastName": ""
+  },
+  "user": {
+    "userId": "myUserid"
+  }
+}

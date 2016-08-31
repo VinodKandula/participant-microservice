@@ -7,9 +7,10 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Email {
-    private static final String LENGTH_HAS_BEEN_EXCEEDED = "Length has been exceeded";
 
-    @Size(message = LENGTH_HAS_BEEN_EXCEEDED, max = 50)
+    private static final String INVALID_LENGTH = "Invalid length";
+
+    @Size(message = INVALID_LENGTH, max = 50)
     @JsonProperty("primaryEmail")
     private final String value;
 

@@ -2,6 +2,7 @@ package com.amhzing.participant.api.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
 @JsonInclude
 public class ParticipantInfo {
 
-    @NotNull
+    @NotBlank
     @JsonProperty("participantId")
     private final String participantId;
 

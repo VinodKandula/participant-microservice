@@ -6,6 +6,8 @@ public enum ResponseErrorCode {
     CANNOT_INSERT_PARTICIPANT("Q0001", "Unable to insert participant"),
     CANNOT_QUERY_PARTICIPANT ("Q0002", "Unable to query participant");
 
+    public static final String INVALID_REQUEST_CODE = "G0001";
+
     private final String code;
     private final String message;
 

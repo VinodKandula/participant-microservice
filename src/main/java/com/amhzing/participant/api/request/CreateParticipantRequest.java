@@ -5,19 +5,26 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @JsonInclude
 public class CreateParticipantRequest {
 
-    @NotNull
+    @NotNull @Valid
     private final Name name;
-    @NotNull
+
+    @NotNull @Valid
     private final Address address;
+
+    @Valid
     private final ContactNumber contactNumber;
+
+    @Valid
     private final Email email;
-    @NotNull
+
+    @NotNull @Valid
     private final User user;
 
     private CreateParticipantRequest(final Name name,
