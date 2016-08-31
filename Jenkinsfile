@@ -36,19 +36,6 @@ node {
 }
 
 if (!isMasterBranch()) {
-    stage 'Code analysis'
-    node {
-        unstash 'source'
-        unstash 'unitCodeCoverage'
-        //unstash 'integrationCodeCoverage'
-
-        sh 'chmod 755 gradlew'
-        gradle 'jacocoTestReport'
-
-        publishHTML(target: [reportDir:'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: 'Code Coverage'])
-        // step([$class: 'JacocoPublisher', execPattern:'build/jacoco/*.exec', classPattern: 'build/classes/main', sourcePattern: 'src/main/java'])
-    }
-
     stage 'Integration test'
     node {
         unstash 'source'
@@ -56,6 +43,19 @@ if (!isMasterBranch()) {
         sh 'SPRING_PROFILES_ACTIVE=test ./gradlew integrationTest'
 
         stash includes: 'build/jacoco/*.exec', name: 'integrationCodeCoverage'
+    }
+
+    stage 'Code analysis'
+    node {
+        unstash 'source'
+        unstash 'unitCodeCoverage'
+        unstash 'integrationCodeCoverage'
+
+        sh 'chmod 755 gradlew'
+        gradle 'jacocoTestReport'
+
+        publishHTML(target: [reportDir:'build/reports/jacoco/test/html', reportFiles: 'index.html', reportName: 'Code Coverage'])
+        // step([$class: 'JacocoPublisher', execPattern:'build/jacoco/*.exec', classPattern: 'build/classes/main', sourcePattern: 'src/main/java'])
     }
 
     stage 'Functional test'
