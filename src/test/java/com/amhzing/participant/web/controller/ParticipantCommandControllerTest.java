@@ -82,24 +82,14 @@ public class ParticipantCommandControllerTest {
         assertNotEmptyError(document);
     }
 
-    private void assertNotEmptyError(final Object document) {
-        final JSONArray errors = JsonPath.read(document, "@.errors");
-        assertEquals(errors.size(), 1);
-
-        final Map<String, String> error = (Map<String, String>) errors.get(0);
-        assertThat(error, hasEntry("code", "G0001"));
-        assertThat(error, hasEntry("message", "name.lastName:Invalid length"));
-        assertThat(error, hasEntry("correlationId", ""));
+    private void assertParticipantId(final Object document) {
+        final String participantId = JsonPath.read(document, "@.participantId");
+        assertThat(participantId, not(isEmptyOrNullString()));
     }
 
     private void assertEmptyParticipantId(final Object document) {
         final String participantId = JsonPath.read(document, "@.participantId");
         assertThat(participantId, isEmptyOrNullString());
-    }
-
-    private void assertParticipantId(final Object document) {
-        final String participantId = JsonPath.read(document, "@.participantId");
-        assertThat(participantId, not(isEmptyOrNullString()));
     }
 
     private void assertError(final Object document) {
@@ -109,6 +99,16 @@ public class ParticipantCommandControllerTest {
         final Map<String, String> error = (Map<String, String>) errors.get(0);
         assertThat(error, hasEntry("code", ""));
         assertThat(error, hasEntry("message", ""));
+        assertThat(error, hasEntry("correlationId", ""));
+    }
+
+    private void assertNotEmptyError(final Object document) {
+        final JSONArray errors = JsonPath.read(document, "@.errors");
+        assertEquals(errors.size(), 1);
+
+        final Map<String, String> error = (Map<String, String>) errors.get(0);
+        assertThat(error, hasEntry("code", "G0001"));
+        assertThat(error, hasEntry("message", "name.lastName:Invalid length"));
         assertThat(error, hasEntry("correlationId", ""));
     }
 }
