@@ -5,6 +5,7 @@ buildscript {
 		springBootVersion = '1.4.0.RELEASE'
 		sshVersion = '2.2.0'
 		gradleReleaseVersion = '2.4.0'
+		gradleOwaspVersion = '1.4.2'
 
 		axonVersion = '2.4.5'
 		commonsLangVersion = '3.4'
@@ -35,6 +36,7 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.hidetake:gradle-ssh-plugin:${sshVersion}")
 		classpath("net.researchgate:gradle-release:${gradleReleaseVersion}")
+		classpath("org.owasp:dependency-check-gradle:${gradleOwaspVersion}")
 	}
 }
 
@@ -44,6 +46,9 @@ apply plugin: 'spring-boot'
 apply plugin: 'org.hidetake.ssh'
 apply plugin: 'net.researchgate.release'
 apply plugin: "jacoco"
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+apply plugin: 'org.owasp.dependencycheck'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

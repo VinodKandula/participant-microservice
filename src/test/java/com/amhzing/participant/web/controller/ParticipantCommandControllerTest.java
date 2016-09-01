@@ -51,9 +51,9 @@ public class ParticipantCommandControllerTest {
         final Resource resource = resourceLoader.getResource("classpath:create-participant-request.json");
         final String jsonContent = jsonLoader.getJson(resource);
 
-        final ResultActions result = this.mvc.perform((post("/create").contentType(APPLICATION_JSON_V1)
-                                                                      .accept(APPLICATION_JSON_V1)
-                                                                      .content(jsonContent)))
+        final ResultActions result = this.mvc.perform(post("/create").contentType(APPLICATION_JSON_V1)
+                                                                     .accept(APPLICATION_JSON_V1)
+                                                                     .content(jsonContent))
                                              .andExpect(status().isOk());
 
         final String content = result.andReturn().getResponse().getContentAsString();
@@ -69,9 +69,9 @@ public class ParticipantCommandControllerTest {
         final Resource resource = resourceLoader.getResource("classpath:create-participant-request-error.json");
         final String jsonContent = jsonLoader.getJson(resource);
 
-        final ResultActions result = this.mvc.perform((post("/create").contentType(APPLICATION_JSON_V1)
-                                                                      .accept(APPLICATION_JSON_V1)
-                                                                      .content(jsonContent)))
+        final ResultActions result = this.mvc.perform(post("/create").contentType(APPLICATION_JSON_V1)
+                                                                     .accept(APPLICATION_JSON_V1)
+                                                                     .content(jsonContent))
                                              .andExpect(status().isOk());
 
         final String content = result.andReturn().getResponse().getContentAsString();
