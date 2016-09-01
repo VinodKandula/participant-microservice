@@ -18,14 +18,14 @@ public class MiddleNameTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_blank() {
-        final MiddleName middleName = MiddleName.create("");
+        MiddleName.create("");
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_greater_than_max_length() {
-        final MiddleName middleName = MiddleName.create("J" + repeat("x", MAX_LENGTH));
+        MiddleName.create("J" + repeat("x", MAX_LENGTH));
 
         fail(); // Fail if we got this far
     }

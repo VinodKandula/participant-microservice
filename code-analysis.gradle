@@ -1,0 +1,7 @@
+findbugs {
+    sourceSets = [sourceSets.main]
+}
+
+pmd {
+    sourceSets = [sourceSets.main]
+}

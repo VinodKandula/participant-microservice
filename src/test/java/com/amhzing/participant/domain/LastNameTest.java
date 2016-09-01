@@ -18,14 +18,14 @@ public class LastNameTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_blank() {
-        final LastName lastName = LastName.create("");
+        LastName.create("");
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_greater_than_max_length() {
-        final LastName lastName = LastName.create("J" + repeat("x", MAX_LENGTH));
+        LastName.create("J" + repeat("x", MAX_LENGTH));
 
         fail(); // Fail if we got this far
     }

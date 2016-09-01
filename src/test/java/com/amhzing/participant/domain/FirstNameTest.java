@@ -21,14 +21,14 @@ public class FirstNameTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_blank() {
-        final FirstName firstName = FirstName.create("");
+        FirstName.create("");
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_greater_than_max_length() {
-        final FirstName firstName = FirstName.create("J" + repeat("x", MAX_LENGTH));
+        FirstName.create("J" + repeat("x", MAX_LENGTH));
 
         fail(); // Fail if we got this far
     }

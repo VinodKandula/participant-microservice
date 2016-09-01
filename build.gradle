@@ -47,6 +47,7 @@ apply plugin: 'org.hidetake.ssh'
 apply plugin: 'net.researchgate.release'
 apply plugin: "jacoco"
 apply plugin: 'pmd'
+apply plugin: 'findbugs'
 // apply plugin: 'checkstyle'
 apply plugin: 'org.owasp.dependencycheck'
 
@@ -110,6 +111,9 @@ task wrapper(type: Wrapper) {
 
 // Test
 apply from: 'test.gradle'
+
+// Code analysis
+apply from: 'code-analysis.gradle'
 
 // Publish to Nexus
 apply from: 'publish.gradle'

@@ -6,13 +6,14 @@ import org.axonframework.eventsourcing.annotation.AbstractAnnotatedEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
-public class Suffix extends AbstractAnnotatedEntity {
+public class Suffix extends AbstractAnnotatedEntity implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Suffix.class);
 

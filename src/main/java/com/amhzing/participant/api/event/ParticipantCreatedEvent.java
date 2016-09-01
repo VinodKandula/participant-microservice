@@ -5,12 +5,13 @@ import com.amhzing.participant.api.model.ContactNumber;
 import com.amhzing.participant.api.model.Email;
 import com.amhzing.participant.api.model.Name;
 
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-public class ParticipantCreatedEvent extends AbstractParticipantEvent {
+public class ParticipantCreatedEvent extends AbstractParticipantEvent implements Serializable {
 
     private Name name;
     private Address address;

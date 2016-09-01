@@ -54,7 +54,7 @@ if (!isMasterBranch()) {
         stash includes: 'build/jacoco/*.exec', name: 'functionalCodeCoverage'
     }
 
-    stage 'Code analysis'
+    stage 'Code coverage'
     node {
         unstash 'source'
         unstash 'unitCodeCoverage'

@@ -110,7 +110,7 @@ public class ParticipantDetails {
     }
 
     public Date getAddedDate() {
-        return addedDate;
+        return new Date(addedDate.getTime());
     }
 
     public String getAddedBy() {
@@ -118,7 +118,7 @@ public class ParticipantDetails {
     }
 
     public Date getUpdatedDate() {
-        return updatedDate;
+        return new Date(updatedDate.getTime());
     }
 
     public String getUpdatedBy() {

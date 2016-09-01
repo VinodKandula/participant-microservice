@@ -6,6 +6,7 @@ import org.axonframework.eventsourcing.annotation.AbstractAnnotatedEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -13,7 +14,7 @@ import static org.apache.commons.lang3.StringUtils.trim;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
-public class Country extends AbstractAnnotatedEntity {
+public class Country extends AbstractAnnotatedEntity implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Country.class);
 

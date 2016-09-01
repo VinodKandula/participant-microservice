@@ -1,10 +1,11 @@
 package com.amhzing.participant.api.event;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-public abstract class AbstractParticipantEvent {
+public abstract class AbstractParticipantEvent implements Serializable {
 
     private UUID id;
 

@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
 @JsonInclude
-public class ParticipantInfo {
+public class ParticipantInfo implements Serializable {
 
     @NotBlank
     @JsonProperty("participantId")

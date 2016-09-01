@@ -11,12 +11,13 @@ import org.axonframework.eventsourcing.annotation.EventSourcingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 import static com.amhzing.participant.domain.ParticipantFactory.*;
 
-public class Participant extends AbstractAnnotatedAggregateRoot {
+public class Participant extends AbstractAnnotatedAggregateRoot implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Participant.class);
 

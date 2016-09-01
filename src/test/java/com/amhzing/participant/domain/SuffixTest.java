@@ -18,14 +18,14 @@ public class SuffixTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_blank() {
-        final Suffix suffix = Suffix.create("");
+        Suffix.create("");
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_greater_than_max_length() {
-        final Suffix suffix = Suffix.create("J" + repeat("x", MAX_LENGTH));
+        Suffix.create("J" + repeat("x", MAX_LENGTH));
 
         fail(); // Fail if we got this far
     }

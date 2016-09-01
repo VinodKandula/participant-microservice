@@ -3,11 +3,12 @@ package com.amhzing.participant.domain;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedEntity;
 import org.axonframework.eventsourcing.annotation.EventSourcedMember;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-public class Address extends AbstractAnnotatedEntity {
+public class Address extends AbstractAnnotatedEntity implements Serializable {
 
     @EventSourcedMember
     private final AddressLine1 addressLine1;

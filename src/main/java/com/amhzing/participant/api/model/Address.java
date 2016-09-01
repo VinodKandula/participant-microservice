@@ -7,10 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Objects;
 
 @JsonInclude
-public class Address {
+public class Address implements Serializable {
     private static final String INVALID_LENGTH = "Invalid length";
 
     @NotNull

@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import static com.amhzing.participant.api.response.ResponseErrorCode.*;
 import static com.amhzing.participant.web.MediaType.APPLICATION_JSON_V1;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @RestController
 public class ParticipantCommandController extends AbstractController {
@@ -54,11 +55,11 @@ public class ParticipantCommandController extends AbstractController {
             return CreateParticipantResponse.create("", errors);
         }
 
-        CreateParticipantCommand command = null;
+        CreateParticipantCommand command = CreateParticipantCommand.empty();
         String correlationId = "";
 
         try {
-            correlationId = timeBasedGenerator.generate().toString();
+            correlationId = notNull(timeBasedGenerator.generate()).toString();
 
             final UUID uuid = timeBasedGenerator.generate();
             command = CreateParticipantCommand.create(uuid,

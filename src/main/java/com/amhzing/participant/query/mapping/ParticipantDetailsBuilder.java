@@ -57,7 +57,7 @@ public class ParticipantDetailsBuilder {
     }
 
     public ParticipantDetailsBuilder setAddedDate(final Date addedDate) {
-        this.addedDate = addedDate;
+        this.addedDate = new Date(addedDate.getTime());
         return this;
     }
 
@@ -67,7 +67,7 @@ public class ParticipantDetailsBuilder {
     }
 
     public ParticipantDetailsBuilder setUpdatedDate(final Date updatedDate) {
-        this.updatedDate = updatedDate;
+        this.updatedDate = new Date(updatedDate.getTime());
         return this;
     }
 

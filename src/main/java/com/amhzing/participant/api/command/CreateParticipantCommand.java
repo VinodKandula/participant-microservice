@@ -11,10 +11,14 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 public class CreateParticipantCommand extends AbstractParticipantCommand {
 
-    private final Name name;
+    private Name name;
     private Address address;
     private ContactNumber contactNumber;
     private Email email;
+
+    private CreateParticipantCommand() {
+
+    }
 
     private CreateParticipantCommand(final UUID id,
                                      final Name name,
@@ -34,6 +38,10 @@ public class CreateParticipantCommand extends AbstractParticipantCommand {
                                                   final ContactNumber contactNumber,
                                                   final Email email) {
         return new CreateParticipantCommand(id, name, address, contactNumber, email);
+    }
+
+    public static CreateParticipantCommand empty() {
+        return new CreateParticipantCommand();
     }
 
     public Name getName() {

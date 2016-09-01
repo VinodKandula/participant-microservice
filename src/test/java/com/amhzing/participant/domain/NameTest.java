@@ -19,14 +19,14 @@ public class NameTest {
 
     @Test(expected = NullPointerException.class)
     public void fail_if_last_name_is_null() {
-        final Name name = Name.create(null, null, null, null);
+        Name.create(null, null, null, null);
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_last_name_is_blank() {
-        final Name name = Name.create(null, null, LastName.create(""), null);
+        Name.create(null, null, LastName.create(""), null);
 
         fail(); // Fail if we got this far
     }
