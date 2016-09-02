@@ -1,8 +1,8 @@
 package com.amhzing.participant.application.command;
 
-import com.amhzing.participant.web.response.CreateParticipantResponse;
+import java.util.concurrent.TimeoutException;
 
 public interface CreateParticipantService {
 
-    CreateParticipantResponse create(final CreateParticipant createParticipant);
+    CreatedParticipant create(final ParticipantToCreate participantToCreate) throws TimeoutException, InterruptedException;
 }

@@ -4,23 +4,25 @@ import com.amhzing.participant.api.model.*;
 
 import java.util.Objects;
 
-public class CreateParticipant {
+import static org.apache.commons.lang3.Validate.notNull;
+
+public class ParticipantToCreate {
     private final Name name;
     private final Address address;
     private final ContactNumber contactNumber;
     private final Email email;
     private final User user;
 
-    private CreateParticipant(final Name name, final Address address, final ContactNumber contactNumber, final Email email, final User user) {
-        this.name = name;
-        this.address = address;
+    private ParticipantToCreate(final Name name, final Address address, final ContactNumber contactNumber, final Email email, final User user) {
+        this.name = notNull(name);
+        this.address = notNull(address);
         this.contactNumber = contactNumber;
         this.email = email;
-        this.user = user;
+        this.user = notNull(user);
     }
 
-    public static CreateParticipant create(final Name name, final Address address, final ContactNumber contactNumber, final Email email, final User user) {
-        return new CreateParticipant(name, address, contactNumber, email, user);
+    public static ParticipantToCreate create(final Name name, final Address address, final ContactNumber contactNumber, final Email email, final User user) {
+        return new ParticipantToCreate(name, address, contactNumber, email, user);
     }
 
     public Name getName() {
@@ -45,10 +47,9 @@ public class CreateParticipant {
 
     @Override
     public boolean equals(final Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final CreateParticipant that = (CreateParticipant) o;
+        final ParticipantToCreate that = (ParticipantToCreate) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(address, that.address) &&
                 Objects.equals(contactNumber, that.contactNumber) &&
@@ -63,7 +64,7 @@ public class CreateParticipant {
 
     @Override
     public String toString() {
-        return "CreateParticipant{" +
+        return "ParticipantToCreate{" +
                 "name=" + name +
                 ", address=" + address +
                 ", contactNumber=" + contactNumber +
