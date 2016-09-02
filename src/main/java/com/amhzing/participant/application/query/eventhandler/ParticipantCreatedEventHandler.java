@@ -1,10 +1,10 @@
-package com.amhzing.participant.query.eventhandler;
+package com.amhzing.participant.application.query.eventhandler;
 
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
-import com.amhzing.participant.query.exception.QueryInsertException;
-import com.amhzing.participant.query.mapping.ParticipantDetails;
-import com.amhzing.participant.query.mapping.ParticipantDetailsBuilder;
-import com.amhzing.participant.query.mapping.ParticipantPrimaryKeyBuilder;
+import com.amhzing.participant.application.query.exception.QueryInsertException;
+import com.amhzing.participant.application.query.mapping.ParticipantDetails;
+import com.amhzing.participant.application.query.mapping.ParticipantDetailsBuilder;
+import com.amhzing.participant.application.query.mapping.ParticipantPrimaryKeyBuilder;
 import org.apache.commons.collections.MapUtils;
 import org.axonframework.domain.MetaData;
 import org.axonframework.eventhandling.annotation.EventHandler;

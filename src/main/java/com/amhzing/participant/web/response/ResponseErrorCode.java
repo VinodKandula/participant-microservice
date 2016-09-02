@@ -1,4 +1,4 @@
-package com.amhzing.participant.api.response;
+package com.amhzing.participant.web.response;
 
 public enum ResponseErrorCode {
 

@@ -1,4 +1,4 @@
-package com.amhzing.participant.api.response;
+package com.amhzing.participant.web.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

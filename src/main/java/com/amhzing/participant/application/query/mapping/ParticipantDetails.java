@@ -1,4 +1,4 @@
-package com.amhzing.participant.query.mapping;
+package com.amhzing.participant.application.query.mapping;
 
 import org.springframework.data.cassandra.mapping.Column;
 import org.springframework.data.cassandra.mapping.PrimaryKey;

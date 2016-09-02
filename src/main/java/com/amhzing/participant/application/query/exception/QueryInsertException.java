@@ -1,4 +1,4 @@
-package com.amhzing.participant.query.exception;
+package com.amhzing.participant.application.query.exception;
 
 public class QueryInsertException extends RuntimeException {
 

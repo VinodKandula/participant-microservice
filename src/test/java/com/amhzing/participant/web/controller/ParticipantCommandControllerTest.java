@@ -1,6 +1,6 @@
 package com.amhzing.participant.web.controller;
 
-import com.amhzing.participant.gateway.MetaDataEnrichedCommandGateway;
+import com.amhzing.participant.domain.gateway.MetaDataEnrichedCommandGateway;
 import com.amhzing.participant.helper.JsonLoader;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;

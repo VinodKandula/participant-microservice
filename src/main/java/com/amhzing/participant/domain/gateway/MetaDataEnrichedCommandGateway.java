@@ -1,4 +1,4 @@
-package com.amhzing.participant.gateway;
+package com.amhzing.participant.domain.gateway;
 
 import org.axonframework.commandhandling.gateway.Timeout;
 import org.axonframework.common.annotation.MetaData;

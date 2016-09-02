@@ -1,6 +1,6 @@
-package com.amhzing.participant.query;
+package com.amhzing.participant.application.query;
 
-import com.amhzing.participant.query.mapping.ParticipantDetails;
+import com.amhzing.participant.application.query.mapping.ParticipantDetails;
 import com.datastax.driver.core.querybuilder.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.cassandra.core.CassandraTemplate;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.amhzing.participant.query.mapping.ParticipantPrimaryKey.*;
+import static com.amhzing.participant.application.query.mapping.ParticipantPrimaryKey.*;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.select;
 import static org.apache.commons.lang.StringUtils.isNotBlank;

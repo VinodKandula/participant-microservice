@@ -1,4 +1,4 @@
-package com.amhzing.participant.query.mapping;
+package com.amhzing.participant.application.query.mapping;
 
 import java.util.UUID;
 

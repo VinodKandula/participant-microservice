@@ -2,6 +2,7 @@ package com.amhzing.participant.api.request;
 
 import com.amhzing.participant.api.model.*;
 import com.amhzing.participant.helper.JsonLoader;
+import com.amhzing.participant.web.request.CreateParticipantRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

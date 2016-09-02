@@ -1,4 +1,4 @@
-package com.amhzing.participant.api.request;
+package com.amhzing.participant.web.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;

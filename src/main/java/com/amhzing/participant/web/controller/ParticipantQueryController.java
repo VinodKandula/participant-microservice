@@ -1,10 +1,10 @@
 package com.amhzing.participant.web.controller;
 
 import com.amhzing.participant.api.model.*;
-import com.amhzing.participant.api.response.QueryParticipantResponse;
-import com.amhzing.participant.api.response.ResponseError;
-import com.amhzing.participant.query.QueryParticipantDetails;
-import com.amhzing.participant.query.mapping.ParticipantDetails;
+import com.amhzing.participant.web.response.QueryParticipantResponse;
+import com.amhzing.participant.web.response.ResponseError;
+import com.amhzing.participant.application.query.QueryParticipantDetails;
+import com.amhzing.participant.application.query.mapping.ParticipantDetails;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.apache.commons.collections.MapUtils;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.amhzing.participant.api.response.ResponseErrorCode.CANNOT_QUERY_PARTICIPANT;
+import static com.amhzing.participant.web.response.ResponseErrorCode.CANNOT_QUERY_PARTICIPANT;
 
 @RestController
 public class ParticipantQueryController extends AbstractController {

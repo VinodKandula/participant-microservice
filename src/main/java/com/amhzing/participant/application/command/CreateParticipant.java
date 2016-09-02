@@ -1,37 +1,17 @@
-package com.amhzing.participant.api.request;
+package com.amhzing.participant.application.command;
 
 import com.amhzing.participant.api.model.*;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-@JsonInclude
-public class CreateParticipantRequest {
-
-    @NotNull @Valid
+public class CreateParticipant {
     private final Name name;
-
-    @NotNull @Valid
     private final Address address;
-
-    @Valid
     private final ContactNumber contactNumber;
-
-    @Valid
     private final Email email;
-
-    @NotNull @Valid
     private final User user;
 
-    private CreateParticipantRequest(final Name name,
-                                     final Address address,
-                                     final ContactNumber contactNumber,
-                                     final Email email,
-                                     final User user) {
+    private CreateParticipant(final Name name, final Address address, final ContactNumber contactNumber, final Email email, final User user) {
         this.name = name;
         this.address = address;
         this.contactNumber = contactNumber;
@@ -39,13 +19,8 @@ public class CreateParticipantRequest {
         this.user = user;
     }
 
-    @JsonCreator
-    public static CreateParticipantRequest create(@JsonProperty("name") final Name name,
-                                                  @JsonProperty("address") final Address address,
-                                                  @JsonProperty("contactNumber") final ContactNumber contactNumber,
-                                                  @JsonProperty("email") final Email email,
-                                                  @JsonProperty("user") final User user) {
-        return new CreateParticipantRequest(name, address, contactNumber, email, user);
+    public static CreateParticipant create(final Name name, final Address address, final ContactNumber contactNumber, final Email email, final User user) {
+        return new CreateParticipant(name, address, contactNumber, email, user);
     }
 
     public Name getName() {
@@ -70,9 +45,10 @@ public class CreateParticipantRequest {
 
     @Override
     public boolean equals(final Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final CreateParticipantRequest that = (CreateParticipantRequest) o;
+        final CreateParticipant that = (CreateParticipant) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(address, that.address) &&
                 Objects.equals(contactNumber, that.contactNumber) &&
@@ -87,7 +63,7 @@ public class CreateParticipantRequest {
 
     @Override
     public String toString() {
-        return "CreateParticipantRequest{" +
+        return "CreateParticipant{" +
                 "name=" + name +
                 ", address=" + address +
                 ", contactNumber=" + contactNumber +
