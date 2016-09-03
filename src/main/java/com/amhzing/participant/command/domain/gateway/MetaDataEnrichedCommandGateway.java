@@ -18,5 +18,5 @@ public interface MetaDataEnrichedCommandGateway {
     public <R> R sendAndWait(final Object command,
                              @MetaData("correlationId") String correlationId,
                              @MetaData("userId") String userId)
-            throws TimeoutException, InterruptedException;
+            throws TimeoutException, InterruptedException, RuntimeException;
 }

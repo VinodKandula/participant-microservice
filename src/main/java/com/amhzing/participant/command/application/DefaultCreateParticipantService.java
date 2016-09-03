@@ -4,7 +4,6 @@ import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.command.domain.gateway.MetaDataEnrichedCommandGateway;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +42,12 @@ public class DefaultCreateParticipantService implements CreateParticipantService
                     correlationId,
                     userId);
 
-        commandGateway.send(command, correlationId, userId);
+        final Object response = commandGateway.sendAndWait(command, correlationId, userId);
 
-        return CreatedParticipant.create(participantId(command), correlationId);
+        return CreatedParticipant.create(participantId(response), correlationId);
     }
 
-    private String participantId(final CreateParticipantCommand command) {
-        return StringUtils.defaultString(command.getId().toString(), "");
+    private String participantId(final Object response) {
+        return (response != null) ? response.toString() : "";
     }
 }
