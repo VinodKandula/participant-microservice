@@ -1,12 +1,12 @@
 package com.amhzing.participant.web.controller;
 
-import com.amhzing.participant.application.command.CreatedParticipant;
-import com.amhzing.participant.application.command.ParticipantToCreate;
-import com.amhzing.participant.application.query.exception.QueryInsertException;
+import com.amhzing.participant.command.application.CreatedParticipant;
+import com.amhzing.participant.command.application.ParticipantToCreate;
+import com.amhzing.participant.query.exception.QueryInsertException;
 import com.amhzing.participant.web.request.CreateParticipantRequest;
 import com.amhzing.participant.web.response.CreateParticipantResponse;
 import com.amhzing.participant.web.response.ResponseError;
-import com.amhzing.participant.application.command.CreateParticipantService;
+import com.amhzing.participant.command.application.CreateParticipantService;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -54,10 +54,10 @@ public class ParticipantCommandController extends AbstractController {
         CreatedParticipant createdParticipant = CreatedParticipant.empty();
         try {
             createdParticipant = createParticipantService.create(ParticipantToCreate.create(request.getName(),
-                                                                                       request.getAddress(),
-                                                                                       request.getContactNumber(),
-                                                                                       request.getEmail(),
-                                                                                       request.getUser()));
+                                                                                            request.getAddress(),
+                                                                                            request.getContactNumber(),
+                                                                                            request.getEmail(),
+                                                                                            request.getUser()));
 
             return CreateParticipantResponse.create(participantId(createdParticipant),
                                                     ImmutableList.of(ResponseError.empty()));

@@ -1,7 +1,7 @@
 package com.amhzing.participant.configuration;
 
-import com.amhzing.participant.domain.gateway.MetaDataEnrichedCommandGateway;
-import com.amhzing.participant.domain.Participant;
+import com.amhzing.participant.command.domain.gateway.MetaDataEnrichedCommandGateway;
+import com.amhzing.participant.command.domain.Participant;
 import org.axonframework.commandhandling.SimpleCommandBus;
 import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler;
 import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerBeanPostProcessor;

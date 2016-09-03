@@ -1,9 +1,9 @@
 package com.amhzing.participant.web.controller;
 
 import com.amhzing.participant.api.model.*;
-import com.amhzing.participant.application.command.CreateParticipantService;
-import com.amhzing.participant.application.command.CreatedParticipant;
-import com.amhzing.participant.application.command.ParticipantToCreate;
+import com.amhzing.participant.command.application.CreateParticipantService;
+import com.amhzing.participant.command.application.CreatedParticipant;
+import com.amhzing.participant.command.application.ParticipantToCreate;
 import com.amhzing.participant.helper.JsonLoader;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;

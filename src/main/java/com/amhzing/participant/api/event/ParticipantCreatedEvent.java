@@ -6,7 +6,6 @@ import com.amhzing.participant.api.model.Email;
 import com.amhzing.participant.api.model.Name;
 
 import java.io.Serializable;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.apache.commons.lang3.Validate.notNull;
@@ -49,11 +48,11 @@ public class ParticipantCreatedEvent extends AbstractParticipantEvent implements
         return address;
     }
 
-    public Optional<ContactNumber> getContactNumber() {
-        return Optional.ofNullable(contactNumber);
+    public ContactNumber getContactNumber() {
+        return contactNumber;
     }
 
-    public Optional<Email> getEmail() {
-        return Optional.ofNullable(email);
+    public Email getEmail() {
+        return email;
     }
 }

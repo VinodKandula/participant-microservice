@@ -1,10 +1,11 @@
 package com.amhzing.participant.web.controller;
 
 import com.amhzing.participant.api.model.*;
+import com.amhzing.participant.query.data.QueryCriteria;
+import com.amhzing.participant.query.data.QueryParticipant;
+import com.amhzing.participant.query.data.mapping.ParticipantDetails;
 import com.amhzing.participant.web.response.QueryParticipantResponse;
 import com.amhzing.participant.web.response.ResponseError;
-import com.amhzing.participant.application.query.QueryParticipantDetails;
-import com.amhzing.participant.application.query.mapping.ParticipantDetails;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.apache.commons.collections.MapUtils;
@@ -30,7 +31,7 @@ public class ParticipantQueryController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantQueryController.class);
 
     @Autowired
-    QueryParticipantDetails query;
+    QueryParticipant query;
 
     @ApiImplicitParams({@ApiImplicitParam(name = "pathVars", dataType = "string", paramType = "path", defaultValue = "IGNORE"),
                         @ApiImplicitParam(name = "country", dataType = "string", paramType = "path"),
@@ -48,11 +49,7 @@ public class ParticipantQueryController extends AbstractController {
 
         List<ParticipantInfo> participants = Collections.emptyList();
         try {
-            final List<ParticipantDetails> participantDetails = query.participantDetails(pathVariable(pathVars, "country"),
-                                                                                         pathVariable(pathVars, "city"),
-                                                                                         pathVariable(pathVars, "addressLine1"),
-                                                                                         pathVariable(pathVars, "lastName"),
-                                                                                         pathVariable(pathVars, "participantId"));
+            final List<ParticipantDetails> participantDetails = query.participantDetails(queryCriteria(pathVars));
 
             participants = participantDetails.stream()
                                              .map(participant -> ParticipantInfo.create(participantId(participant),
@@ -68,6 +65,14 @@ public class ParticipantQueryController extends AbstractController {
             return QueryParticipantResponse.create(participants,
                                                     ResponseError.create(CANNOT_QUERY_PARTICIPANT, ""));
         }
+    }
+
+    private QueryCriteria queryCriteria(final @PathVariable Map<String, String> pathVars) {
+        return QueryCriteria.create(pathVariable(pathVars, "country"),
+                                    pathVariable(pathVars, "city"),
+                                    pathVariable(pathVars, "addressLine1"),
+                                    pathVariable(pathVars, "lastName"),
+                                    pathVariable(pathVars, "participantId"));
     }
 
     private String pathVariable(final Map<String, String> pathVars, final String pathVar) {

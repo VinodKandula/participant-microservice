@@ -3,7 +3,7 @@ package com.amhzing.participant.functionaltest;
 import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
 import com.amhzing.participant.api.model.*;
-import com.amhzing.participant.domain.Participant;
+import com.amhzing.participant.command.domain.Participant;
 import com.fasterxml.uuid.Generators;
 import org.axonframework.test.FixtureConfiguration;
 import org.axonframework.test.Fixtures;
