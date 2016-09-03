@@ -18,7 +18,7 @@ stage 'Build'
 node {
     checkout scm
 
-    sh './gradlew clean build'
+    gradle 'clean test assemble'
 
     stash excludes: 'build/', includes: '**', name: 'source'
     stash includes: 'build/jacoco/*.exec', name: 'unitCodeCoverage'
@@ -48,8 +48,10 @@ if (!isMasterBranch()) {
     stage 'Functional test'
     node {
         unstash 'source'
+
         sh 'chmod 755 gradlew'
-        sh './gradlew functionalTest'
+
+        gradle 'functionalTest'
 
         stash includes: 'build/jacoco/*.exec', name: 'functionalCodeCoverage'
     }
@@ -87,7 +89,8 @@ if (isMasterBranch()) {
     node {
         unstash 'source'
         sh 'chmod 755 gradlew'
-        sh './gradlew build uploadArchives -x test'
+
+        gradle 'assemble uploadArchives'
     }
 
     stage 'Approve RC?'
