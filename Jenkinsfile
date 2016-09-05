@@ -40,7 +40,7 @@ if (!isMasterBranch()) {
     node {
         unstash 'source'
         sh 'chmod 755 gradlew'
-        sh 'SPRING_PROFILES_ACTIVE=test ./gradlew integrationTest'
+        sh 'SPRING_PROFILES_ACTIVE=online,test ./gradlew integrationTest'
 
         stash includes: 'build/jacoco/*.exec', name: 'integrationCodeCoverage'
     }
