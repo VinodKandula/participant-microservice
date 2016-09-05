@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({WebConfigOnline.class})
+@Import({WebConfigOnline.class, WebConfigOffline.class})
 public class WebConfig {
 
     @Bean

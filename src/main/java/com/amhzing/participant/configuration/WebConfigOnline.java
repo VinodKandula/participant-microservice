@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 
-@Configuration
 @Online
+@Configuration
 public class WebConfigOnline {
 
     // This is auto-configured by Spring Boot

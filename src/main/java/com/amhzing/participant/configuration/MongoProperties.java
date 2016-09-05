@@ -1,7 +1,9 @@
 package com.amhzing.participant.configuration;
 
+import com.amhzing.participant.annotation.Online;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+@Online
 @ConfigurationProperties(prefix="spring.data.mongodb")
 public class MongoProperties {
 

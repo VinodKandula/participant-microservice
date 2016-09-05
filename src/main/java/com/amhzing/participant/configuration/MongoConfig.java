@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
 
+@Online
 @Configuration
 @EnableConfigurationProperties(MongoProperties.class)
-@Online
 public class MongoConfig {
 
     @Autowired

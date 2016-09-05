@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 
+@Offline
 @Configuration
 @AnnotationDriven
-@Offline
 public class AxonConfigOffline {
 
     @Bean

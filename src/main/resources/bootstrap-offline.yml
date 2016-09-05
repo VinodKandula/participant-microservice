@@ -2,6 +2,8 @@ config:
   message: Greetings from the PARTICIPANT microservice [using the OFFLINE config]
 
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration
   cloud:
     config:
       discovery:
