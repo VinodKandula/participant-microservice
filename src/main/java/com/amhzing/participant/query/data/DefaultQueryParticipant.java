@@ -1,11 +1,12 @@
 package com.amhzing.participant.query.data;
 
-import com.amhzing.participant.query.data.mapping.ParticipantDetails;
-import com.amhzing.participant.query.data.mapping.ParticipantPrimaryKey;
+import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails;
+import com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKey;
 import com.datastax.driver.core.querybuilder.Select;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.select;
@@ -20,7 +21,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
     }
 
     @Override
-    public List<ParticipantDetails> participantDetails(final QueryCriteria queryCriteria) {
+    public List<QueryResponse> participantDetails(final QueryCriteria queryCriteria) {
 
         final Select select = select().from("participant_details");
         final Select.Where where = select.where(eq(ParticipantPrimaryKey.COUNTRY_COL, queryCriteria.getCountry()));
@@ -41,6 +42,26 @@ public class DefaultQueryParticipant implements QueryParticipant {
             where.and(eq(ParticipantPrimaryKey.PARTICIPANT_ID_COL, queryCriteria.getParticipantId()));
         }
 
-        return cassandraTemplate.select(select, ParticipantDetails.class);
+        final List<ParticipantDetails> participants = cassandraTemplate.select(select, ParticipantDetails.class);
+
+        return participants.stream()
+                           .map(participant -> buildQueryResponse(participant))
+                           .collect(Collectors.toList());
+    }
+
+    private QueryResponse buildQueryResponse(final ParticipantDetails participantDetails) {
+        return new QueryResponseBuilder().setParticipantId(participantDetails.getPrimaryKey().getParticipantId().toString())
+                                         .setFirstName(participantDetails.getFirstName())
+                                         .setLastName(participantDetails.getPrimaryKey().getLastName())
+                                         .setMiddleName(participantDetails.getMiddleName())
+                                         .setSuffix(participantDetails.getSuffix())
+                                         .setAddressLine1(participantDetails.getPrimaryKey().getAddressLine1())
+                                         .setAddressLine2(participantDetails.getAddressLine2())
+                                         .setCity(participantDetails.getPrimaryKey().getCity())
+                                         .setCountry(participantDetails.getPrimaryKey().getCountry())
+                                         .setPostalCode(participantDetails.getPostalCode())
+                                         .setContactNumber(participantDetails.getContactNumber())
+                                         .setEmail(participantDetails.getEmail())
+                                         .createQueryResponse();
     }
 }

@@ -1,5 +1,6 @@
 package com.amhzing.participant.configuration;
 
+import com.amhzing.participant.annotation.Online;
 import com.mongodb.Mongo;
 import org.axonframework.eventstore.mongo.DefaultMongoTemplate;
 import org.axonframework.eventstore.mongo.MongoTemplate;
@@ -11,7 +12,8 @@ import org.springframework.data.mongodb.MongoDbFactory;
 
 @Configuration
 @EnableConfigurationProperties(MongoProperties.class)
-public class MongoConfiguration {
+@Online
+public class MongoConfig {
 
     @Autowired
     private MongoProperties mongoProperties;

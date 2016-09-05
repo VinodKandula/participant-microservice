@@ -1,10 +1,9 @@
 package com.amhzing.participant.query.eventhandler;
 
-import com.amhzing.participant.annotation.Online;
+import com.amhzing.participant.annotation.Offline;
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails;
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetailsBuilder;
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKeyBuilder;
+import com.amhzing.participant.query.data.jpa.mapping.*;
+import com.amhzing.participant.query.data.jpa.repository.ParticipantRepository;
 import com.amhzing.participant.query.exception.QueryInsertException;
 import org.apache.commons.collections.MapUtils;
 import org.axonframework.domain.MetaData;
@@ -12,7 +11,6 @@ import org.axonframework.eventhandling.annotation.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -23,14 +21,13 @@ import static org.apache.commons.lang.Validate.notNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Component
-@Online
-public class ParticipantCreatedEventHandler {
+@Offline
+public class InMemParticipantCreatedEventHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantCreatedEventHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InMemParticipantCreatedEventHandler.class);
 
-    // This is auto-configured by Spring Boot
     @Autowired
-    CassandraTemplate cassandraTemplate;
+    ParticipantRepository repository;
 
     @EventHandler
     public void handleEvent(final ParticipantCreatedEvent event, final MetaData metadata) {
@@ -39,27 +36,17 @@ public class ParticipantCreatedEventHandler {
 
         try {
             LOGGER.info("Inserting {} details for participant {}", ParticipantCreatedEvent.class.getSimpleName(), event.getId());
-            cassandraTemplate.insert(participantDetails(event, metadata));
+            repository.save(participantDetails(event, metadata));
         } catch (final Exception ex) {
             throw new QueryInsertException(ex);
         }
     }
 
     private ParticipantDetails participantDetails(final ParticipantCreatedEvent event, final MetaData metadata) {
-        final ParticipantPrimaryKeyBuilder participantPrimaryKeyBuilder = new ParticipantPrimaryKeyBuilder();
-        participantPrimaryKeyBuilder.setCountry(event.getAddress().getCountry().getCode());
-        participantPrimaryKeyBuilder.setCity(event.getAddress().getCity());
-        participantPrimaryKeyBuilder.setAddressLine1(event.getAddress().getAddressLine1());
-        participantPrimaryKeyBuilder.setLastName(event.getName().getLastName());
-        participantPrimaryKeyBuilder.setParticipantId(event.getId());
-
         final ParticipantDetailsBuilder participantDetailsBuilder = new ParticipantDetailsBuilder();
-        participantDetailsBuilder.setPrimaryKey(participantPrimaryKeyBuilder.create());
-        participantDetailsBuilder.setFirstName(event.getName().getFirstName());
-        participantDetailsBuilder.setMiddleName(event.getName().getMiddleName());
-        participantDetailsBuilder.setSuffix(event.getName().getSuffix());
-        participantDetailsBuilder.setAddressLine2(event.getAddress().getAddressLine2());
-        participantDetailsBuilder.setPostalCode(event.getAddress().getPostalCode());
+        participantDetailsBuilder.setParticipantId(event.getId().toString());
+        participantDetailsBuilder.setName(buildName(event));
+        participantDetailsBuilder.setAddress(buildAddress(event));
         participantDetailsBuilder.setEmail(email(event));
         participantDetailsBuilder.setContactNumber(contactNumber(event));
         participantDetailsBuilder.setAddedDate(currentTime());
@@ -67,7 +54,24 @@ public class ParticipantCreatedEventHandler {
         participantDetailsBuilder.setUpdatedDate(currentTime());
         participantDetailsBuilder.setUpdatedBy(userId(metadata));
 
-        return participantDetailsBuilder.create();
+        return participantDetailsBuilder.createParticipantDetails();
+    }
+
+    private Name buildName(final ParticipantCreatedEvent event) {
+        return new NameBuilder().setFirstName(event.getName().getFirstName())
+                                .setMiddleName(event.getName().getMiddleName())
+                                .setLastName(event.getName().getLastName())
+                                .setSuffix(event.getName().getSuffix())
+                                .createName();
+    }
+
+    private Address buildAddress(final ParticipantCreatedEvent event) {
+        return new AddressBuilder().setAddressLine1(event.getAddress().getAddressLine1())
+                                   .setAddressLine2(event.getAddress().getAddressLine2())
+                                   .setCity(event.getAddress().getCity())
+                                   .setPostalCode(event.getAddress().getPostalCode())
+                                   .setCountry(event.getAddress().getCountry().getCode())
+                                   .createAddress();
     }
 
     private Timestamp currentTime() {

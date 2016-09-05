@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @Inherited
-@Profile("local")
-public @interface ProfileLocal {
+@Profile("offline")
+public @interface Offline {
 
 }

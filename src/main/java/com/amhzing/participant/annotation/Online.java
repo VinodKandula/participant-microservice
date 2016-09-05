@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @Inherited
-@Profile("production")
-public @interface ProfileProduction {
+@Profile("online")
+public @interface Online {
 
 }

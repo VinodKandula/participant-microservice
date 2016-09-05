@@ -59,17 +59,20 @@ repositories {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-actuator-docs')
-	compile('org.springframework.boot:spring-boot-starter-aop')
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-	compile('org.springframework.boot:spring-boot-starter-data-cassandra')
-	compile('org.springframework.boot:spring-boot-starter-web')
+	compile ('org.springframework.boot:spring-boot-starter-actuator')
+	compile ('org.springframework.boot:spring-boot-actuator-docs')
+	compile ('org.springframework.boot:spring-boot-starter-aop')
+	compile ('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile ('org.springframework.boot:spring-boot-starter-data-cassandra')
+	compile ('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile ('org.springframework.boot:spring-boot-starter-web')
 
-	compile('org.springframework.cloud:spring-cloud-starter-config')
-	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	compile ("com.h2database:h2")
 
-	compile('org.springframework.retry:spring-retry')
+	compile ('org.springframework.cloud:spring-cloud-starter-config')
+	compile ('org.springframework.cloud:spring-cloud-starter-eureka')
+
+	compile ('org.springframework.retry:spring-retry')
 
 	compile ("org.axonframework:axon-core:${axonVersion}")
 	compile ("org.axonframework:axon-mongo:${axonVersion}")

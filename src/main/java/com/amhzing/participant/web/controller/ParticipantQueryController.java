@@ -3,7 +3,7 @@ package com.amhzing.participant.web.controller;
 import com.amhzing.participant.api.model.*;
 import com.amhzing.participant.query.data.QueryCriteria;
 import com.amhzing.participant.query.data.QueryParticipant;
-import com.amhzing.participant.query.data.mapping.ParticipantDetails;
+import com.amhzing.participant.query.data.QueryResponse;
 import com.amhzing.participant.web.response.QueryParticipantResponse;
 import com.amhzing.participant.web.response.ResponseError;
 import io.swagger.annotations.ApiImplicitParam;
@@ -49,15 +49,15 @@ public class ParticipantQueryController extends AbstractController {
 
         List<ParticipantInfo> participants = Collections.emptyList();
         try {
-            final List<ParticipantDetails> participantDetails = query.participantDetails(queryCriteria(pathVars));
+            final List<QueryResponse> queryResponses = query.participantDetails(queryCriteria(pathVars));
 
-            participants = participantDetails.stream()
-                                             .map(participant -> ParticipantInfo.create(participantId(participant),
-                                                                                        name(participant),
-                                                                                        address(participant),
-                                                                                        contactNumber(participant),
-                                                                                        email(participant)))
-                                             .collect(Collectors.toList());
+            participants = queryResponses.stream()
+                                         .map(participant -> ParticipantInfo.create(participantId(participant),
+                                                                                    name(participant),
+                                                                                    address(participant),
+                                                                                    contactNumber(participant),
+                                                                                    email(participant)))
+                                         .collect(Collectors.toList());
 
             return QueryParticipantResponse.create(participants, ResponseError.empty());
         } catch (final Exception ex) {
@@ -79,30 +79,30 @@ public class ParticipantQueryController extends AbstractController {
         return MapUtils.getString(pathVars, pathVar, "");
     }
 
-    private Name name(final ParticipantDetails participant) {
-        return Name.create(participant.getFirstName(),
-                           participant.getMiddleName(),
-                           participant.getPrimaryKey().getLastName(),
-                           participant.getSuffix());
+    private Name name(final QueryResponse queryResponse) {
+        return Name.create(queryResponse.getFirstName(),
+                           queryResponse.getMiddleName(),
+                           queryResponse.getLastName(),
+                           queryResponse.getSuffix());
     }
 
-    private Address address(final ParticipantDetails participant) {
-        return Address.create(participant.getPrimaryKey().getAddressLine1(),
-                              participant.getAddressLine2(),
-                              participant.getPrimaryKey().getCity(),
-                              participant.getPostalCode(),
-                              Country.create(participant.getPrimaryKey().getCountry(), ""));
+    private Address address(final QueryResponse queryResponse) {
+        return Address.create(queryResponse.getAddressLine1(),
+                              queryResponse.getAddressLine2(),
+                              queryResponse.getCity(),
+                              queryResponse.getPostalCode(),
+                              Country.create(queryResponse.getCountry(), ""));
     }
 
-    private ContactNumber contactNumber(final ParticipantDetails participant) {
-        return ContactNumber.create(participant.getContactNumber());
+    private ContactNumber contactNumber(final QueryResponse queryResponse) {
+        return ContactNumber.create(queryResponse.getContactNumber());
     }
 
-    private Email email(final ParticipantDetails participant) {
-        return Email.create(participant.getEmail());
+    private Email email(final QueryResponse queryResponse) {
+        return Email.create(queryResponse.getEmail());
     }
 
-    private String participantId(final ParticipantDetails participant) {
-        return participant.getPrimaryKey().getParticipantId().toString();
+    private String participantId(final QueryResponse queryResponse) {
+        return queryResponse.getParticipantId();
     }
 }

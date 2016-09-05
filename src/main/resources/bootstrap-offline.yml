@@ -1,0 +1,16 @@
+config:
+  message: Greetings from the PARTICIPANT microservice [using the OFFLINE config]
+
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: false
+
+server:
+  port: 13305
+  context-path: /participant
+
+management:
+  port: 13306
+  context-path: ${server.context-path}/manage
