@@ -20,8 +20,8 @@ import java.time.ZonedDateTime;
 import static org.apache.commons.lang.Validate.notNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-@Component
 @Offline
+@Component
 public class InMemParticipantCreatedEventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InMemParticipantCreatedEventHandler.class);

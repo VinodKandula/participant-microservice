@@ -22,8 +22,8 @@ import java.time.ZonedDateTime;
 import static org.apache.commons.lang.Validate.notNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-@Component
 @Online
+@Component
 public class ParticipantCreatedEventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantCreatedEventHandler.class);
