@@ -1,5 +1,6 @@
 spring:
-  autoconfigure.exclude: org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
 
 ---
 

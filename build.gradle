@@ -6,6 +6,7 @@ buildscript {
 		sshVersion = '2.2.0'
 		gradleReleaseVersion = '2.4.0'
 		gradleOwaspVersion = '1.4.2'
+		queryDslPluginVersion = '1.0.7'
 
 		axonVersion = '2.4.5'
 		commonsLangVersion = '3.4'
@@ -24,6 +25,8 @@ buildscript {
 		springfoxSwagger2Version = '2.5.0'
 
 		gsonVersion = '2.7'
+
+		queryDslVersion = '4.1.4'
 	}
 	repositories {
 		mavenCentral()
@@ -37,6 +40,7 @@ buildscript {
 		classpath("org.hidetake:gradle-ssh-plugin:${sshVersion}")
 		classpath("net.researchgate:gradle-release:${gradleReleaseVersion}")
 		classpath("org.owasp:dependency-check-gradle:${gradleOwaspVersion}")
+		classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${queryDslPluginVersion}")
 	}
 }
 
@@ -50,6 +54,8 @@ apply plugin: 'pmd'
 apply plugin: 'findbugs'
 // apply plugin: 'checkstyle'
 apply plugin: 'org.owasp.dependencycheck'
+apply plugin: 'idea'
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -100,6 +106,8 @@ dependencies {
 
 	compile ("com.google.code.gson:gson:${gsonVersion}")
 
+	compile ("com.querydsl:querydsl-jpa:${queryDslVersion}")
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
@@ -124,6 +132,10 @@ apply from: 'publish.gradle'
 
 // Deploy
 apply from: 'deploy.gradle'
+
+querydsl {
+	jpa = true
+}
 
 // Create a fully executable jar
 springBoot {

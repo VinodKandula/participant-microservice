@@ -1,23 +1,47 @@
 package com.amhzing.participant.query.data;
 
 import com.amhzing.participant.query.data.jpa.mapping.ParticipantDetails;
-import com.amhzing.participant.query.data.jpa.repository.ParticipantRepository;
+import com.amhzing.participant.query.data.jpa.mapping.QParticipantDetails;
+import com.amhzing.participant.query.data.jpa.repository.ParticipantQueryDslRepository;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+
 public class InMemQueryParticipant implements QueryParticipant {
 
-    private final ParticipantRepository repository;
+    private final ParticipantQueryDslRepository repository;
 
-    public InMemQueryParticipant(final ParticipantRepository repository) {
+    public InMemQueryParticipant(final ParticipantQueryDslRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public List<QueryResponse> participantDetails(final QueryCriteria queryCriteria) {
 
-        final List<ParticipantDetails> participants = repository.findByAddress_CountryAllIgnoreCase(queryCriteria.getCountry());
+        final QParticipantDetails qParticipantDetails = QParticipantDetails.participantDetails;
+
+        BooleanExpression predicate = qParticipantDetails.address.country.equalsIgnoreCase(queryCriteria.getCountry());
+
+        if (isNotBlank(queryCriteria.getCity())) {
+            predicate = predicate.and(qParticipantDetails.address.city.equalsIgnoreCase(queryCriteria.getCity()));
+        }
+
+        if (isNotBlank(queryCriteria.getAddressLine1())) {
+            predicate = predicate.and(qParticipantDetails.address.addressLine1.equalsIgnoreCase(queryCriteria.getAddressLine1()));
+        }
+
+        if (isNotBlank(queryCriteria.getLastName())) {
+            predicate = predicate.and(qParticipantDetails.name.lastName.equalsIgnoreCase(queryCriteria.getLastName()));
+        }
+
+        if (isNotBlank(queryCriteria.getParticipantId())) {
+            predicate = predicate.and(qParticipantDetails.participantId.equalsIgnoreCase(queryCriteria.getParticipantId()));
+        }
+
+        final List<ParticipantDetails> participants = repository.findAll(predicate);
 
         return participants.stream()
                            .map(participant -> buildQueryResponse(participant))
