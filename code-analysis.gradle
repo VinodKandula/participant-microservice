@@ -1,10 +1,10 @@
 findbugs {
-    sourceSets = [sourceSets.main]
+    sourceSets = [sourceSets.main, sourceSets.test]
     ignoreFailures = true
 }
 
 pmd {
-    sourceSets = [sourceSets.main]
+    sourceSets = [sourceSets.main, sourceSets.test]
     ignoreFailures = true
 }
 
