@@ -6,8 +6,12 @@ public class ParticipantDetailsBuilder {
     private ParticipantPrimaryKey primaryKey;
     private String firstName;
     private String middleName;
+    private String lastName;
     private String suffix;
+    private String addressLine1;
     private String addressLine2;
+    private String city;
+    private String country;
     private String postalCode;
     private String email;
     private String contactNumber;
@@ -31,13 +35,33 @@ public class ParticipantDetailsBuilder {
         return this;
     }
 
+    public ParticipantDetailsBuilder setLastName(final String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
     public ParticipantDetailsBuilder setSuffix(final String suffix) {
         this.suffix = suffix;
         return this;
     }
 
+    public ParticipantDetailsBuilder setAddressLine1(final String addressLine1) {
+        this.addressLine1 = addressLine1;
+        return this;
+    }
+
     public ParticipantDetailsBuilder setAddressLine2(final String addressLine2) {
         this.addressLine2 = addressLine2;
+        return this;
+    }
+
+    public ParticipantDetailsBuilder setCity(final String city) {
+        this.city = city;
+        return this;
+    }
+
+    public ParticipantDetailsBuilder setCountry(final String country) {
+        this.country = country;
         return this;
     }
 
@@ -77,7 +101,8 @@ public class ParticipantDetailsBuilder {
     }
 
     public ParticipantDetails create() {
-        return ParticipantDetails.create(primaryKey, firstName, middleName, suffix, addressLine2, postalCode, email,
-                                         contactNumber, addedDate, addedBy, updatedDate, updatedBy);
+        return ParticipantDetails.create(primaryKey, firstName, middleName, lastName, suffix,
+                                         addressLine1, addressLine2, city, country, postalCode,
+                                         email, contactNumber, addedDate, addedBy, updatedDate, updatedBy);
     }
 }

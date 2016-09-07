@@ -8,7 +8,7 @@ DESCRIBE keyspaces;
 -- Create the keyspace --
 -------------------------
 
-CREATE KEYSPACE participant
+CREATE KEYSPACE IF NOT EXISTS participant
 WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
 -----------------------
@@ -17,20 +17,70 @@ WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
 use participant;
 
+--------------------------
+-- Create address type  --
+--------------------------
+
+CREATE TYPE IF NOT EXISTS address (
+  address_line1 text,
+  address_line2 text,
+  city text,
+  country text,
+  postal_code text
+);
+
+-----------------------
+-- Create name type  --
+-----------------------
+
+CREATE TYPE IF NOT EXISTS name (
+  first_name text,
+  middle_name text,
+  last_name text,
+  suffix text
+);
+
+---------------------
+-- Show all types  --
+---------------------
+
+describe types;
+
 -----------------------
 -- Create the table  --
 -----------------------
 
-CREATE TABLE participant_details (
-  country text,
-  city text,
-  address_line1 text,
-  last_name text,
+CREATE TABLE IF NOT EXISTS participant_details_udt (
+  country_lc text,
+  city_lc text,
+  address_line1_lc text,
+  last_name_lc text,
+  participant_id timeuuid,
+  name frozen<name>,
+  address frozen<address>,
+  email text,
+  contact_number text,
+  added_date timestamp,
+  added_by text,
+  updated_date timestamp,
+  updated_by text,
+  PRIMARY KEY ((country_lc), city_lc, address_line1_lc, last_name_lc, participant_id)
+);
+
+CREATE TABLE IF NOT EXISTS participant_details_denorm (
+  country_lc text,
+  city_lc text,
+  address_line1_lc text,
+  last_name_lc text,
   participant_id timeuuid,
   first_name text,
   middle_name text,
+  last_name text,
   suffix text,
+  address_line1 text,
   address_line2 text,
+  city text,
+  country text,
   postal_code text,
   email text,
   contact_number text,
@@ -38,7 +88,7 @@ CREATE TABLE participant_details (
   added_by text,
   updated_date timestamp,
   updated_by text,
-  PRIMARY KEY ((country), city, address_line1, last_name, participant_id)
+  PRIMARY KEY ((country_lc), city_lc, address_line1_lc, last_name_lc, participant_id)
 );
 
 ----------------------

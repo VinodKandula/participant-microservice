@@ -14,25 +14,25 @@ import static org.apache.commons.lang3.Validate.notBlank;
 @PrimaryKeyClass
 public class ParticipantPrimaryKey implements Serializable {
 
-    public static final String COUNTRY_COL = "country";
-    public static final String CITY_COL = "city";
-    public static final String ADDRESS_LINE_1_COL = "address_line1";
-    public static final String LAST_NAME_COL = "last_name";
-    public static final String PARTICIPANT_ID_COL = "participant_id";
+    public static final String COUNTRY_LOWERCASE = "country_lc";
+    public static final String CITY_LOWERCASE = "city_lc";
+    public static final String ADDRESS_LINE1_LOWERCASE = "address_line1_lc";
+    public static final String LAST_NAME_LOWERCASE = "last_name_lc";
+    public static final String PARTICIPANT_ID = "participant_id";
 
-    @PrimaryKeyColumn(ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+    @PrimaryKeyColumn(name = COUNTRY_LOWERCASE, ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private String country;
 
-    @PrimaryKeyColumn(ordinal = 1, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
+    @PrimaryKeyColumn(name = CITY_LOWERCASE, ordinal = 1, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
     private String city;
 
-    @PrimaryKeyColumn(name = "address_line1", ordinal = 2, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
+    @PrimaryKeyColumn(name = ADDRESS_LINE1_LOWERCASE, ordinal = 2, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
     private String addressLine1;
 
-    @PrimaryKeyColumn(name = "last_name", ordinal = 3, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
+    @PrimaryKeyColumn(name = LAST_NAME_LOWERCASE, ordinal = 3, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
     private String lastName;
 
-    @PrimaryKeyColumn(name = "participant_id", ordinal = 4, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
+    @PrimaryKeyColumn(name = PARTICIPANT_ID, ordinal = 4, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
     private UUID participantId;
 
     private ParticipantPrimaryKey(final String country, final String city, final String addressLine1,

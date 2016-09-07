@@ -4,6 +4,7 @@ import com.amhzing.participant.annotation.Online;
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
 import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails;
 import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetailsBuilder;
+import com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKey;
 import com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKeyBuilder;
 import com.amhzing.participant.query.exception.QueryInsertException;
 import org.apache.commons.collections.MapUtils;
@@ -21,6 +22,7 @@ import java.time.ZonedDateTime;
 
 import static org.apache.commons.lang.Validate.notNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.lowerCase;
 
 @Online
 @Component
@@ -46,28 +48,33 @@ public class ParticipantCreatedEventHandler {
     }
 
     private ParticipantDetails participantDetails(final ParticipantCreatedEvent event, final MetaData metadata) {
-        final ParticipantPrimaryKeyBuilder participantPrimaryKeyBuilder = new ParticipantPrimaryKeyBuilder();
-        participantPrimaryKeyBuilder.setCountry(event.getAddress().getCountry().getCode());
-        participantPrimaryKeyBuilder.setCity(event.getAddress().getCity());
-        participantPrimaryKeyBuilder.setAddressLine1(event.getAddress().getAddressLine1());
-        participantPrimaryKeyBuilder.setLastName(event.getName().getLastName());
-        participantPrimaryKeyBuilder.setParticipantId(event.getId());
+        return new ParticipantDetailsBuilder().setPrimaryKey(primaryKey(event))
+                                              .setFirstName(event.getName().getFirstName())
+                                              .setMiddleName(event.getName().getMiddleName())
+                                              .setLastName(event.getName().getLastName())
+                                              .setSuffix(event.getName().getSuffix())
+                                              .setAddressLine1(event.getAddress().getAddressLine1())
+                                              .setAddressLine2(event.getAddress().getAddressLine2())
+                                              .setCity(event.getAddress().getCity())
+                                              .setCountry(event.getAddress().getCountry().getCode())
+                                              .setPostalCode(event.getAddress().getPostalCode())
+                                              .setEmail(email(event))
+                                              .setContactNumber(contactNumber(event))
+                                              .setAddedDate(currentTime())
+                                              .setAddedBy(userId(metadata))
+                                              .setUpdatedDate(currentTime())
+                                              .setUpdatedBy(userId(metadata))
+                                              .create();
+    }
 
-        final ParticipantDetailsBuilder participantDetailsBuilder = new ParticipantDetailsBuilder();
-        participantDetailsBuilder.setPrimaryKey(participantPrimaryKeyBuilder.create());
-        participantDetailsBuilder.setFirstName(event.getName().getFirstName());
-        participantDetailsBuilder.setMiddleName(event.getName().getMiddleName());
-        participantDetailsBuilder.setSuffix(event.getName().getSuffix());
-        participantDetailsBuilder.setAddressLine2(event.getAddress().getAddressLine2());
-        participantDetailsBuilder.setPostalCode(event.getAddress().getPostalCode());
-        participantDetailsBuilder.setEmail(email(event));
-        participantDetailsBuilder.setContactNumber(contactNumber(event));
-        participantDetailsBuilder.setAddedDate(currentTime());
-        participantDetailsBuilder.setAddedBy(userId(metadata));
-        participantDetailsBuilder.setUpdatedDate(currentTime());
-        participantDetailsBuilder.setUpdatedBy(userId(metadata));
-
-        return participantDetailsBuilder.create();
+    private ParticipantPrimaryKey primaryKey(final ParticipantCreatedEvent event) {
+        return new ParticipantPrimaryKeyBuilder()
+                .setCountry(lowerCase(event.getAddress().getCountry().getCode()))
+                .setCity(lowerCase(event.getAddress().getCity()))
+                .setAddressLine1(lowerCase(event.getAddress().getAddressLine1()))
+                .setLastName(lowerCase(event.getName().getLastName()))
+                .setParticipantId(event.getId())
+                .create();
     }
 
     private Timestamp currentTime() {
