@@ -58,7 +58,7 @@ public class ParticipantDetailsBuilder {
         return this;
     }
 
-    public ParticipantDetails createParticipantDetails() {
+    public ParticipantDetails create() {
         return ParticipantDetails.create(participantId, name, address, email, contactNumber, addedDate, addedBy, updatedDate, updatedBy);
     }
 }

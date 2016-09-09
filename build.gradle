@@ -133,6 +133,7 @@ apply from: 'publish.gradle'
 // Deploy
 apply from: 'deploy.gradle'
 
+// JPA Annotation generation
 querydsl {
 	jpa = true
 }

@@ -7,11 +7,9 @@ import com.amhzing.participant.helper.JsonLoader;
 import com.amhzing.participant.query.exception.QueryInsertException;
 import com.amhzing.participant.web.response.ResponseErrorCode;
 import com.fasterxml.uuid.Generators;
-import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -49,19 +47,8 @@ public class ParticipantCommandControllerTest {
     @MockBean
     private CreateParticipantService createParticipantService;
 
-    private JsonLoader jsonLoader;
-    private TimeBasedGenerator timeBasedGenerator;
-    private UUID participantId;
-    private UUID correlationId;
-
-    @Before
-    public void setup() throws Exception {
-        jsonLoader = new JsonLoader();
-        timeBasedGenerator = Generators.timeBasedGenerator();
-
-        participantId = timeBasedGenerator.generate();
-        correlationId = timeBasedGenerator.generate();
-    }
+    private JsonLoader jsonLoader = new JsonLoader();
+    private UUID participantId = Generators.timeBasedGenerator().generate();
 
     @Test
     public void should_create_participant() throws Exception {
