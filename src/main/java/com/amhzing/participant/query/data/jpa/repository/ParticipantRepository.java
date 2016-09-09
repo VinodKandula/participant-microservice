@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ParticipantRepository extends JpaRepository<ParticipantDetails, Long> {
+public interface ParticipantRepository extends JpaRepository<ParticipantDetails, String> {
 
     List<ParticipantDetails> findByAddress_CountryAllIgnoreCase(String country);
 

@@ -55,7 +55,7 @@ public class InMemParticipantCreatedEventHandler {
         participantDetailsBuilder.setUpdatedDate(currentTime());
         participantDetailsBuilder.setUpdatedBy(userId(metadata));
 
-        return participantDetailsBuilder.createParticipantDetails();
+        return participantDetailsBuilder.create();
     }
 
     private Name buildName(final ParticipantCreatedEvent event) {
