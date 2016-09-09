@@ -19,4 +19,11 @@ public abstract class AbstractParticipantEvent implements Serializable {
     public UUID getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "AbstractParticipantEvent{" +
+                "id=" + id +
+                '}';
+    }
 }

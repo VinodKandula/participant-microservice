@@ -55,4 +55,14 @@ public class ParticipantCreatedEvent extends AbstractParticipantEvent implements
     public Email getEmail() {
         return email;
     }
+
+    @Override
+    public String toString() {
+        return "ParticipantCreatedEvent{" +
+                "name=" + name +
+                ", address=" + address +
+                ", contactNumber=" + contactNumber +
+                ", email=" + email +
+                "} " + super.toString();
+    }
 }

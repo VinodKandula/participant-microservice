@@ -7,27 +7,21 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class CreatedParticipant {
 
     private final String participantId;
-    private final String correlationId;
 
-    private CreatedParticipant(final String participantId, final String correlationId) {
+    private CreatedParticipant(final String participantId) {
         this.participantId = notNull(participantId);
-        this.correlationId = notNull(correlationId);
     }
 
-    public static CreatedParticipant create(final String participantId, final String correlationId) {
-        return new CreatedParticipant(participantId, correlationId);
+    public static CreatedParticipant create(final String participantId) {
+        return new CreatedParticipant(participantId);
     }
 
     public static CreatedParticipant empty() {
-        return CreatedParticipant.create("", "");
+        return CreatedParticipant.create("");
     }
 
     public String getParticipantId() {
         return participantId;
-    }
-
-    public String getCorrelationId() {
-        return correlationId;
     }
 
     @Override
@@ -35,20 +29,18 @@ public class CreatedParticipant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final CreatedParticipant that = (CreatedParticipant) o;
-        return Objects.equals(participantId, that.participantId) &&
-                Objects.equals(correlationId, that.correlationId);
+        return Objects.equals(participantId, that.participantId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(participantId, correlationId);
+        return Objects.hash(participantId);
     }
 
     @Override
     public String toString() {
         return "CreatedParticipant{" +
                 "participantId='" + participantId + '\'' +
-                ", correlationId='" + correlationId + '\'' +
                 '}';
     }
 }

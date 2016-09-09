@@ -2,8 +2,6 @@ package com.amhzing.participant.command.application;
 
 import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.command.domain.gateway.MetaDataEnrichedCommandGateway;
-import com.fasterxml.uuid.Generators;
-import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +19,14 @@ public class DefaultCreateParticipantService implements CreateParticipantService
     private MetaDataEnrichedCommandGateway commandGateway;
 
     @Override
-    public CreatedParticipant create(final ParticipantToCreate participantToCreate) throws TimeoutException, InterruptedException {
+    public CreatedParticipant create(final UUID participantId,
+                                     final UUID correlationId,
+                                     final ParticipantToCreate participantToCreate) throws TimeoutException, InterruptedException {
+        notNull(participantId);
+        notNull(correlationId);
+        notNull(participantToCreate);
 
-        final TimeBasedGenerator timeBasedGenerator = Generators.timeBasedGenerator();
-
-        final String correlationId = notNull(timeBasedGenerator.generate()).toString();
-
-        final UUID uuid = timeBasedGenerator.generate();
-        final CreateParticipantCommand command = CreateParticipantCommand.create(uuid,
+        final CreateParticipantCommand command = CreateParticipantCommand.create(participantId,
                                                                                  participantToCreate.getName(),
                                                                                  participantToCreate.getAddress(),
                                                                                  participantToCreate.getContactNumber(),
@@ -42,9 +40,9 @@ public class DefaultCreateParticipantService implements CreateParticipantService
                     correlationId,
                     userId);
 
-        final Object response = commandGateway.sendAndWait(command, correlationId, userId);
+        final Object response = commandGateway.sendAndWait(command, correlationId.toString(), userId);
 
-        return CreatedParticipant.create(participantId(response), correlationId);
+        return CreatedParticipant.create(participantId(response));
     }
 
     private String participantId(final Object response) {

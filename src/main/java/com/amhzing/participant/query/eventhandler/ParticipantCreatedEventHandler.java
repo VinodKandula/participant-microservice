@@ -43,7 +43,8 @@ public class ParticipantCreatedEventHandler {
             LOGGER.info("Inserting {} details for participant {}", ParticipantCreatedEvent.class.getSimpleName(), event.getId());
             cassandraTemplate.insert(participantDetails(event, metadata));
         } catch (final Exception ex) {
-            throw new QueryInsertException(ex);
+            LOGGER.error("Failed to insert {}", event);
+            throw new QueryInsertException("Failed to insert event: " + event.getId(), ex);
         }
     }
 
