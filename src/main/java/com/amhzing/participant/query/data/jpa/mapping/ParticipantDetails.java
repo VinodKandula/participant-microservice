@@ -95,11 +95,11 @@ public class ParticipantDetails {
     }
 
     public Date getAddedDate() {
-        return addedDate;
+        return new Date(addedDate.getTime());
     }
 
     public void setAddedDate(final Date addedDate) {
-        this.addedDate = addedDate;
+        this.addedDate = new Date(addedDate.getTime());
     }
 
     public String getAddedBy() {
@@ -111,11 +111,11 @@ public class ParticipantDetails {
     }
 
     public Date getUpdatedDate() {
-        return updatedDate;
+        return new Date(updatedDate.getTime());
     }
 
     public void setUpdatedDate(final Date updatedDate) {
-        this.updatedDate = updatedDate;
+        this.updatedDate = new Date(updatedDate.getTime());
     }
 
     public String getUpdatedBy() {
