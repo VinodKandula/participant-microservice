@@ -19,7 +19,7 @@ public class InMemQueryParticipant implements QueryParticipant {
     }
 
     @Override
-    public List<QueryResponse> participantDetails(final QueryCriteria queryCriteria) {
+    public List<QueryResponse> findByCriteria(final QueryCriteria queryCriteria) {
 
         final QParticipantDetails qParticipantDetails = QParticipantDetails.participantDetails;
 
@@ -43,6 +43,18 @@ public class InMemQueryParticipant implements QueryParticipant {
 
         final List<ParticipantDetails> participants = repository.findAll(predicate);
 
+        return collectQueryResponse(participants);
+    }
+
+    @Override
+    public List<QueryResponse> findByIds(final List<ParticipantId> participantIds) {
+        final List<String> collectIds = participantIds.stream().map(ParticipantId::getValue).collect(Collectors.toList());
+        final List<ParticipantDetails> participants = repository.findByParticipantIdIn(collectIds);
+
+        return collectQueryResponse(participants);
+    }
+
+    private List<QueryResponse> collectQueryResponse(final List<ParticipantDetails> participants) {
         return participants.stream()
                            .map(participant -> buildQueryResponse(participant))
                            .collect(Collectors.toList());

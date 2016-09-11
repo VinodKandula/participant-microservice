@@ -4,5 +4,7 @@ import java.util.List;
 
 public interface QueryParticipant {
 
-    List<QueryResponse> participantDetails(final QueryCriteria queryCriteria);
+    List<QueryResponse> findByCriteria(final QueryCriteria queryCriteria);
+
+    List<QueryResponse> findByIds(final List<ParticipantId> participantIds);
 }

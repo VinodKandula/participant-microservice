@@ -7,7 +7,9 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 import java.util.List;
 
-public interface ParticipantQueryDslRepository extends JpaRepository<ParticipantDetails, Long>, QueryDslPredicateExecutor<ParticipantDetails> {
+public interface ParticipantQueryDslRepository extends JpaRepository<ParticipantDetails, String>, QueryDslPredicateExecutor<ParticipantDetails> {
 
     List<ParticipantDetails> findAll(Predicate predicate);
+
+    List<ParticipantDetails> findByParticipantIdIn(List<String> participantIds);
 }
