@@ -22,7 +22,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
     }
 
     @Override
-    public List<QueryResponse> participantDetails(final QueryCriteria queryCriteria) {
+    public List<QueryResponse> findByCriteria(final QueryCriteria queryCriteria) {
 
         final Select select = select().from("participant_details_denorm");
         final Select.Where where = select.where(eq(COUNTRY_LOWERCASE, lowerCase(queryCriteria.getCountry())));
@@ -48,6 +48,12 @@ public class DefaultQueryParticipant implements QueryParticipant {
         return participants.stream()
                            .map(participant -> buildQueryResponse(participant))
                            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<QueryResponse> findByIds(final List<ParticipantId> participantIds) {
+        // FIXME - Should implement this
+        return null;
     }
 
     private QueryResponse buildQueryResponse(final ParticipantDetails participantDetails) {
