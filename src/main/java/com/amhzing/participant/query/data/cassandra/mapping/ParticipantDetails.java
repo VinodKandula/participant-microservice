@@ -1,43 +1,37 @@
 package com.amhzing.participant.query.data.cassandra.mapping;
 
 import org.springframework.data.cassandra.mapping.Column;
-import org.springframework.data.cassandra.mapping.PrimaryKey;
-import org.springframework.data.cassandra.mapping.Table;
 
 import java.util.Date;
 import java.util.Objects;
 
-@Table(value = "participant_details_denorm")
 public class ParticipantDetails {
 
-    @PrimaryKey
-    private ParticipantPrimaryKey primaryKey;
-
-    @Column(value = "first_name")
+    @Column("first_name")
     private String firstName;
 
-    @Column(value = "middle_name")
+    @Column("middle_name")
     private String middleName;
 
-    @Column(value = "last_name")
+    @Column("last_name")
     private String lastName;
 
-    @Column(value = "suffix")
+    @Column("suffix")
     private String suffix;
 
-    @Column(value = "address_line1")
+    @Column("address_line1")
     private String addressLine1;
 
-    @Column(value = "address_line2")
+    @Column("address_line2")
     private String addressLine2;
 
-    @Column(value = "city")
+    @Column("city")
     private String city;
 
-    @Column(value = "country")
+    @Column("country")
     private String country;
 
-    @Column(value = "postal_code")
+    @Column("postal_code")
     private String postalCode;
 
     @Column(value = "email")
@@ -46,28 +40,25 @@ public class ParticipantDetails {
     @Column(value = "contact_number")
     private String contactNumber;
 
-    @Column(value = "added_date")
+    @Column("added_date")
     private Date addedDate;
 
-    @Column(value = "added_by")
+    @Column("added_by")
     private String addedBy;
 
-    @Column(value = "updated_date")
+    @Column("updated_date")
     private Date updatedDate;
 
-    @Column(value = "updated_by")
+    @Column("updated_by")
     private String updatedBy;
 
     public ParticipantDetails() {
     }
 
-    private ParticipantDetails(final ParticipantPrimaryKey primaryKey, final String firstName,
-                               final String middleName, final String lastName, final String suffix,
-                               final String addressLine1, final String addressLine2, final String city,
-                               final String country, final String postalCode, final String email,
-                               final String contactNumber, final Date addedDate, final String addedBy,
-                               final Date updatedDate, final String updatedBy) {
-        this.primaryKey = primaryKey;
+    public ParticipantDetails(final String firstName, final String middleName, final String lastName, final String suffix,
+                              final String addressLine1, final String addressLine2, final String city, final String country,
+                              final String postalCode, final String email, final String contactNumber, final Date addedDate,
+                              final String addedBy, final Date updatedDate, final String updatedBy) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -83,19 +74,6 @@ public class ParticipantDetails {
         this.addedBy = addedBy;
         this.updatedDate = updatedDate;
         this.updatedBy = updatedBy;
-    }
-
-    public static ParticipantDetails create(final ParticipantPrimaryKey primaryKey, final String firstName,
-                                            final String middleName, final String lastName, final String suffix,
-                                            final String addressLine1, final String addressLine2, final String city,
-                                            final String country, final String postalCode, final String email,
-                                            final String contactNumber, final Date addedDate, final String addedBy,
-                                            final Date updatedDate, final String updatedBy) {
-        return new ParticipantDetails(primaryKey, firstName, middleName, lastName, suffix, addressLine1, addressLine2, city, country, postalCode, email, contactNumber, addedDate, addedBy, updatedDate, updatedBy);
-    }
-
-    public ParticipantPrimaryKey getPrimaryKey() {
-        return primaryKey;
     }
 
     public String getFirstName() {
@@ -163,8 +141,7 @@ public class ParticipantDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final ParticipantDetails that = (ParticipantDetails) o;
-        return Objects.equals(primaryKey, that.primaryKey) &&
-                Objects.equals(firstName, that.firstName) &&
+        return Objects.equals(firstName, that.firstName) &&
                 Objects.equals(middleName, that.middleName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(suffix, that.suffix) &&
@@ -183,14 +160,14 @@ public class ParticipantDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(primaryKey, firstName, middleName, lastName, suffix, addressLine1, addressLine2, city, country, postalCode, email, contactNumber, addedDate, addedBy, updatedDate, updatedBy);
+        return Objects.hash(firstName, middleName, lastName, suffix, addressLine1, addressLine2, city, country,
+                            postalCode, email, contactNumber, addedDate, addedBy, updatedDate, updatedBy);
     }
 
     @Override
     public String toString() {
         return "ParticipantDetails{" +
-                "primaryKey=" + primaryKey +
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", suffix='" + suffix + '\'' +

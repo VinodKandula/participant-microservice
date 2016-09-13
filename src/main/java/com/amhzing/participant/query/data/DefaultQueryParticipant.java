@@ -1,6 +1,6 @@
 package com.amhzing.participant.query.data;
 
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails;
+import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetailsByCountry;
 import com.datastax.driver.core.querybuilder.Select;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 
@@ -24,7 +24,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
     @Override
     public List<QueryResponse> findByCriteria(final QueryCriteria queryCriteria) {
 
-        final Select select = select().from("participant_details_denorm");
+        final Select select = select().from("participant_details_by_country");
         final Select.Where where = select.where(eq(COUNTRY_LOWERCASE, lowerCase(queryCriteria.getCountry())));
 
         if (isNotBlank(queryCriteria.getCity())) {
@@ -43,7 +43,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
             where.and(eq(PARTICIPANT_ID, queryCriteria.getParticipantId()));
         }
 
-        final List<ParticipantDetails> participants = cassandraTemplate.select(select, ParticipantDetails.class);
+        final List<ParticipantDetailsByCountry> participants = cassandraTemplate.select(select, ParticipantDetailsByCountry.class);
 
         return participants.stream()
                            .map(participant -> buildQueryResponse(participant))
@@ -56,7 +56,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
         return null;
     }
 
-    private QueryResponse buildQueryResponse(final ParticipantDetails participantDetails) {
+    private QueryResponse buildQueryResponse(final ParticipantDetailsByCountry participantDetails) {
         return new QueryResponseBuilder().setParticipantId(participantDetails.getPrimaryKey().getParticipantId().toString())
                                          .setFirstName(participantDetails.getFirstName())
                                          .setLastName(participantDetails.getLastName())

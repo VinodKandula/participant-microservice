@@ -50,24 +50,7 @@ describe types;
 -- Create the table  --
 -----------------------
 
-CREATE TABLE IF NOT EXISTS participant_details_udt (
-  country_lc text,
-  city_lc text,
-  address_line1_lc text,
-  last_name_lc text,
-  participant_id timeuuid,
-  name frozen<name>,
-  address frozen<address>,
-  email text,
-  contact_number text,
-  added_date timestamp,
-  added_by text,
-  updated_date timestamp,
-  updated_by text,
-  PRIMARY KEY ((country_lc), city_lc, address_line1_lc, last_name_lc, participant_id)
-);
-
-CREATE TABLE IF NOT EXISTS participant_details_denorm (
+CREATE TABLE IF NOT EXISTS participant_details_by_country (
   country_lc text,
   city_lc text,
   address_line1_lc text,
@@ -82,6 +65,44 @@ CREATE TABLE IF NOT EXISTS participant_details_denorm (
   city text,
   country text,
   postal_code text,
+  email text,
+  contact_number text,
+  added_date timestamp,
+  added_by text,
+  updated_date timestamp,
+  updated_by text,
+  PRIMARY KEY ((country_lc), city_lc, address_line1_lc, last_name_lc, participant_id)
+);
+
+CREATE TABLE IF NOT EXISTS participant_details_by_id (
+  participant_id timeuuid,
+  first_name text,
+  middle_name text,
+  last_name text,
+  suffix text,
+  address_line1 text,
+  address_line2 text,
+  city text,
+  country text,
+  postal_code text,
+  email text,
+  contact_number text,
+  added_date timestamp,
+  added_by text,
+  updated_date timestamp,
+  updated_by text,
+  PRIMARY KEY ((participant_id))
+);
+
+-- Below is the UDT version (which Spring Data does not currently support)
+CREATE TABLE IF NOT EXISTS participant_details_by_country (
+  country_lc text,
+  city_lc text,
+  address_line1_lc text,
+  last_name_lc text,
+  participant_id timeuuid,
+  name frozen<name>,
+  address frozen<address>,
   email text,
   contact_number text,
   added_date timestamp,

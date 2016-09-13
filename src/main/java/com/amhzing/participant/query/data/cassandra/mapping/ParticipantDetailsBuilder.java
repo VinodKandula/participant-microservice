@@ -3,7 +3,6 @@ package com.amhzing.participant.query.data.cassandra.mapping;
 import java.util.Date;
 
 public class ParticipantDetailsBuilder {
-    private ParticipantPrimaryKey primaryKey;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -19,11 +18,6 @@ public class ParticipantDetailsBuilder {
     private String addedBy;
     private Date updatedDate;
     private String updatedBy;
-
-    public ParticipantDetailsBuilder setPrimaryKey(final ParticipantPrimaryKey primaryKey) {
-        this.primaryKey = primaryKey;
-        return this;
-    }
 
     public ParticipantDetailsBuilder setFirstName(final String firstName) {
         this.firstName = firstName;
@@ -101,8 +95,7 @@ public class ParticipantDetailsBuilder {
     }
 
     public ParticipantDetails create() {
-        return ParticipantDetails.create(primaryKey, firstName, middleName, lastName, suffix,
-                                         addressLine1, addressLine2, city, country, postalCode,
-                                         email, contactNumber, addedDate, addedBy, updatedDate, updatedBy);
+        return new ParticipantDetails(firstName, middleName, lastName, suffix, addressLine1, addressLine2, city, country,
+                                      postalCode, email, contactNumber, addedDate, addedBy, updatedDate, updatedBy);
     }
 }

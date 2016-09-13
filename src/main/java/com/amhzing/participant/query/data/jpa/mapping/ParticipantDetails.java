@@ -149,7 +149,7 @@ public class ParticipantDetails {
 
     @Override
     public String toString() {
-        return "ParticipantDetails{" +
+        return "ParticipantDetailsByCountry{" +
                 "participantId=" + participantId +
                 ", name=" + name +
                 ", address=" + address +

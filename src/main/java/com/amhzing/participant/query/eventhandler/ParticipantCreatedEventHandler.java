@@ -2,11 +2,10 @@ package com.amhzing.participant.query.eventhandler;
 
 import com.amhzing.participant.annotation.Online;
 import com.amhzing.participant.api.event.ParticipantCreatedEvent;
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails;
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetailsBuilder;
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKey;
-import com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKeyBuilder;
+import com.amhzing.participant.query.data.cassandra.mapping.*;
 import com.amhzing.participant.query.exception.QueryInsertException;
+import com.datastax.driver.core.querybuilder.Batch;
+import com.datastax.driver.core.querybuilder.Insert;
 import org.apache.commons.collections.MapUtils;
 import org.axonframework.domain.MetaData;
 import org.axonframework.eventhandling.annotation.EventHandler;
@@ -20,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
+import static com.datastax.driver.core.querybuilder.QueryBuilder.batch;
 import static org.apache.commons.lang.Validate.notNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.lowerCase;
@@ -41,16 +41,46 @@ public class ParticipantCreatedEventHandler {
 
         try {
             LOGGER.info("Inserting {} details for participant {}", ParticipantCreatedEvent.class.getSimpleName(), event.getId());
-            cassandraTemplate.insert(participantDetails(event, metadata));
+            final Batch batch = batch(insertIntoByCountry(event, metadata),
+                                      insertIntoById(event, metadata));
+            cassandraTemplate.execute(batch);
         } catch (final Exception ex) {
             LOGGER.error("Failed to insert {}", event);
             throw new QueryInsertException("Failed to insert event: " + event.getId(), ex);
         }
     }
 
-    private ParticipantDetails participantDetails(final ParticipantCreatedEvent event, final MetaData metadata) {
-        return new ParticipantDetailsBuilder().setPrimaryKey(primaryKey(event))
-                                              .setFirstName(event.getName().getFirstName())
+    private Insert insertIntoById(final ParticipantCreatedEvent event, final MetaData metadata) {
+        return cassandraTemplate.createInsertQuery(cassandraTemplate.getTableName(ParticipantDetailsById.class).toCql(),
+                                                   participantDetailsById(event, metadata),
+                                                   null,
+                                                   cassandraTemplate.getConverter());
+    }
+
+    private Insert insertIntoByCountry(final ParticipantCreatedEvent event, final MetaData metadata) {
+        return cassandraTemplate.createInsertQuery(cassandraTemplate.getTableName(ParticipantDetailsByCountry.class).toCql(),
+                                                   participantDetailsByCountry(event, metadata),
+                                                   null,
+                                                   cassandraTemplate.getConverter());
+    }
+
+    private ParticipantDetailsByCountry participantDetailsByCountry(final ParticipantCreatedEvent event,
+                                                                    final MetaData metadata) {
+        return new ParticipantDetailsByCountryBuilder().setPrimaryKey(primaryKey(event))
+                                                       .setParticipantDetails(participantDetails(event, metadata))
+                                                       .create();
+    }
+
+    private ParticipantDetailsById participantDetailsById(final ParticipantCreatedEvent event,
+                                                          final MetaData metadata) {
+        return new ParticipantDetailsByIdBuilder().setParticipantId(event.getId())
+                                                  .setParticipantDetails(participantDetails(event, metadata))
+                                                  .create();
+    }
+
+    private ParticipantDetails participantDetails(final ParticipantCreatedEvent event,
+                                                  final MetaData metadata) {
+        return new ParticipantDetailsBuilder().setFirstName(event.getName().getFirstName())
                                               .setMiddleName(event.getName().getMiddleName())
                                               .setLastName(event.getName().getLastName())
                                               .setSuffix(event.getName().getSuffix())
