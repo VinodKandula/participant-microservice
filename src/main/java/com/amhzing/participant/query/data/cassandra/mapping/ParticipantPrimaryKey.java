@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails.PARTICIPANT_ID;
 import static org.apache.commons.lang3.Validate.notBlank;
 
 @PrimaryKeyClass
@@ -18,7 +19,6 @@ public class ParticipantPrimaryKey implements Serializable {
     public static final String CITY_LOWERCASE = "city_lc";
     public static final String ADDRESS_LINE1_LOWERCASE = "address_line1_lc";
     public static final String LAST_NAME_LOWERCASE = "last_name_lc";
-    public static final String PARTICIPANT_ID = "participant_id";
 
     @PrimaryKeyColumn(name = COUNTRY_LOWERCASE, ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private String country;

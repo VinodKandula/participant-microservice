@@ -74,7 +74,7 @@ public class QueryResponseBuilder {
         return this;
     }
 
-    public QueryResponse createQueryResponse() {
+    public QueryResponse create() {
         return QueryResponse.create(participantId, firstName, middleName, lastName, suffix, addressLine1, addressLine2, city, country, postalCode, email, contactNumber);
     }
 }

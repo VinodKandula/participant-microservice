@@ -7,6 +7,7 @@ import com.amhzing.participant.query.data.QueryParticipant;
 import com.amhzing.participant.query.data.QueryResponse;
 import com.amhzing.participant.web.response.QueryParticipantResponse;
 import com.amhzing.participant.web.response.ResponseError;
+import com.fasterxml.uuid.Generators;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.apache.commons.collections.MapUtils;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.amhzing.participant.web.MediaType.APPLICATION_JSON_V1;
@@ -54,9 +56,7 @@ public class ParticipantQueryController {
 
             return QueryParticipantResponse.create(participants, ResponseError.empty());
         } catch (final Exception ex) {
-            LOGGER.error(CANNOT_QUERY_PARTICIPANT.toString(), ex);
-            return QueryParticipantResponse.create(participants,
-                                                   ResponseError.create(CANNOT_QUERY_PARTICIPANT, ""));
+            return handleException(participants, ex);
         }
     }
 
@@ -71,10 +71,16 @@ public class ParticipantQueryController {
 
             return QueryParticipantResponse.create(participants, ResponseError.empty());
         } catch (final Exception ex) {
-            LOGGER.error(CANNOT_QUERY_PARTICIPANT.toString(), ex);
-            return QueryParticipantResponse.create(participants,
-                                                   ResponseError.create(CANNOT_QUERY_PARTICIPANT, ""));
+            return handleException(participants, ex);
         }
+    }
+
+    private QueryParticipantResponse handleException(final List<ParticipantInfo> participants, final Exception ex) {
+        final UUID correlationId = Generators.timeBasedGenerator().generate();
+
+        LOGGER.error(CANNOT_QUERY_PARTICIPANT.toString() + " with correlationId: " + correlationId.toString(), ex);
+        return QueryParticipantResponse.create(participants,
+                                               ResponseError.create(CANNOT_QUERY_PARTICIPANT, correlationId.toString()));
     }
 
     private List<ParticipantInfo> collectParticipants(final List<QueryResponse> queryResponse) {

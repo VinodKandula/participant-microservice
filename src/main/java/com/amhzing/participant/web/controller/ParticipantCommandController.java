@@ -68,12 +68,12 @@ public class ParticipantCommandController extends AbstractController {
             return CreateParticipantResponse.create(createdParticipant.getParticipantId(),
                                                     ImmutableList.of(ResponseError.empty()));
         } catch (final QueryInsertException insertEx) {
-            LOGGER.error(CANNOT_INSERT_PARTICIPANT.toString(), insertEx);
+            LOGGER.error(CANNOT_INSERT_PARTICIPANT.toString() + " with correlationId: " + correlationId.toString(), insertEx);
             return CreateParticipantResponse.create(participantId.toString(),
                                                     ImmutableList.of(ResponseError.create(CANNOT_INSERT_PARTICIPANT,
                                                                                           correlationId.toString())));
         } catch (final Exception ex) {
-            LOGGER.error(CANNOT_CREATE_PARTICIPANT.toString(), ex);
+            LOGGER.error(CANNOT_CREATE_PARTICIPANT.toString() + " with correlationId: " + correlationId.toString(), ex);
             return CreateParticipantResponse.create("",
                                                     ImmutableList.of(ResponseError.create(CANNOT_CREATE_PARTICIPANT,
                                                                                           correlationId.toString())));

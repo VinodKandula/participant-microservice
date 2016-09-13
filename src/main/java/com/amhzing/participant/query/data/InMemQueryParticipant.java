@@ -73,6 +73,6 @@ public class InMemQueryParticipant implements QueryParticipant {
                                          .setPostalCode(participantDetails.getAddress().getPostalCode())
                                          .setContactNumber(participantDetails.getContactNumber())
                                          .setEmail(participantDetails.getEmail())
-                                         .createQueryResponse();
+                                         .create();
     }
 }

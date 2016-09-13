@@ -7,10 +7,11 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+@com.datastax.driver.mapping.annotations.Table(name = "participant_details_by_id")
 @Table(value = "participant_details_by_id")
 public class ParticipantDetailsById extends ParticipantDetails {
 
-    @PrimaryKey("participant_id")
+    @PrimaryKey(PARTICIPANT_ID)
     private UUID participantId;
 
     private ParticipantDetailsById(final String firstName, final String middleName, final String lastName,
