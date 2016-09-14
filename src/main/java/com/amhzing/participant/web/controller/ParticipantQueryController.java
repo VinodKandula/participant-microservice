@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.amhzing.participant.web.MediaType.APPLICATION_JSON_V1;
@@ -93,10 +90,10 @@ public class ParticipantQueryController {
                              .collect(Collectors.toList());
     }
 
-    private List<ParticipantId> collectParticipantIds(List<String> participantIds) {
+    private Set<ParticipantId> collectParticipantIds(List<String> participantIds) {
         return participantIds.stream()
-                             .map(id -> ParticipantId.create(id))
-                             .collect(Collectors.toList());
+                             .map(id -> ParticipantId.create(UUID.fromString(id)))
+                             .collect(Collectors.toSet());
     }
 
     private QueryCriteria queryCriteria(final @PathVariable Map<String, String> pathVars) {

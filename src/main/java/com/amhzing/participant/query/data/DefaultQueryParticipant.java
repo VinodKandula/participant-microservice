@@ -12,8 +12,7 @@ import rx.observables.BlockingObservable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import static com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails.*;
 import static com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKey.*;
@@ -67,14 +66,14 @@ public class DefaultQueryParticipant implements QueryParticipant {
         return query.all()
                     .stream()
                     .map(this::buildQueryResponse)
-                    .collect(Collectors.toList());
+                    .collect(toList());
     }
 
     @Override
-    public List<QueryResponse> findByIds(final List<ParticipantId> participantIds) {
+    public List<QueryResponse> findByIds(final Set<ParticipantId> participantIds) {
         noNullElements(participantIds);
 
-        final Object[] ids = participantIds.stream().map(id -> UUID.fromString(id.getValue())).toArray();
+        final Object[] ids = participantIds.stream().map(id -> id.getValue()).toArray();
 
         final BlockingObservable<ResultSet> results = queryAllAsObservable(cassandraTemplate.getSession(),
                                                                            SELECT_BY_PARTICIPANT_ID,
@@ -100,8 +99,6 @@ public class DefaultQueryParticipant implements QueryParticipant {
 
         return queryResponses;
     }
-
-
 
     private QueryResponse buildQueryResponse(final ParticipantDetailsByCountry participantDetails) {
         return new QueryResponseBuilder().setParticipantId(participantDetails.getPrimaryKey().getParticipantId().toString())

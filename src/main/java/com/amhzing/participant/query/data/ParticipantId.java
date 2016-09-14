@@ -1,22 +1,23 @@
 package com.amhzing.participant.query.data;
 
 import java.util.Objects;
+import java.util.UUID;
 
-import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
 public class ParticipantId {
 
-    private final String value;
+    private final UUID value;
 
-    private ParticipantId(final String value) {
-        this.value = notBlank(value);
+    private ParticipantId(final UUID value) {
+        this.value = notNull(value);
     }
 
-    public static ParticipantId create(final String value) {
+    public static ParticipantId create(final UUID value) {
         return new ParticipantId(value);
     }
 
-    public String getValue() {
+    public UUID getValue() {
         return value;
     }
 

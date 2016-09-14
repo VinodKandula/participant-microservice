@@ -6,6 +6,7 @@ import com.amhzing.participant.query.data.jpa.repository.ParticipantQueryDslRepo
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
@@ -47,8 +48,8 @@ public class InMemQueryParticipant implements QueryParticipant {
     }
 
     @Override
-    public List<QueryResponse> findByIds(final List<ParticipantId> participantIds) {
-        final List<String> collectIds = participantIds.stream().map(ParticipantId::getValue).collect(Collectors.toList());
+    public List<QueryResponse> findByIds(final Set<ParticipantId> participantIds) {
+        final Set<String> collectIds = participantIds.stream().map(id -> id.getValue().toString()).collect(Collectors.toSet());
         final List<ParticipantDetails> participants = repository.findByParticipantIdIn(collectIds);
 
         return collectQueryResponse(participants);

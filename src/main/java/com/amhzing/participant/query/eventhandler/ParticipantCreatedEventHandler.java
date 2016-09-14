@@ -99,13 +99,12 @@ public class ParticipantCreatedEventHandler {
     }
 
     private ParticipantPrimaryKey primaryKey(final ParticipantCreatedEvent event) {
-        return new ParticipantPrimaryKeyBuilder()
-                .setCountry(lowerCase(event.getAddress().getCountry().getCode()))
-                .setCity(lowerCase(event.getAddress().getCity()))
-                .setAddressLine1(lowerCase(event.getAddress().getAddressLine1()))
-                .setLastName(lowerCase(event.getName().getLastName()))
-                .setParticipantId(event.getId())
-                .create();
+        return new ParticipantPrimaryKeyBuilder().setCountry(lowerCase(event.getAddress().getCountry().getCode()))
+                                                 .setCity(lowerCase(event.getAddress().getCity()))
+                                                 .setAddressLine1(lowerCase(event.getAddress().getAddressLine1()))
+                                                 .setLastName(lowerCase(event.getName().getLastName()))
+                                                 .setParticipantId(event.getId())
+                                                 .create();
     }
 
     private Timestamp currentTime() {
