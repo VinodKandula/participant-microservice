@@ -1,5 +1,6 @@
 package com.amhzing.participant.web.controller;
 
+import com.amhzing.participant.annotation.LogExecutionTime;
 import com.amhzing.participant.api.model.*;
 import com.amhzing.participant.query.data.ParticipantId;
 import com.amhzing.participant.query.data.QueryCriteria;
@@ -29,9 +30,14 @@ public class ParticipantQueryController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantQueryController.class);
 
-    @Autowired
-    QueryParticipant query;
+    private final QueryParticipant query;
 
+    @Autowired
+    public ParticipantQueryController(final QueryParticipant query) {
+        this.query = query;
+    }
+
+    @LogExecutionTime
     @ApiImplicitParams({@ApiImplicitParam(name = "pathVars", dataType = "string", paramType = "path", defaultValue = "IGNORE"),
                         @ApiImplicitParam(name = "country", dataType = "string", paramType = "path"),
                         @ApiImplicitParam(name = "city", dataType = "string", paramType = "path"),
@@ -57,6 +63,7 @@ public class ParticipantQueryController {
         }
     }
 
+    @LogExecutionTime
     @RequestMapping("/participantIds")
     public @Valid QueryParticipantResponse queryByParticipantIds(@RequestParam("id") final List<String> participantIds) {
 

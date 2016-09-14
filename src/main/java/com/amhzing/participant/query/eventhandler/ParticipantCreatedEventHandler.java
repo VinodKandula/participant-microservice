@@ -30,9 +30,13 @@ public class ParticipantCreatedEventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantCreatedEventHandler.class);
 
+    private final CassandraTemplate cassandraTemplate;
+
     // This is auto-configured by Spring Boot
     @Autowired
-    CassandraTemplate cassandraTemplate;
+    public ParticipantCreatedEventHandler(final CassandraTemplate cassandraTemplate) {
+        this.cassandraTemplate = cassandraTemplate;
+    }
 
     @EventHandler
     public void handleEvent(final ParticipantCreatedEvent event, final MetaData metadata) {

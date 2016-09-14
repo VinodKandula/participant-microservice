@@ -26,8 +26,12 @@ public class InMemParticipantCreatedEventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InMemParticipantCreatedEventHandler.class);
 
+    private final ParticipantRepository repository;
+
     @Autowired
-    ParticipantRepository repository;
+    public InMemParticipantCreatedEventHandler(final ParticipantRepository repository) {
+        this.repository = repository;
+    }
 
     @EventHandler
     public void handleEvent(final ParticipantCreatedEvent event, final MetaData metadata) {

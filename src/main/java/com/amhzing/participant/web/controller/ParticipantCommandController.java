@@ -1,5 +1,6 @@
 package com.amhzing.participant.web.controller;
 
+import com.amhzing.participant.annotation.LogExecutionTime;
 import com.amhzing.participant.command.application.CreateParticipantService;
 import com.amhzing.participant.command.application.CreatedParticipant;
 import com.amhzing.participant.command.application.ParticipantToCreate;
@@ -33,9 +34,14 @@ public class ParticipantCommandController extends AbstractController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantCommandController.class);
 
-    @Autowired
-    private CreateParticipantService createParticipantService;
+    private final CreateParticipantService createParticipantService;
 
+    @Autowired
+    public ParticipantCommandController(final CreateParticipantService createParticipantService) {
+        this.createParticipantService = createParticipantService;
+    }
+
+    @LogExecutionTime
     @RequestMapping(path = "/create",
                     method = RequestMethod.POST,
                     consumes = APPLICATION_JSON_V1)

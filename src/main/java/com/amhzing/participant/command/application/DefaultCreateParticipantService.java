@@ -4,7 +4,6 @@ import com.amhzing.participant.api.command.CreateParticipantCommand;
 import com.amhzing.participant.command.domain.gateway.MetaDataEnrichedCommandGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
@@ -15,8 +14,11 @@ public class DefaultCreateParticipantService implements CreateParticipantService
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCreateParticipantService.class);
 
-    @Autowired
-    private MetaDataEnrichedCommandGateway commandGateway;
+    private final MetaDataEnrichedCommandGateway commandGateway;
+
+    public DefaultCreateParticipantService(final MetaDataEnrichedCommandGateway commandGateway) {
+        this.commandGateway = commandGateway;
+    }
 
     @Override
     public CreatedParticipant create(final UUID participantId,
