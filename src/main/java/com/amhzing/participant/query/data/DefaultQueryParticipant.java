@@ -75,6 +75,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
 
         final Object[] ids = participantIds.stream().map(id -> id.getValue()).toArray();
 
+        // TODO - Make this non blocking
         final BlockingObservable<ResultSet> results = queryAllAsObservable(cassandraTemplate.getSession(),
                                                                            SELECT_BY_PARTICIPANT_ID,
                                                                            ids).toBlocking();

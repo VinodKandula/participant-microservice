@@ -39,7 +39,7 @@ public final class ResultSets {
                                                      final Object[] partitionKeys) {
 
         return Stream.of(partitionKeys)
-                     .map(key -> session.executeAsync(query, partitionKeys))
+                     .map(key -> session.executeAsync(query, key))
                      .collect(toList());
     }
 }
