@@ -16,6 +16,8 @@ import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 import static com.amhzing.participant.web.MediaType.APPLICATION_JSON_V1;
 import static com.amhzing.participant.web.response.ResponseErrorCode.CANNOT_QUERY_PARTICIPANT;
 import static com.amhzing.participant.web.response.ResponseErrorCode.INVALID_REQUEST_CODE;
+import static com.google.common.collect.ImmutableList.of;
 
 @RestController
 @RequestMapping(path = "/query", method = RequestMethod.GET, produces = APPLICATION_JSON_V1)
@@ -62,7 +65,7 @@ public class ParticipantQueryController {
 
             participants = collectParticipants(queryResponse);
 
-            return QueryParticipantResponse.create(participants, ResponseError.empty());
+            return QueryParticipantResponse.create(participants, of(ResponseError.empty()));
         } catch (final Exception ex) {
             return handleException(participants, ex);
         }
@@ -70,23 +73,41 @@ public class ParticipantQueryController {
 
     @LogExecutionTime
     @RequestMapping("/participantIds")
-    public @Valid QueryParticipantResponse queryByParticipantIds(@Valid ParticipantIds participantIds) {
-
+    public
+    @Valid
+    QueryParticipantResponse queryByParticipantIds(@Valid final ParticipantIds participantIds,
+                                                   final BindingResult bindingResult) {
         List<ParticipantInfo> participants = Collections.emptyList();
+
+        if (bindingResult.hasErrors()) {
+            final List<ResponseError> errors = bindingResult.getFieldErrors()
+                                                            .stream()
+                                                            .map(fieldError -> createResponseError(fieldError))
+                                                            .collect(Collectors.toList());
+
+            return QueryParticipantResponse.create(participants, errors);
+        }
+
         try {
             final List<QueryResponse> queryResponse = query.findByIds(collectParticipantIds(participantIds.getId()));
 
             participants = collectParticipants(queryResponse);
 
-            return QueryParticipantResponse.create(participants, ResponseError.empty());
+            return QueryParticipantResponse.create(participants, of(ResponseError.empty()));
         } catch (final IllegalArgumentException ex) {
             return QueryParticipantResponse.create(participants,
-                                                   ResponseError.create(INVALID_REQUEST_CODE,
-                                                                        "Not all ids in the request were valid",
-                                                                        ""));
+                                                   of(ResponseError.create(INVALID_REQUEST_CODE,
+                                                                           "Not all ids in the request were valid",
+                                                                           "")));
         } catch (final Exception ex) {
             return handleException(participants, ex);
         }
+    }
+
+    private ResponseError createResponseError(final FieldError fieldError) {
+        return ResponseError.create(INVALID_REQUEST_CODE,
+                                    fieldError.getField() + ":" + fieldError.getDefaultMessage(),
+                                    "");
     }
 
     private QueryParticipantResponse handleException(final List<ParticipantInfo> participants, final Exception ex) {
@@ -94,7 +115,7 @@ public class ParticipantQueryController {
 
         LOGGER.error(CANNOT_QUERY_PARTICIPANT.toString() + " with correlationId: " + correlationId.toString(), ex);
         return QueryParticipantResponse.create(participants,
-                                               ResponseError.create(CANNOT_QUERY_PARTICIPANT, correlationId.toString()));
+                                               of(ResponseError.create(CANNOT_QUERY_PARTICIPANT, correlationId.toString())));
     }
 
     private List<ParticipantInfo> collectParticipants(final List<QueryResponse> queryResponse) {
