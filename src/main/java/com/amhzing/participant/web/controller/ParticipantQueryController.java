@@ -6,6 +6,7 @@ import com.amhzing.participant.query.data.ParticipantId;
 import com.amhzing.participant.query.data.QueryCriteria;
 import com.amhzing.participant.query.data.QueryParticipant;
 import com.amhzing.participant.query.data.QueryResponse;
+import com.amhzing.participant.web.request.ParticipantIds;
 import com.amhzing.participant.web.response.QueryParticipantResponse;
 import com.amhzing.participant.web.response.ResponseError;
 import com.fasterxml.uuid.Generators;
@@ -15,7 +16,10 @@ import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -23,6 +27,7 @@ import java.util.stream.Collectors;
 
 import static com.amhzing.participant.web.MediaType.APPLICATION_JSON_V1;
 import static com.amhzing.participant.web.response.ResponseErrorCode.CANNOT_QUERY_PARTICIPANT;
+import static com.amhzing.participant.web.response.ResponseErrorCode.INVALID_REQUEST_CODE;
 
 @RestController
 @RequestMapping(path = "/query", method = RequestMethod.GET, produces = APPLICATION_JSON_V1)
@@ -65,15 +70,20 @@ public class ParticipantQueryController {
 
     @LogExecutionTime
     @RequestMapping("/participantIds")
-    public @Valid QueryParticipantResponse queryByParticipantIds(@RequestParam("id") final List<String> participantIds) {
+    public @Valid QueryParticipantResponse queryByParticipantIds(@Valid ParticipantIds participantIds) {
 
         List<ParticipantInfo> participants = Collections.emptyList();
         try {
-            final List<QueryResponse> queryResponse = query.findByIds(collectParticipantIds(participantIds));
+            final List<QueryResponse> queryResponse = query.findByIds(collectParticipantIds(participantIds.getId()));
 
             participants = collectParticipants(queryResponse);
 
             return QueryParticipantResponse.create(participants, ResponseError.empty());
+        } catch (final IllegalArgumentException ex) {
+            return QueryParticipantResponse.create(participants,
+                                                   ResponseError.create(INVALID_REQUEST_CODE,
+                                                                        "Not all ids in the request were valid",
+                                                                        ""));
         } catch (final Exception ex) {
             return handleException(participants, ex);
         }
@@ -97,7 +107,7 @@ public class ParticipantQueryController {
                              .collect(Collectors.toList());
     }
 
-    private Set<ParticipantId> collectParticipantIds(List<String> participantIds) {
+    private Set<ParticipantId> collectParticipantIds(final Set<String> participantIds) {
         return participantIds.stream()
                              .map(id -> ParticipantId.create(UUID.fromString(id)))
                              .collect(Collectors.toSet());

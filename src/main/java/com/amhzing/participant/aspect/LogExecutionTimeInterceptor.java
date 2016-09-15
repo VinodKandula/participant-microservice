@@ -1,6 +1,6 @@
 package com.amhzing.participant.aspect;
 
-import org.apache.commons.lang3.StringUtils;
+import com.amhzing.participant.web.MeasurableMetric;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,6 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.GaugeService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.apache.commons.lang3.StringUtils.lowerCase;
 
 @Component
 @Aspect
@@ -27,13 +33,13 @@ public class LogExecutionTimeInterceptor {
     private void anyPublicOperation() { }
 
     @Around("anyPublicOperation() && @annotation(com.amhzing.participant.annotation.LogExecutionTime)")
-    public Object logExecutionTaken(final ProceedingJoinPoint aProceedingJoinPoint) throws Throwable
+    public Object logExecutionTaken(final ProceedingJoinPoint joinPoint) throws Throwable
     {
-        final String nameOfClass = aProceedingJoinPoint.getTarget().toString();
+        final String nameOfClass = joinPoint.getTarget().toString();
         final Logger logger = LoggerFactory.getLogger(nameOfClass);
 
-        final String shortDescr = aProceedingJoinPoint.toShortString();
-        final String nameOfMethod = aProceedingJoinPoint.getSignature().getName();
+        final String shortDescr = joinPoint.toShortString();
+        final String nameOfMethod = joinPoint.getSignature().getName();
 
         final StopWatch sw = new StopWatch();
 
@@ -41,18 +47,39 @@ public class LogExecutionTimeInterceptor {
         sw.start(nameOfMethod);
 
         // Invoke method
-        final Object retVal = aProceedingJoinPoint.proceed();
+        final Object retVal = joinPoint.proceed();
 
         // Stop the stopwatch
         sw.stop();
 
         final Long totalTimeMillis = new Long(sw.getTotalTimeMillis());
-        final String metricName = "participant." + StringUtils.lowerCase(nameOfMethod) + ".response.time";
-
-        gaugeService.submit(metricName, totalTimeMillis.doubleValue());
+        gaugeMetrics(joinPoint, nameOfMethod, totalTimeMillis);
 
         logger.info("{} took {}ms", new Object[] {shortDescr, totalTimeMillis});
 
         return retVal;
+    }
+
+    private void gaugeMetrics(final ProceedingJoinPoint joinPoint, final String nameOfMethod, final Long totalTimeMillis) {
+        gaugeQuantityMetric(joinPoint, nameOfMethod);
+        gaugeResponseMetric(nameOfMethod, totalTimeMillis);
+    }
+
+    private void gaugeQuantityMetric(final ProceedingJoinPoint joinPoint, final String nameOfMethod) {
+        final List<MeasurableMetric> measurableMetrics = Stream.of(joinPoint.getArgs())
+                                                               .filter(MeasurableMetric.class::isInstance)
+                                                               .map(MeasurableMetric.class::cast)
+                                                               .collect(Collectors.toList());
+
+        measurableMetrics.stream()
+                         .forEach(metric -> {
+                             final String metricName = "participant." + lowerCase(nameOfMethod) + "." + lowerCase(metric.id()) + ".quantity";
+                             gaugeService.submit(metricName, metric.quantity());
+                         });
+    }
+
+    private void gaugeResponseMetric(final String nameOfMethod, final Long totalTimeMillis) {
+        final String metricName = "participant." + lowerCase(nameOfMethod) + ".response.time";
+        gaugeService.submit(metricName, totalTimeMillis.doubleValue());
     }
 }
