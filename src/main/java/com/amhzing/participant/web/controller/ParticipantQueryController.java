@@ -6,6 +6,7 @@ import com.amhzing.participant.query.data.ParticipantId;
 import com.amhzing.participant.query.data.QueryCriteria;
 import com.amhzing.participant.query.data.QueryParticipant;
 import com.amhzing.participant.query.data.QueryResponse;
+import com.amhzing.participant.query.exception.QueryIdException;
 import com.amhzing.participant.web.request.ParticipantIds;
 import com.amhzing.participant.web.response.QueryParticipantResponse;
 import com.amhzing.participant.web.response.ResponseError;
@@ -93,10 +94,10 @@ public class ParticipantQueryController {
             participants = collectParticipants(queryResponse);
 
             return QueryParticipantResponse.create(participants, of(ResponseError.empty()));
-        } catch (final IllegalArgumentException ex) {
+        } catch (final QueryIdException ex) {
             return QueryParticipantResponse.create(participants,
                                                    of(ResponseError.create(INVALID_REQUEST_CODE,
-                                                                           "Not all ids in the request were valid",
+                                                                           ex.getMessage(),
                                                                            "")));
         } catch (final Exception ex) {
             return handleException(participants, ex);
@@ -128,9 +129,13 @@ public class ParticipantQueryController {
     }
 
     private Set<ParticipantId> collectParticipantIds(final Set<String> participantIds) {
-        return participantIds.stream()
-                             .map(id -> ParticipantId.create(UUID.fromString(id)))
-                             .collect(Collectors.toSet());
+        try {
+            return participantIds.stream()
+                                 .map(id -> ParticipantId.create(UUID.fromString(id)))
+                                 .collect(Collectors.toSet());
+        } catch (final IllegalArgumentException ex) {
+            throw new QueryIdException("Invalid id", ex);
+        }
     }
 
     private QueryCriteria queryCriteria(final @PathVariable Map<String, String> pathVars) {
