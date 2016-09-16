@@ -73,10 +73,8 @@ public class ParticipantQueryController {
 
     @LogExecutionTime
     @RequestMapping("/participantIds")
-    public
-    @Valid
-    QueryParticipantResponse queryByParticipantIds(@Valid final ParticipantIds participantIds,
-                                                   final BindingResult bindingResult) {
+    public @Valid QueryParticipantResponse queryByParticipantIds(@Valid final ParticipantIds participantIds,
+                                                                 final BindingResult bindingResult) {
         List<ParticipantInfo> participants = Collections.emptyList();
 
         if (bindingResult.hasErrors()) {

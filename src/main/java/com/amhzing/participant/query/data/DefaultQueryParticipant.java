@@ -6,6 +6,8 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.querybuilder.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 import rx.Observer;
 import rx.observables.BlockingObservable;
@@ -26,6 +28,7 @@ import static org.apache.commons.lang.StringUtils.lowerCase;
 import static org.apache.commons.lang3.Validate.noNullElements;
 import static org.apache.commons.lang3.Validate.notNull;
 
+@CacheConfig(cacheNames = "participantsCache")
 public class DefaultQueryParticipant implements QueryParticipant {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultQueryParticipant.class);
@@ -70,6 +73,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
     }
 
     @Override
+    @Cacheable
     public List<QueryResponse> findByIds(final Set<ParticipantId> participantIds) {
         noNullElements(participantIds);
 

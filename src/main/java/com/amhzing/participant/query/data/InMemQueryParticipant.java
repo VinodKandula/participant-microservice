@@ -4,6 +4,8 @@ import com.amhzing.participant.query.data.jpa.mapping.ParticipantDetails;
 import com.amhzing.participant.query.data.jpa.mapping.QParticipantDetails;
 import com.amhzing.participant.query.data.jpa.repository.ParticipantQueryDslRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Set;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
+@CacheConfig(cacheNames = "participantsCache")
 public class InMemQueryParticipant implements QueryParticipant {
 
     private final ParticipantQueryDslRepository repository;
@@ -48,6 +51,7 @@ public class InMemQueryParticipant implements QueryParticipant {
     }
 
     @Override
+    @Cacheable
     public List<QueryResponse> findByIds(final Set<ParticipantId> participantIds) {
         final Set<String> collectIds = participantIds.stream().map(id -> id.getValue().toString()).collect(Collectors.toSet());
         final List<ParticipantDetails> participants = repository.findByParticipantIdIn(collectIds);

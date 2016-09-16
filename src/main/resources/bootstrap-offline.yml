@@ -8,6 +8,9 @@ spring:
     config:
       discovery:
         enabled: false
+  cache:
+    jcache:
+      config: ehcache.xml
 
 server:
   port: 13305
