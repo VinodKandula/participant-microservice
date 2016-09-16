@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -46,8 +47,7 @@ public class ParticipantQueryController {
     }
 
     @LogExecutionTime
-    @ApiImplicitParams({@ApiImplicitParam(name = "pathVars", dataType = "string", paramType = "path", defaultValue = "IGNORE"),
-                        @ApiImplicitParam(name = "country", dataType = "string", paramType = "path"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "country", dataType = "string", paramType = "path"),
                         @ApiImplicitParam(name = "city", dataType = "string", paramType = "path"),
                         @ApiImplicitParam(name = "addressLine1", dataType = "string", paramType = "path"),
                         @ApiImplicitParam(name = "lastName", dataType = "string", paramType = "path"),
@@ -57,7 +57,7 @@ public class ParticipantQueryController {
                             "/{country}/{city}/{addressLine1}",
                             "/{country}/{city}/{addressLine1}/{lastName}",
                             "/{country}/{city}/{addressLine1}/{lastName}/{participantId}"})
-    public @Valid QueryParticipantResponse queryByAtLeastCountry(@PathVariable final Map<String, String> pathVars) {
+    public @Valid QueryParticipantResponse queryByAtLeastCountry(@ApiIgnore @PathVariable final Map<String, String> pathVars) {
 
         List<ParticipantInfo> participants = Collections.emptyList();
         try {
@@ -72,8 +72,9 @@ public class ParticipantQueryController {
     }
 
     @LogExecutionTime
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", dataType = "string", paramType = "query", allowMultiple = true)})
     @RequestMapping("/participantIds")
-    public @Valid QueryParticipantResponse queryByParticipantIds(@Valid final ParticipantIds participantIds,
+    public @Valid QueryParticipantResponse queryByParticipantIds(@ApiIgnore @Valid final ParticipantIds participantIds,
                                                                  final BindingResult bindingResult) {
         List<ParticipantInfo> participants = Collections.emptyList();
 

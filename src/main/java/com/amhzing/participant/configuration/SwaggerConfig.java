@@ -2,6 +2,7 @@ package com.amhzing.participant.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -14,10 +15,13 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        final Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.amhzing.participant.web.controller"))
                 .paths(PathSelectors.ant("/**"))
                 .build();
+
+        // TODO - This is a workaround until version 2.6.0
+        return docket.ignoredParameterTypes(ApiIgnore.class);
     }
 }
