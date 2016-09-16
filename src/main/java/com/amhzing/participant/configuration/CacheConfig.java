@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.Duration;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static javax.cache.expiry.CreatedExpiryPolicy.factoryOf;
 
 @Configuration
@@ -19,7 +18,7 @@ public class CacheConfig {
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cacheManager -> {
             cacheManager.createCache("participantsCache",
-                                     new MutableConfiguration<>().setExpiryPolicyFactory(factoryOf(new Duration(SECONDS, 10)))
+                                     new MutableConfiguration<>().setExpiryPolicyFactory(factoryOf(Duration.ONE_HOUR))
                                                                  .setStoreByValue(false));
         };
     }
