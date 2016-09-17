@@ -51,7 +51,7 @@ public class InMemQueryParticipant implements QueryParticipant {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless = "#result == null")
     public List<QueryResponse> findByIds(final Set<ParticipantId> participantIds) {
         final Set<String> collectIds = participantIds.stream().map(id -> id.getValue().toString()).collect(Collectors.toSet());
         final List<ParticipantDetails> participants = repository.findByParticipantIdIn(collectIds);

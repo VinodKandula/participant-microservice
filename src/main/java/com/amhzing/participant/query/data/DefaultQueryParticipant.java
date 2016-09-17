@@ -73,7 +73,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
     }
 
     @Override
-    @Cacheable
+    @Cacheable(unless = "#result == null")
     public List<QueryResponse> findByIds(final Set<ParticipantId> participantIds) {
         noNullElements(participantIds);
 

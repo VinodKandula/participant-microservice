@@ -118,22 +118,22 @@ public class ParticipantQueryControllerTest {
         final JSONArray participants = JsonPath.read(document, "@.participants");
         assertEquals(participants.size(), 1);
 
-        final String participantId = (String) JsonPath.read(document, "@.participants[0].participantId");
+        final String participantId = JsonPath.read(document, "@.participants[0].participantId");
         assertThat(participantId, equalToIgnoringCase(queryResponse().getParticipantId()));
 
-        final String firstName = (String) JsonPath.read(document, "@.participants[0].name.firstName");
+        final String firstName = JsonPath.read(document, "@.participants[0].name.firstName");
         assertThat(firstName, equalToIgnoringCase(queryResponse().getFirstName()));
 
-        final String lastName = (String) JsonPath.read(document, "@.participants[0].name.lastName");
+        final String lastName = JsonPath.read(document, "@.participants[0].name.lastName");
         assertThat(lastName, equalToIgnoringCase(queryResponse().getLastName()));
 
-        final String addressLine1 = (String) JsonPath.read(document, "@.participants[0].address.addressLine1");
+        final String addressLine1 = JsonPath.read(document, "@.participants[0].address.addressLine1");
         assertThat(addressLine1, equalToIgnoringCase(queryResponse().getAddressLine1()));
 
-        final String city = (String) JsonPath.read(document, "@.participants[0].address.city");
+        final String city = JsonPath.read(document, "@.participants[0].address.city");
         assertThat(city, equalToIgnoringCase(queryResponse().getCity()));
 
-        final String country = (String) JsonPath.read(document, "@.participants[0].address.country.code");
+        final String country = JsonPath.read(document, "@.participants[0].address.country.code");
         assertThat(country, equalToIgnoringCase(queryResponse().getCountry()));
     }
 
