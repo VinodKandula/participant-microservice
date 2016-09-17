@@ -32,6 +32,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -62,7 +63,8 @@ public class ParticipantCommandControllerTest {
         final ResultActions result = this.mvc.perform(post("/create").contentType(APPLICATION_JSON_V1)
                                                                      .accept(APPLICATION_JSON_V1)
                                                                      .content(jsonContent))
-                                             .andExpect(status().isOk());
+                                             .andExpect(status().isOk())
+                                             .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON_V1));
 
         final String content = result.andReturn().getResponse().getContentAsString();
         final Object document = Configuration.defaultConfiguration().jsonProvider().parse(content);
