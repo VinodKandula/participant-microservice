@@ -37,15 +37,15 @@ stage ('Build') {
 }
 
 if (!isMasterBranch()) {
-//    stage ('Integration test') {
-//        node {
-//            unstash 'source'
-//            sh 'chmod 755 gradlew'
-//            sh 'SPRING_PROFILES_ACTIVE=online,test ./gradlew integrationTest'
+    stage ('Integration test') {
+        node {
+            unstash 'source'
+            sh 'chmod 755 gradlew'
+            sh 'SPRING_PROFILES_ACTIVE=online,test ./gradlew integrationTest'
 
-//            stash includes: 'build/jacoco/*.exec', name: 'integrationCodeCoverage'
-//        }
-//    }
+            stash includes: 'build/jacoco/*.exec', name: 'integrationCodeCoverage'
+        }
+    }
 
     stage ('Functional test') {
         node {
@@ -61,7 +61,7 @@ if (!isMasterBranch()) {
         node {
             unstash 'source'
             unstash 'unitCodeCoverage'
-//            unstash 'integrationCodeCoverage'
+            unstash 'integrationCodeCoverage'
             unstash 'functionalCodeCoverage'
 
             sh 'chmod 755 gradlew'
