@@ -1,36 +1,42 @@
 #!groovy
 
-stage 'Approve deploy?'
-timeout(time: 5, unit: 'MINUTES') {
-    input message: 'Deploy snapshot?'
+stage ('Approve deploy?') {
+    timeout(time: 5, unit: 'MINUTES') {
+        input message: 'Deploy snapshot?'
+    }
 }
 
-stage name: 'Deploy snapshot', concurrency: 1
-node {
-    checkout scm
-    
-    stash excludes: 'build/', includes: '**', name: 'source'
+// one at a time!
+lock('lock-deploy-snapshot') {
+    stage('Deploy snapshot') {
+        node {
+            checkout scm
 
-    sh './gradlew deployToTest -PrepoId=snapshots -PartifactVersion=' + version()
-}
+            stash excludes: 'build/', includes: '**', name: 'source'
 
-stage 'Health check'
-parallel 'testServer1': {
-    node {
-        retry(5) {
-            unstash 'source'
-            sh 'chmod 755 gradlew'
-
-            sh 'SPRING_PROFILES_ACTIVE=online,test,testServer1 ./gradlew smokeTest'
+            sh './gradlew deployToTest -PrepoId=snapshots -PartifactVersion=' + version()
         }
     }
-}, 'testServer2': {
-    node {
-        retry(5) {
-            unstash 'source'
-            sh 'chmod 755 gradlew'
+}
 
-            sh 'SPRING_PROFILES_ACTIVE=online,test,testServer2 ./gradlew smokeTest'
+stage ('Health check') {
+    parallel 'testServer1': {
+        node {
+            retry(5) {
+                unstash 'source'
+                sh 'chmod 755 gradlew'
+
+                sh 'SPRING_PROFILES_ACTIVE=online,test,testServer1 ./gradlew smokeTest'
+            }
+        }
+    }, 'testServer2': {
+        node {
+            retry(5) {
+                unstash 'source'
+                sh 'chmod 755 gradlew'
+
+                sh 'SPRING_PROFILES_ACTIVE=online,test,testServer2 ./gradlew smokeTest'
+            }
         }
     }
 }
