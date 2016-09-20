@@ -61,7 +61,7 @@ if (!isMasterBranch()) {
         node {
             unstash 'source'
             unstash 'unitCodeCoverage'
-            unstash 'integrationCodeCoverage'
+//            unstash 'integrationCodeCoverage'
             unstash 'functionalCodeCoverage'
 
             sh 'chmod 755 gradlew'
