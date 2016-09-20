@@ -4,6 +4,7 @@ def smokeTests = 'com/amhzing/participant/smoketest/**'
 
 test {
     exclude integrationTests
+    exclude functionalTests
     exclude smokeTests
 }
 
