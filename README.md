@@ -22,7 +22,7 @@ This profile is used when there is network connectivity (e.g. there is access to
 
 * Command side: Uses Mongodb as the event store
 * Query side: Uses Cassandra
-* 
+
 Example usage:
 ```
 gradle bootRun -Dspring.profiles.active=online,local -Deureka.client.serviceUrl.defaultZone=http://192.168.1.33:13303/eurekaServer/eureka/,http://192.168.1.34:13303/eurekaServer/eureka/
