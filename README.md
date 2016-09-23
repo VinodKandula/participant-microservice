@@ -4,6 +4,8 @@ The purpose of this microservice is to learn about CQRS and Event Sourcing using
 
 The application creates and queries participants via REST endpoints.
 
+Domain and architecture can be found [here](https://amhzing.wordpress.com/participant/).
+
 ## Main profiles
 
 ### Offline
