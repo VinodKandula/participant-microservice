@@ -9,7 +9,7 @@ The application creates and queries participants via REST endpoints.
 ### Offline
 This profile is used when there is no network connectivity.
 
-* Command side: Writes to a file on the local machine
+* Command side: File based event store
 * Query side: Uses an in mem H2 database with JPA and [Querydsl](http://www.querydsl.com/).
 
 Example usage: 
@@ -21,7 +21,7 @@ gradle bootRun -Dspring.profiles.active=offline
 This profile is used when there is network connectivity (e.g. there is access to the eureka server and config server)
 
 * Command side: Uses Mongodb as the event store
-* Query side: Uses Cassandra
+* Query side: Uses Cassandra with Datastax query builder
 
 Example usage:
 ```
