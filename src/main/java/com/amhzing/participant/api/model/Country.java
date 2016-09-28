@@ -1,6 +1,7 @@
 package com.amhzing.participant.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
+@JsonInclude
 public class Country implements Serializable {
 
     private static final String INVALID_LENGTH = "Invalid length";
