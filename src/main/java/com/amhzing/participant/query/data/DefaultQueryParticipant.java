@@ -132,8 +132,8 @@ public class DefaultQueryParticipant implements QueryParticipant {
                                          .setCity(row.getString(CITY))
                                          .setCountry(row.getString(COUNTRY))
                                          .setPostalCode(row.getString(POSTAL_CODE))
-                                         .setContactNumber(row.getString(EMAIL))
-                                         .setEmail(row.getString(CONTACT_NUMBER))
+                                         .setContactNumber(row.getString(CONTACT_NUMBER))
+                                         .setEmail(row.getString(EMAIL))
                                          .create();
     }
 }
