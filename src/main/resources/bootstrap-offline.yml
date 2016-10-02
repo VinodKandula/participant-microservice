@@ -6,6 +6,7 @@ spring:
     exclude: org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration
   cloud:
     config:
+      enabled: false
       discovery:
         enabled: false
   cache:

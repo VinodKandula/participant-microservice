@@ -1,5 +1,6 @@
 package com.amhzing.participant.web.request;
 
+import com.amhzing.participant.annotation.TestOffline;
 import com.amhzing.participant.api.model.*;
 import com.amhzing.participant.helper.JsonLoader;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @JsonTest
+@TestOffline
 public class CreateParticipantRequestTest {
 
     @Autowired

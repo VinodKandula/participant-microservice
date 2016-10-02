@@ -1,5 +1,6 @@
 package com.amhzing.participant.web.controller;
 
+import com.amhzing.participant.annotation.TestOffline;
 import com.amhzing.participant.command.application.CreateParticipantService;
 import com.amhzing.participant.command.application.CreatedParticipant;
 import com.amhzing.participant.command.application.ParticipantToCreate;
@@ -37,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ParticipantCommandController.class)
+@TestOffline
 public class ParticipantCommandControllerTest {
 
     @Autowired

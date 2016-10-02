@@ -1,5 +1,6 @@
 package com.amhzing.participant.query.data.jpa.repository;
 
+import com.amhzing.participant.annotation.TestOffline;
 import com.amhzing.participant.query.data.jpa.mapping.ParticipantDetails;
 import com.fasterxml.uuid.Generators;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,6 +19,7 @@ import static com.amhzing.participant.query.data.jpa.repository.ParticipantRepos
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@TestOffline
 public class ParticipantQueryDslRepositoryTest {
 
     @Autowired

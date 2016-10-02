@@ -16,6 +16,12 @@
     <if condition='"${spring.profiles.active}".contains("${productionProfile}")'>
         <then>
             <property name="logLevel" value="INFO"/>
+            <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+                <destination>192.168.1.35:4562</destination>
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                    <timeZone>UTC</timeZone>
+                </encoder>
+            </appender>
         </then>
         <else>
             <property name="logLevel" value="DEBUG"/>
@@ -54,13 +60,6 @@
         <queueSize>500</queueSize>
         <discardingThreshold>0</discardingThreshold>
         <appender-ref ref="FILE" />
-    </appender>
-
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>192.168.1.35:4562</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <timeZone>UTC</timeZone>
-        </encoder>
     </appender>
 
     <logger name="com.amhzing" level="${logLevel}" additivity="false">

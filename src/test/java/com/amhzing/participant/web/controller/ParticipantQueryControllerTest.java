@@ -1,5 +1,6 @@
 package com.amhzing.participant.web.controller;
 
+import com.amhzing.participant.annotation.TestOffline;
 import com.amhzing.participant.query.data.*;
 import com.amhzing.participant.web.response.ResponseErrorCode;
 import com.fasterxml.uuid.Generators;
@@ -34,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ParticipantQueryController.class)
+@TestOffline
 public class ParticipantQueryControllerTest {
 
     @Autowired
