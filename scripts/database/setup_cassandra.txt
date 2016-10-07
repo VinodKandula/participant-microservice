@@ -112,8 +112,37 @@ CREATE TABLE IF NOT EXISTS participant_details_by_country (
   PRIMARY KEY ((country_lc), city_lc, address_line1_lc, last_name_lc, participant_id)
 );
 
+---------------------------
+-- Add full text search  --
+---------------------------
+
+ALTER TABLE participant_details_by_id ADD lucene text; -- Dummy column needed if using prior to Cassandra 3.0
+
+CREATE CUSTOM INDEX participant_details_by_id_index ON participant_details_by_id (lucene)  -- Index is linked to the dummy column
+USING 'com.stratio.cassandra.lucene.Index'
+WITH OPTIONS = {
+   'refresh_seconds': '1',
+   'schema': '{
+      fields: {
+         country: {type: "text"},
+         city: {type: "text"},
+         address_line1: {type: "text"},
+         last_name: {type: "text"},
+         participant_id: {type: "uuid"}
+      }
+   }'
+};
+
 ----------------------
 -- Show all tables  --
 ----------------------
 
 describe tables;
+
+-----------------------
+-- Show all Indexes  --
+-----------------------
+
+SELECT column_name, index_name, index_options, index_type, component_index
+FROM system.schema_columns
+WHERE keyspace_name='participant';

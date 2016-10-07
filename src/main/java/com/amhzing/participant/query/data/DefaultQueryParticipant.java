@@ -1,9 +1,10 @@
 package com.amhzing.participant.query.data;
 
 import com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetailsByCountry;
+import com.amhzing.participant.query.exception.QueryIdException;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import com.datastax.driver.core.querybuilder.Select;
+import com.stratio.cassandra.lucene.search.condition.builder.BooleanConditionBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
@@ -15,16 +16,15 @@ import rx.observables.BlockingObservable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.amhzing.participant.query.data.cassandra.mapping.ParticipantDetails.*;
-import static com.amhzing.participant.query.data.cassandra.mapping.ParticipantPrimaryKey.*;
 import static com.amhzing.participant.query.data.cassandra.mapping.ResultSets.queryAllAsObservable;
-import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
-import static com.datastax.driver.core.querybuilder.QueryBuilder.select;
+import static com.stratio.cassandra.lucene.search.SearchBuilders.*;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.lowerCase;
+import static org.apache.commons.lang3.StringUtils.wrap;
 import static org.apache.commons.lang3.Validate.noNullElements;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -33,7 +33,11 @@ public class DefaultQueryParticipant implements QueryParticipant {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultQueryParticipant.class);
 
-    public static final String SELECT_BY_PARTICIPANT_ID = "SELECT * FROM participant_details_by_id WHERE participant_id = ?";
+    private static final String SELECT_BY_PARTICIPANT_ID = "SELECT * FROM participant_details_by_id WHERE participant_id = ?";
+
+    private static final String LUCENE_SEARCH = "SELECT * FROM participant_details_by_id WHERE lucene = ?";
+
+    private static final String WILDCARD = "*";
 
     private final CassandraTemplate cassandraTemplate;
 
@@ -45,26 +49,32 @@ public class DefaultQueryParticipant implements QueryParticipant {
     public List<QueryResponse> findByCriteria(final QueryCriteria queryCriteria) {
         notNull(queryCriteria);
 
-        final Select select = select().from("participant_details_by_country");
-        final Select.Where where = select.where(eq(COUNTRY_LOWERCASE, lowerCase(queryCriteria.getCountry())));
+        final BooleanConditionBuilder queryCondition = bool().must(match(COUNTRY, queryCriteria.getCountry()));
 
         if (isNotBlank(queryCriteria.getCity())) {
-            where.and(eq(CITY_LOWERCASE, lowerCase(queryCriteria.getCity())));
+            queryCondition.must(wildcard(CITY, wrapAround(queryCriteria.getCity())));
         }
 
         if (isNotBlank(queryCriteria.getAddressLine1())) {
-            where.and(eq(ADDRESS_LINE1_LOWERCASE, lowerCase(queryCriteria.getAddressLine1())));
+            queryCondition.must(wildcard(ADDRESS_LINE1, wrapAround(queryCriteria.getAddressLine1())));
         }
 
         if (isNotBlank(queryCriteria.getLastName())) {
-            where.and(eq(LAST_NAME_LOWERCASE, lowerCase(queryCriteria.getLastName())));
+            queryCondition.must(wildcard(LAST_NAME, wrapAround(queryCriteria.getLastName())));
         }
 
         if (isNotBlank(queryCriteria.getParticipantId())) {
-            where.and(eq(PARTICIPANT_ID, queryCriteria.getParticipantId()));
+            try {
+                UUID.fromString(queryCriteria.getParticipantId());
+            } catch (final IllegalArgumentException ex) {
+                throw new QueryIdException("Invalid id", ex);
+            }
+
+            queryCondition.must(match(PARTICIPANT_ID, queryCriteria.getParticipantId()));
         }
 
-        final ResultSet query = cassandraTemplate.query(select);
+        final ResultSet query = cassandraTemplate.getSession()
+                                                 .execute(LUCENE_SEARCH, filter(queryCondition).toJson());
 
         return query.all()
                     .stream()
@@ -135,5 +145,9 @@ public class DefaultQueryParticipant implements QueryParticipant {
                                          .setContactNumber(row.getString(CONTACT_NUMBER))
                                          .setEmail(row.getString(EMAIL))
                                          .create();
+    }
+
+    private String wrapAround(final String text) {
+        return wrap(text, WILDCARD);
     }
 }

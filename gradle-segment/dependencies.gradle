@@ -19,6 +19,8 @@ ext {
 
     jcacheVersion = '1.0.0'
     ehcacheVersion = '3.1.2'
+
+    cassandraLuceneIndexVersion = '2.2.7.1'
 }
 
 repositories {
@@ -59,6 +61,9 @@ dependencies {
     compile ("com.fasterxml.uuid:java-uuid-generator:${jugVersion}")
 
     compile ("org.mongodb:mongo-java-driver:${mongodbJavaDriverVersion}")
+
+    compile ("com.stratio.cassandra:cassandra-lucene-index-plugin:${cassandraLuceneIndexVersion}")
+
 
     compile ("de.codecentric:spring-boot-admin-starter-client:${springBootAdminClientVersion}")
     compile ("org.jolokia:jolokia-core:${jolokiaVersion}")

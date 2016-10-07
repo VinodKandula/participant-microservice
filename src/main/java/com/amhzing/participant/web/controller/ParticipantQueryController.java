@@ -67,6 +67,8 @@ public class ParticipantQueryController {
             participants = collectParticipants(queryResponse);
 
             return QueryParticipantResponse.create(participants, of(ResponseError.empty()));
+        } catch (final QueryIdException ex) {
+            return handleException(participants, ex);
         } catch (final Exception ex) {
             return handleException(participants, ex);
         }
@@ -95,10 +97,7 @@ public class ParticipantQueryController {
 
             return QueryParticipantResponse.create(participants, of(ResponseError.empty()));
         } catch (final QueryIdException ex) {
-            return QueryParticipantResponse.create(participants,
-                                                   of(ResponseError.create(INVALID_REQUEST_CODE,
-                                                                           ex.getMessage(),
-                                                                           "")));
+            return handleException(participants, ex);
         } catch (final Exception ex) {
             return handleException(participants, ex);
         }
@@ -108,6 +107,13 @@ public class ParticipantQueryController {
         return ResponseError.create(INVALID_REQUEST_CODE,
                                     fieldError.getField() + ":" + fieldError.getDefaultMessage(),
                                     "");
+    }
+
+    private QueryParticipantResponse handleException(final List<ParticipantInfo> participants, final QueryIdException ex) {
+        return QueryParticipantResponse.create(participants,
+                                               of(ResponseError.create(INVALID_REQUEST_CODE,
+                                                                       ex.getMessage(),
+                                                                       "")));
     }
 
     private QueryParticipantResponse handleException(final List<ParticipantInfo> participants, final Exception ex) {
