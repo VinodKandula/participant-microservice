@@ -30,7 +30,9 @@ public class LogExecutionTimeInterceptor {
     }
 
     @Pointcut("execution(public * *(..))")
-    private void anyPublicOperation() { }
+    private void anyPublicOperation() {
+        // Any public method with or without arguments
+    }
 
     @Around("anyPublicOperation() && @annotation(com.amhzing.participant.annotation.LogExecutionTime)")
     public Object logExecutionTaken(final ProceedingJoinPoint joinPoint) throws Throwable

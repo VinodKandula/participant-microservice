@@ -17,7 +17,7 @@ import java.io.File;
 public class AxonConfigOffline {
 
     @Bean
-    JacksonSerializer axonJsonSerializer() {
+    public JacksonSerializer axonJsonSerializer() {
         return new JacksonSerializer();
     }
 

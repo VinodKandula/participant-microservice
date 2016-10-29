@@ -30,7 +30,7 @@ public class CreateParticipantRequestTest {
     private JsonLoader jsonLoader;
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         jsonLoader = new JsonLoader();
     }
 

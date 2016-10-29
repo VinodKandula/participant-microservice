@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class WebConfigOffline {
 
     @Autowired
-    ParticipantQueryDslRepository participantRepository;
+    private ParticipantQueryDslRepository participantRepository;
 
     @Bean
     public QueryParticipant queryParticipant() {

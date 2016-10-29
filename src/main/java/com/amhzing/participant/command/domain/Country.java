@@ -1,8 +1,5 @@
 package com.amhzing.participant.command.domain;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,11 +10,9 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 public class Country implements Serializable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Country.class);
-
-    static final int MIN_CODE_LENGTH = 2;
-    static final int MAX_CODE_LENGTH = 3;
-    static final int MAX_NAME_LENGTH = 100;
+    private static final int MIN_CODE_LENGTH = 2;
+    private static final int MAX_CODE_LENGTH = 3;
+    private static final int MAX_NAME_LENGTH = 100;
 
     private String code;
     private String name;

@@ -1,8 +1,5 @@
 package com.amhzing.participant.command.domain;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,9 +9,7 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 public class ContactNumber implements Serializable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ContactNumber.class);
-
-    static final int MAX_LENGTH = 25;
+    protected static final int MAX_LENGTH = 25;
 
     private String value;
 

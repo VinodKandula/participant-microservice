@@ -22,28 +22,28 @@ import org.springframework.context.annotation.Import;
 public class AxonConfig {
 
     @Autowired
-    EventStore eventStore;
+    private EventStore eventStore;
 
     // Consider using the Disruptor instead
     @Bean
-    SimpleCommandBus commandBus() {
+    public SimpleCommandBus commandBus() {
         return new SimpleCommandBus();
     }
 
     @Bean
-    MetaDataEnrichedCommandGateway metaDataEnrichedCommandGateway() {
+    public MetaDataEnrichedCommandGateway metaDataEnrichedCommandGateway() {
         GatewayProxyFactory factory = new GatewayProxyFactory(commandBus());
 
         return factory.createGateway(MetaDataEnrichedCommandGateway.class);
     }
 
     @Bean
-    SimpleEventBus eventBus() {
+    public SimpleEventBus eventBus() {
         return new SimpleEventBus();
     }
 
     @Bean
-    EventSourcingRepository<Participant> participantEventSourcingRepository() {
+    public EventSourcingRepository<Participant> participantEventSourcingRepository() {
         EventSourcingRepository<Participant> repository = new EventSourcingRepository<>(Participant.class, eventStore);
         repository.setEventBus(eventBus());
         return repository;
@@ -51,7 +51,7 @@ public class AxonConfig {
 
     // Allows Axon to automatically find @EventHandler's
     @Bean
-    AnnotationEventListenerBeanPostProcessor eventListenerBeanPostProcessor() {
+    public AnnotationEventListenerBeanPostProcessor eventListenerBeanPostProcessor() {
         AnnotationEventListenerBeanPostProcessor proc = new AnnotationEventListenerBeanPostProcessor();
         proc.setEventBus(eventBus());
         return proc;
@@ -59,7 +59,7 @@ public class AxonConfig {
 
      // Allows Axon to automatically find @CommandHandler's
     @Bean
-    AnnotationCommandHandlerBeanPostProcessor commandHandlerBeanPostProcessor() {
+    public AnnotationCommandHandlerBeanPostProcessor commandHandlerBeanPostProcessor() {
         AnnotationCommandHandlerBeanPostProcessor proc = new AnnotationCommandHandlerBeanPostProcessor();
         proc.setCommandBus(commandBus());
         return proc;
@@ -67,7 +67,7 @@ public class AxonConfig {
 
      // Registers the Aggregate Root as a @CommandHandler
     @Bean
-    AggregateAnnotationCommandHandler<Participant> participantAggregateCommandHandler() {
+    public AggregateAnnotationCommandHandler<Participant> participantAggregateCommandHandler() {
         AggregateAnnotationCommandHandler<Participant> handler =
                 new AggregateAnnotationCommandHandler<>(Participant.class, participantEventSourcingRepository());
 

@@ -18,15 +18,15 @@ import org.springframework.context.annotation.Import;
 public class AxonConfigOnline {
 
     @Autowired
-    MongoTemplate axonMongoTemplate;
+    private MongoTemplate axonMongoTemplate;
 
     @Bean
-    JacksonSerializer axonJsonSerializer() {
+    public JacksonSerializer axonJsonSerializer() {
         return new JacksonSerializer();
     }
 
     @Bean
-    EventStore eventStore() {
+    public EventStore eventStore() {
         return new MongoEventStore(axonJsonSerializer(), axonMongoTemplate);
     }
 }

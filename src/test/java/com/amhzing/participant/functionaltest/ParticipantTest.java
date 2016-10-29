@@ -16,7 +16,7 @@ public class ParticipantTest {
 
     private FixtureConfiguration fixture;
 
-    final UUID uuid = Generators.timeBasedGenerator().generate();
+    private final UUID uuid = Generators.timeBasedGenerator().generate();
 
     @Before
     public void setUp() throws Exception {

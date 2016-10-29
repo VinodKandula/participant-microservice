@@ -20,10 +20,10 @@ public class MongoConfig {
 
     // This is auto-configured by Spring Boot
     @Autowired
-    MongoDbFactory mongoDbFactory;
+    private MongoDbFactory mongoDbFactory;
 
     @Bean
-    MongoTemplate axonMongoTemplate() {
+    public MongoTemplate axonMongoTemplate() {
         return new DefaultMongoTemplate(mongo(),
                                         mongoProperties.getDatabase(),
                                         mongoProperties.getEvents(),
