@@ -1,8 +1,6 @@
 package com.amhzing.participant.command.domain;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,9 +11,7 @@ import static org.apache.commons.lang3.Validate.notBlank;
 
 public class Email implements Serializable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Email.class);
-
-    static final int MAX_LENGTH = 50;
+    protected static final int MAX_LENGTH = 50;
 
     private String value;
 

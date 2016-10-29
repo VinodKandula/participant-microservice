@@ -17,7 +17,7 @@ import java.util.List;
 public class CacheTestConfig {
 
     @MockBean
-    ParticipantQueryDslRepository participantRepository;
+    public ParticipantQueryDslRepository participantRepository;
 
     @Bean
     public QueryParticipant queryParticipant() {

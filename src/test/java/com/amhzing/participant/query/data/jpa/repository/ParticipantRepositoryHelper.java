@@ -18,7 +18,7 @@ public final class ParticipantRepositoryHelper {
     private ParticipantRepositoryHelper() {
     }
 
-    static void assertParticipantDetails(final List<ParticipantDetails> participants) {
+    protected static void assertParticipantDetails(final List<ParticipantDetails> participants) {
         assertThat(participants).isNotNull();
         assertThat(participants).hasSize(1);
 
@@ -28,7 +28,7 @@ public final class ParticipantRepositoryHelper {
         assertThat(participants.get(0).getEmail()).isEqualTo(email());
     }
 
-    static ParticipantDetails participant(final UUID participantId) {
+    protected static ParticipantDetails participant(final UUID participantId) {
         return new ParticipantDetailsBuilder().setParticipantId(participantId.toString())
                                               .setName(name())
                                               .setAddress(address())

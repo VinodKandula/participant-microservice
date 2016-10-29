@@ -24,6 +24,7 @@ import static com.stratio.cassandra.lucene.search.SearchBuilders.*;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.trim;
 import static org.apache.commons.lang3.StringUtils.wrap;
 import static org.apache.commons.lang3.Validate.noNullElements;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -49,7 +50,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
     public List<QueryResponse> findByCriteria(final QueryCriteria queryCriteria) {
         notNull(queryCriteria);
 
-        final BooleanConditionBuilder queryCondition = bool().must(match(COUNTRY, queryCriteria.getCountry()));
+        final BooleanConditionBuilder queryCondition = bool().must(match(COUNTRY, trim(queryCriteria.getCountry())));
 
         if (isNotBlank(queryCriteria.getCity())) {
             queryCondition.must(wildcard(CITY, wrapAround(queryCriteria.getCity())));
@@ -65,7 +66,7 @@ public class DefaultQueryParticipant implements QueryParticipant {
 
         if (isNotBlank(queryCriteria.getParticipantId())) {
             try {
-                UUID.fromString(queryCriteria.getParticipantId());
+                UUID.fromString(trim(queryCriteria.getParticipantId()));
             } catch (final IllegalArgumentException ex) {
                 throw new QueryIdException("Invalid id", ex);
             }
@@ -148,6 +149,6 @@ public class DefaultQueryParticipant implements QueryParticipant {
     }
 
     private String wrapAround(final String text) {
-        return wrap(text, WILDCARD);
+        return wrap(trim(text), WILDCARD);
     }
 }

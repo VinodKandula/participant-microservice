@@ -8,6 +8,18 @@ pmd {
     ignoreFailures = true
 }
 
+jdepend {
+    sourceSets = [sourceSets.main, sourceSets.test]
+    ignoreFailures = true
+}
+
 dependencyCheck {
     format = 'ALL'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }

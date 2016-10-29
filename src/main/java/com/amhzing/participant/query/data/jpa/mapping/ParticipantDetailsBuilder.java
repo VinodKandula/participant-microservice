@@ -49,7 +49,7 @@ public class ParticipantDetailsBuilder {
     }
 
     public ParticipantDetailsBuilder setUpdatedDate(final Date updatedDate) {
-        this.updatedDate = new Date(updatedDate.getTime());;
+        this.updatedDate = new Date(updatedDate.getTime());
         return this;
     }
 

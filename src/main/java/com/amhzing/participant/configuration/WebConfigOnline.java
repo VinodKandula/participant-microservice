@@ -14,7 +14,7 @@ public class WebConfigOnline {
 
     // This is auto-configured by Spring Boot
     @Autowired
-    CassandraTemplate cassandraTemplate;
+    private CassandraTemplate cassandraTemplate;
 
     @Bean
     public QueryParticipant queryParticipant() {

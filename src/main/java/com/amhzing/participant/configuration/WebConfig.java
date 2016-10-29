@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 public class WebConfig {
 
     @Autowired
-    MetaDataEnrichedCommandGateway commandGateway;
+    private MetaDataEnrichedCommandGateway commandGateway;
 
     @Bean
     public CreateParticipantService createParticipantService() {
