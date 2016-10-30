@@ -13,8 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.UUID;
 
-import static com.amhzing.participant.query.data.jpa.repository.ParticipantRepositoryHelper.assertParticipantDetails;
-import static com.amhzing.participant.query.data.jpa.repository.ParticipantRepositoryHelper.participant;
+import static com.amhzing.participant.helper.ParticipantRepositoryHelper.assertParticipantDetails;
+import static com.amhzing.participant.helper.ParticipantRepositoryHelper.participant;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

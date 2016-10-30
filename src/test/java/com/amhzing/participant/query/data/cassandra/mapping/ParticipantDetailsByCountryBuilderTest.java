@@ -15,16 +15,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ParticipantDetailsByCountryBuilderTest {
 
     private Date currentTime;
-    private UUID partcipantId;
+    private UUID participantId;
 
     @Before
     public void setUp() {
         currentTime = Calendar.getInstance().getTime();
-        partcipantId = UUID.randomUUID();
+        participantId = UUID.randomUUID();
     }
 
     @Test
-    public void should_build_participants_details() {
+    public void should_build_participant_details() {
         assertThat(builder()).isEqualTo(participantDetails());
     }
 
@@ -42,6 +42,6 @@ public class ParticipantDetailsByCountryBuilderTest {
     }
 
     private ParticipantPrimaryKey key() {
-        return ParticipantPrimaryKey.create("SE", "Stockholm", "Street1", "Doe", partcipantId);
+        return ParticipantPrimaryKey.create("SE", "Stockholm", "Street1", "Doe", participantId);
     }
 }

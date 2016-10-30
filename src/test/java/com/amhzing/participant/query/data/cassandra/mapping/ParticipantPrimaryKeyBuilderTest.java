@@ -18,7 +18,7 @@ public class ParticipantPrimaryKeyBuilderTest {
     }
 
     @Test
-    public void should_build_participants_details() {
+    public void should_build_participant_key() {
         assertThat(builder()).isEqualTo(key());
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.amhzing.participant.query.data.jpa.mapping.QParticipantDetails.participantDetails;
-import static com.amhzing.participant.query.data.jpa.repository.ParticipantRepositoryHelper.*;
+import static com.amhzing.participant.helper.ParticipantRepositoryHelper.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

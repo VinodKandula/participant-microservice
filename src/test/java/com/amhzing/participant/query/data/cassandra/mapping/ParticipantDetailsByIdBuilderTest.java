@@ -23,7 +23,7 @@ public class ParticipantDetailsByIdBuilderTest {
     }
 
     @Test
-    public void should_build_participants_details() {
+    public void should_build_participant_details() {
         assertThat(builder()).isEqualTo(participantDetails());
     }
 
