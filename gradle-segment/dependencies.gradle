@@ -21,6 +21,9 @@ ext {
     ehcacheVersion = '3.1.2'
 
     cassandraLuceneIndexVersion = '2.2.7.1'
+
+    junitParamsVersion = '1.0.5'
+    equalsVerifierVersion = '2.1.6'
 }
 
 repositories {
@@ -77,6 +80,8 @@ dependencies {
     compile ("org.ehcache:ehcache:${ehcacheVersion}")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile ("pl.pragmatists:JUnitParams:${junitParamsVersion}")
+    testCompile ("nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}")
 }
 
 dependencyManagement {
