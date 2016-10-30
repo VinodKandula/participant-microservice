@@ -1,9 +1,8 @@
 package com.amhzing.participant.command.domain;
 
-import com.amhzing.participant.command.domain.LastName;
 import org.junit.Test;
 
-import static com.amhzing.participant.command.domain.FirstName.MAX_LENGTH;
+import static com.amhzing.participant.command.domain.LastName.MAX_LENGTH;
 import static org.apache.commons.lang.StringUtils.repeat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

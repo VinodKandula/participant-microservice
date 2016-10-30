@@ -2,30 +2,30 @@ package com.amhzing.participant.command.domain;
 
 import org.junit.Test;
 
-import static com.amhzing.participant.command.domain.Suffix.MAX_LENGTH;
+import static com.amhzing.participant.command.domain.City.MAX_LENGTH;
 import static org.apache.commons.lang.StringUtils.repeat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class SuffixTest {
+public class CityTest {
 
     @Test
     public void pass_if_value_is_not_blank() {
-        final Suffix suffix = Suffix.create("John");
+        final City city = City.create("Stockholm");
 
-        assertEquals(suffix.getValue(), "John");
+        assertEquals(city.getValue(), "Stockholm");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_blank() {
-        Suffix.create("");
+        City.create("");
 
         fail(); // Fail if we got this far
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fail_if_value_is_greater_than_max_length() {
-        Suffix.create("J" + repeat("x", MAX_LENGTH));
+        City.create("J" + repeat("x", MAX_LENGTH));
 
         fail(); // Fail if we got this far
     }
