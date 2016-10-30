@@ -1,4 +1,9 @@
 # Participant microservice
+[![Build Status](https://travis-ci.org/mahanhz/participant-microservice.svg?branch=mhz-v1.0.2)](https://travis-ci.org/mahanhz/participant-microservice)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/900ee33358c9452090979fa290f3a80f)](https://www.codacy.com/app/mahanhz/participant-microservice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mahanhz/participant-microservice&amp;utm_campaign=Badge_Grade)
+[![Coverage Status](https://coveralls.io/repos/github/mahanhz/participant-microservice/badge.svg?branch=master)](https://coveralls.io/github/mahanhz/participant-microservice?branch=master)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/mahanhz/participant-microservice.svg)](http://isitmaintained.com/project/mahanhz/participant-microservice "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/mahanhz/participant-microservice.svg)](http://isitmaintained.com/project/mahanhz/participant-microservice "Percentage of issues still open")
 
 The purpose of this microservice is to learn about CQRS and Event Sourcing using [Axon Framework](http://www.axonframework.org/).
 
