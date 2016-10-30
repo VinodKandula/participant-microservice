@@ -1,6 +1,7 @@
 package com.amhzing.participant.web.request;
 
 import com.amhzing.participant.web.MeasurableMetric;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ImmutableSet;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -9,6 +10,7 @@ import java.util.Set;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.Validate.noNullElements;
 
+@JsonInclude
 public class ParticipantIds implements MeasurableMetric {
 
     @NotEmpty
