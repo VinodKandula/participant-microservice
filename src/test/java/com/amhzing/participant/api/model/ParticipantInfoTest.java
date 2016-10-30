@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
+import static com.amhzing.participant.helper.ParticipantApiModelHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ParticipantInfoTest {
@@ -45,21 +46,5 @@ public class ParticipantInfoTest {
 
         Set<ConstraintViolation<ParticipantInfo>> violations = this.validator.validate(invalid);
         assertThat(violations).hasSize(3);
-    }
-
-    private Address address() {
-        return Address.create("ad1", "ad2", "city", "pCode", Country.create("SE", ""));
-    }
-
-    private Name name() {
-        return Name.create("fname", "mName", "lName", "II");
-    }
-
-    private ContactNumber contactNumber() {
-        return ContactNumber.create("12345678");
-    }
-
-    private Email email() {
-        return Email.create("test@example.com");
     }
 }

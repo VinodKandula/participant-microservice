@@ -1,13 +1,10 @@
 package com.amhzing.participant.api.event;
 
-import com.amhzing.participant.api.model.Address;
-import com.amhzing.participant.api.model.ContactNumber;
-import com.amhzing.participant.api.model.Country;
-import com.amhzing.participant.api.model.Name;
 import org.junit.Test;
 
 import java.util.UUID;
 
+import static com.amhzing.participant.helper.ParticipantApiModelHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
@@ -41,21 +38,5 @@ public class ParticipantCreatedEventTest {
         ParticipantCreatedEvent.create(uuid, name(), null, contactNumber(), email());
 
         fail("Should not have gotten this far");
-    }
-
-    private Address address() {
-        return Address.create("ad1", "ad2", "city", "pCode", Country.create("SE", ""));
-    }
-
-    private Name name() {
-        return Name.create("fname", "mName", "lName", "II");
-    }
-
-    private ContactNumber contactNumber() {
-        return ContactNumber.create("12345678");
-    }
-
-    private com.amhzing.participant.api.model.Email email() {
-        return com.amhzing.participant.api.model.Email.create("test@example.com");
     }
 }

@@ -16,10 +16,6 @@ public class CreatedParticipant {
         return new CreatedParticipant(participantId);
     }
 
-    public static CreatedParticipant empty() {
-        return CreatedParticipant.create("");
-    }
-
     public String getParticipantId() {
         return participantId;
     }
