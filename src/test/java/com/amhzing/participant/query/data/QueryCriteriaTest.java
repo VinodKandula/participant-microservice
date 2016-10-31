@@ -29,6 +29,7 @@ public class QueryCriteriaTest {
         }
     }
 
+    @SuppressWarnings("unused")
     private Object values() {
         return new Object[][]{
                 {valid(), country(), city(), addressLine1(), lastName(), participantId()},

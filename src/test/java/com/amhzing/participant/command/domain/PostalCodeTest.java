@@ -24,6 +24,7 @@ public class PostalCodeTest {
         }
     }
 
+    @SuppressWarnings("unused")
     private Object postalCodeValues() {
         return new Object[][]{
                 {valid(), "12334"},

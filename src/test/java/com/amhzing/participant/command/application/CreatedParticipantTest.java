@@ -22,6 +22,7 @@ public class CreatedParticipantTest {
         }
     }
 
+    @SuppressWarnings("unused")
     private Object values() {
         return new Object[][]{
                 {valid(), "1234-12398-fsdf"},

@@ -24,6 +24,7 @@ public class ParticipantIdTest {
         }
     }
 
+    @SuppressWarnings("unused")
     private Object values() {
         return new Object[][]{
                 {valid(), UUID.randomUUID()},
